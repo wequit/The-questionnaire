@@ -1,19 +1,24 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import logo from "@/public/Logo.png";
 
-export default function Introduction({ onNext }: { onNext: () => void }) {
-  const [email, setEmail] = useState<string>(() => {
-    return localStorage.getItem("email") || "";
-  });
+export default function Introduction() {
+  const [email, setEmail] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleNext = () => {
-    setIsSubmitted(true);
-    if (!email) {
-      return;
+  useEffect(() => {
+    // Инициализация значения из localStorage для Question_4
+    const storedOption = localStorage.getItem("email");
+    if (storedOption) {
+      setEmail(storedOption);
     }
-    localStorage.setItem("email", email);
-    onNext();
+  }, []);
+
+  const handleOptionChange = (option: string) => {
+    setEmail(option);
+    localStorage.setItem("email", option); // Сохраняем выбранное значение
+    setIsSubmitted(false); // Сбрасываем ошибку, если она есть
   };
 
   const textContent = {
@@ -31,7 +36,8 @@ export default function Introduction({ onNext }: { onNext: () => void }) {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6">      
+      <div className="flex justify-center mb-8"><Image src={logo} alt="logo" width={250} height={250} /></div>
       <h1 className="text-3xl font-bold text-gray-900 mb-6">
         {textContent.title}
       </h1>
@@ -54,9 +60,9 @@ export default function Introduction({ onNext }: { onNext: () => void }) {
         id="email"
         name="email"
         required
-        value={email}
+        value={email || ""}
         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e) => handleOptionChange(e.target.value)}
       />
 
       {isSubmitted && !email && (
@@ -64,16 +70,6 @@ export default function Introduction({ onNext }: { onNext: () => void }) {
           Этот обязательный вопрос.
         </div>
       )}
-
-      <div className="flex justify-center mt-4">
-        <button
-          type="button"
-          onClick={handleNext}
-          className="w-40 bg-slate-800 text-white py-2 px-4 rounded-md hover:bg-zinc-300 hover:text-black transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-        >
-          Далее
-        </button>
-      </div>
     </div>
   );
 }

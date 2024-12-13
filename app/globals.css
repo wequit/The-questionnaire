@@ -70,3 +70,7 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.container {
+  @apply bg-white p-6 rounded-2xl shadow-md w-full max-w-[55rem] mt-4;
+}

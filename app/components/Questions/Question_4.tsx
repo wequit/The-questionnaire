@@ -1,81 +1,54 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function Question_Four({
-  onNext,
-  onBack,
-}: {
-  onNext: () => void;
-  onBack: () => void;
-}) {
-  const [selectedOption, setSelectedOption] = useState<string | null>(() => {
-    const storedOption = localStorage.getItem("Question_4");
-    return storedOption ? JSON.parse(storedOption) : null;
-  });
+export default function Question_Four() {
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleNext = () => {
-    setIsSubmitted(true);
-    if (!selectedOption) {
-      return;
+  useEffect(() => {
+    // Инициализация значения из localStorage для Question_4
+    const storedOption = localStorage.getItem("Question_4");
+    if (storedOption) {
+      setSelectedOption(storedOption);
     }
-    localStorage.setItem("Question_4", JSON.stringify(selectedOption));
-    onNext();
+  }, []);
+
+  const handleOptionChange = (option: string) => {
+    setSelectedOption(option);
+    localStorage.setItem("Question_4", option); // Сохраняем выбранное значение
+    setIsSubmitted(false); // Сбрасываем ошибку, если она есть
   };
 
   return (
     <div className="p-6">
-      <h2 className="text-3xl font-bold text-gray-900 mb-4">
-      4. Сот имараты ар кандай категориядагы адамдар (майыптыгы бар адамдар, кыймылы чектелүү адамдар (кош бойлуу аялдар, жаракат алгандар) ж.б.) үчүн канчалык жеткиликтүү?
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">
+        4. Сот имараты ар кандай категориядагы адамдар (майыптыгы бар адамдар, кыймылы чектелүү адамдар (кош бойлуу аялдар, жаракат алгандар) ж.б.) үчүн канчалык жеткиликтүү?
       </h2>
       <div className="text-lg text-gray-700 mb-6 mt-8">
-      
-      <p>Такыр жеткиликтүү эмес</p>
-      {["1", "2", "3", "4", "5"].map((option, index) => (
+        <p>Такыр жеткиликтүү эмес</p>
+        {["option_1", "option_2", "option_3", "option_4", "option_5"].map((option, index) => (
           <div key={option} className="flex items-center mb-2 mt-4">
             <input
               id={option}
-              name="source"
+              name="Question_4"
               type="radio"
-              className="h-5 w-5 text-blue-600 focus:ring-0 border-2 border-gray-300 rounded-full transition-all duration-300 ease-in-out transform hover:scale-110 checked:bg-blue-600 checked:border-transparent"
-              onChange={() => setSelectedOption(option)}
+              className="h-5 w-5 text-blue-600 focus:ring-0 border-2 border-gray-300 rounded-full transition-all duration-300 ease-in-out hover:scale-110"
+              onChange={() => handleOptionChange(option)}
               checked={selectedOption === option}
             />
             <label htmlFor={option} className="ml-3 block text-gray-700">
-              {[
-                1,
-                2,
-                3,
-                4,
-                5,
-              ][index]}
+              {index + 1}
             </label>
           </div>
         ))}
         <p>Толук жеткиликтүү</p>
-        
       </div>
+
       {isSubmitted && !selectedOption && (
         <div className="text-sm text-red-500 mt-2">
           Этот обязательный вопрос.
         </div>
       )}
-      <div className="flex justify-center mt-4 gap-4">
-        <button
-          type="button"
-          onClick={onBack}
-          className="outline-none w-28 bg-slate-800 text-white py-2 px-4 rounded-md hover:bg-zinc-300 hover:text-black transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-        >
-          Назад
-        </button>
-        <button
-          type="button"
-          onClick={handleNext}
-          className="outline-none w-28 bg-slate-800 text-white py-2 px-4 rounded-md hover:bg-zinc-300 hover:text-black transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-        >
-          Далее
-        </button>
-      </div>
     </div>
   );
 }
