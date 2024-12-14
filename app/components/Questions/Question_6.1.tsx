@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import Questions from "@/lib/utils/Questions.json";
 
 export default function Question_Six_One() {
   const [selectedOptions, setSelectedOptions] = useState<string[]>(() => {
@@ -25,18 +26,15 @@ export default function Question_Six_One() {
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">
-        6.1. Урматсыздык менен болгон мамиле болсо, кандай түрү? (мисалдарды же жагдайларды тандаңыз)
+    <section className="p-6">
+      {Questions.QuestionSix_One.map((questionData, index) => (
+        <div key={index} className="mb-6">
+      <h2 className="text-lg font-bold text-gray-900 mb-4">
+        {questionData.questionSix_One}
       </h2>
-      <div className="text-lg text-gray-700 mb-6 mt-8">
-        {[
-          "орой мамиле кылды",
-          "көрмөксөнгө салды",
-          "сөздү үздү",
-          "сөз бербеди",
-        ].map((option) => (
-          <div key={option} className="flex items-center mb-2 mt-4">
+      <div className="text-gray-700 mb-6 mt-8">
+        {questionData.optionsSix_One.map((option, i) => (
+          <div key={i} className="flex items-center mb-2 mt-4">
             <input
               id={option}
               name="Question_6_1"
@@ -56,6 +54,8 @@ export default function Question_Six_One() {
       {isSubmitted && selectedOptions.length === 0 && (
         <div className="text-sm text-red-500 mt-2">Этот обязательный вопрос.</div>
       )}
-    </div>
+      </div>
+      ))}
+    </section>
   );
 }

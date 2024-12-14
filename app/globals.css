@@ -72,5 +72,5 @@ body {
 }
 
 .container {
-  @apply bg-white p-6 rounded-2xl shadow-md w-full max-w-[55rem] mt-4;
+  @apply bg-white p-6 rounded-lg shadow-md w-full max-w-[46rem] mt-4;
 }

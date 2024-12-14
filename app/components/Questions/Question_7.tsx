@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import Questions from "@/lib/utils/Questions.json";
 
 export default function Question_Seven() {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -42,18 +43,18 @@ export default function Question_Seven() {
     }
   };
 
-  console.log("Selected Option:", selectedOption); // Для отладки
-
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">
-        7. Сот отурумунда кылмыш иштери боюнча аудио жана видео жазуусу сот тарабынан колдонулдубу?
+    <section className="p-6 min-h-[350px]">
+      {Questions.QuestionSeven.map((questionData, index) => (
+    <div key={index} className="mb-6">
+      <h2 className="text-lg font-bold text-gray-900 mb-4">
+        {questionData.questionSeven}
       </h2>
-      <div className="text-lg text-gray-700 mb-6 mt-8">
-        {["Ооба", "Жок", "Билбейм", "Другое"].map((option) => (
-          <div key={option} className="flex items-center mb-2 mt-4">
+      <div className="text-gray-700 mb-6 mt-8">
+        {questionData.optionsSeven.map((option, i) => (
+          <div key={i} className="flex items-center mb-2 mt-4">
             <input
-              id={option}
+              id={`optionSeven-${i}`}
               name="Question_7"
               type="radio"
               className="h-5 w-5 text-blue-600 focus:ring-0 border-2 border-gray-300 rounded-full transition-all duration-300 ease-in-out transform hover:scale-110"
@@ -65,10 +66,13 @@ export default function Question_Seven() {
             </label>
           </div>
         ))}
+        </div>
+        </div>
+      ))}
 
         {/* Показываем поле для ввода текста, если выбрано "Другое" */}
         {selectedOption === "Другое" && (
-          <div className="mt-4">
+          <div className="mt-4 transition-all duration-300">
             <input
               type="text"
               value={otherText}
@@ -78,7 +82,6 @@ export default function Question_Seven() {
             />
           </div>
         )}
-      </div>
 
       {/* Проверяем, выбрана ли хотя бы одна радио-кнопка, и показываем ошибку при необходимости */}
       {isSubmitted && !selectedOption && (
@@ -86,6 +89,6 @@ export default function Question_Seven() {
           Этот обязательный вопрос.
         </div>
       )}
-    </div>
+    </section>
   );
 }
