@@ -19,10 +19,10 @@ interface Question_Two_Three_Props {
 }
 
 export default function Question_Two_Three({ questions }: Question_Two_Three_Props) {
-    const { handleAgeChange, selectedAge } = useQuestionStorage({
+    const { handleOptionChange: handleGenderChange, selectedOption: selectedGender  } = useQuestionStorage({
       localStorageKey: "Question_2",
     });
-    const { handleGenderChange, selectedGender } = useQuestionStorage({
+    const { handleOptionChange: handleAgeChange, selectedOption: selectedAge  } = useQuestionStorage({
       localStorageKey: "Question_3",
     });
     
@@ -43,16 +43,16 @@ export default function Question_Two_Three({ questions }: Question_Two_Three_Pro
     <section className="p-6">
       {/* Второй вопрос (Жыныс) */}
       <div key={genderQuestion.id} className="mb-6">
-        <h2 className="text-lg font-bold text-gray-900 mb-4">{genderQuestion.text}</h2>
+        <h2 className="text-lg font-bold text-gray-900 mb-4 textSizeTittle">{genderQuestion.text}</h2>
 
-        <div className="text-gray-700 mb-6 mt-8">
+        <div className="text-gray-700 mb-6 mt-8 textSizeOptions">
           {genderQuestion.options.map((option: Option) => (
             <div key={option.id} className="flex items-center mb-2">
               <input
                 id={`gender-${option.id}`}
                 name="gender"
                 type="radio"
-                className="h-5 w-5 text-slate-800 focus:ring-blue-500 border-gray-300 rounded-md transition duration-200 ease-in-out"
+                className="h-5 w-5 RadioSize text-slate-800 focus:ring-blue-500 border-gray-300 rounded-md transition duration-200 ease-in-out"
                 onChange={() => handleGenderChange(option.text)}
                 checked={selectedGender === option.text}
               />
@@ -66,15 +66,15 @@ export default function Question_Two_Three({ questions }: Question_Two_Three_Pro
 
       {/* Третий вопрос (Возраст) */}
       <div key={ageQuestion.id} className="mb-6">
-        <h2 className="text-lg font-bold text-gray-900 mb-4">{ageQuestion.text}</h2>
-        <div className="text-gray-700 mb-6 mt-8">
+        <h2 className="text-lg font-bold text-gray-900 mb-4 textSizeTittle">{ageQuestion.text}</h2>
+        <div className="text-gray-700 mb-6 mt-8 textSizeOptions">
           {ageQuestion.options.map((option: Option) => (
             <div key={option.id} className="flex items-center mb-2">
               <input
                 id={`age-${option.id}`}
                 name="age"
                 type="radio"
-                className="h-5 w-5 text-slate-800 focus:ring-blue-500 border-gray-300 rounded-md transition duration-200 ease-in-out"
+                className="h-5 w-5 RadioSize text-slate-800 focus:ring-blue-500 border-gray-300 rounded-md transition duration-200 ease-in-out"
                 onChange={() => handleAgeChange(option.text)}
                 checked={selectedAge === option.text}
               />

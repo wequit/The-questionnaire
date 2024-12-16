@@ -13,17 +13,17 @@ interface Question {
   options: Option[];
 }
 
-interface Question_Seven_Props {
+interface Question_Ten_Props {
   questions: Question[];
 }
 
-export default function Question_Seven({ questions }: Question_Seven_Props) {
-  const { otherText, handleOptionChange_7, handleOtherTextChange, selectedOption } = useQuestionStorage({
-    localStorageKey: "Question_7",
+export default function Question_Ten({ questions }: Question_Ten_Props) {
+  const { otherText, handleOptionChange, handleOtherTextChange, selectedOption } = useQuestionStorage({
+    localStorageKey: "Question_10",
   });
-  
+
   // Находим вопрос с id 7
-  const question = questions.find((q) => q.id === 8);
+  const question = questions.find((q) => q.id === 11);
 
   if (!question) {
     return <div>Вопрос не найден</div>;
@@ -32,16 +32,16 @@ export default function Question_Seven({ questions }: Question_Seven_Props) {
   return (
     <section className="p-6 min-h-[350px]">
       <div className="mb-6">
-        <h2 className="text-lg font-bold text-gray-900 mb-4">{question.text}</h2>
-        <div className="text-gray-700 mb-6 mt-8">
+        <h2 className="text-lg font-bold text-gray-900 mb-4 textSizeTittle">{question.text}</h2>
+        <div className="text-gray-700 mb-6 mt-8 textSizeOptions">
           {question.options.map((option: Option, i) => (
             <div key={i} className="flex items-center mb-2 mt-4">
               <input
                 id={`optionSeven-${i}`}
-                name="Question_7"
+                name="Question_10"
                 type="radio"
-                className="h-5 w-5 text-blue-600 focus:ring-0 border-2 border-gray-300 rounded-full transition-all duration-300 ease-in-out transform hover:scale-110"
-                onChange={() => handleOptionChange_7(option.text)}
+                className="h-5 w-5 RadioSize text-blue-600 focus:ring-0 border-2 border-gray-300 rounded-full transition-all duration-300 ease-in-out transform hover:scale-110"
+                onChange={() => handleOptionChange(option.text)}
                 checked={selectedOption === option.text} // Проверка, активен ли этот вариант
               />
               <label htmlFor={`optionSeven-${i}`} className="ml-3 block text-gray-700">

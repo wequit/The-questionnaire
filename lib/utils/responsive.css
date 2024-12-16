@@ -93,6 +93,19 @@
     .TextSizeButtonNext {
         @apply text-[14px] h-[2.2rem] w-[5rem];
     }
+
+    .textSizeTittle {
+        @apply text-[14px];
+    }
+
+    .textSizeOptions {
+        @apply text-[12px];
+    }
+
+    .RadioSize{
+        @apply h-4 w-4;
+    }
+    
 }
 
 @media (max-width: 420px)  {

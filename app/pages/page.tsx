@@ -2,16 +2,15 @@
 import { useState } from "react";
 import "@/lib/utils/responsive.css";
 import QuestionsFetcher from "@/lib/api/QuestionsFetcher"; // Импортируем компонент для загрузки вопросов
-import Question_One from "../components/Questions/Question_1";
-import Question_Two_Three from "../components/Questions/Question_2-3";
-import Question_Four from "../components/Questions/Question_4";
-import Question_Five from "../components/Questions/Question_5";
-import Question_Six from "../components/Questions/Question_6";
-import Question_Six_One from "../components/Questions/Question_6.1";
-import Question_Seven from "../components/Questions/Question_7";
-import Question_Eight from "../components/Questions/Question_8";
+import Question_One from "../components/Questions_BlankOne/Question_1";
+import Question_Two_Three from "../components/Questions_BlankOne/Question_2-3";
+import Question_Four from "../components/Questions_BlankOne/Question_4";
+import Question_Five from "../components/Questions_BlankOne/Question_5";
+import Question_Six from "../components/Questions_BlankOne/Question_6";
+import Question_Six_One from "../components/Questions_BlankOne/Question_6.1";
+import Question_Seven from "../components/Questions_BlankOne/Question_7";
+import Question_Eight from "../components/Questions_BlankOne/Question_8";
 
-// Интерфейс для вопроса и его опций
 interface Option {
   id: number;
   text: string;

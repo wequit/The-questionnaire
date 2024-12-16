@@ -43,10 +43,10 @@ const FooterActions = () => {
     if (step === 0 && validateQuestion1() && validateQuestion2() && validateQuestion3() && validateQuestion4() && validateQuestion5() && validateQuestion6() && validateQuestion6_1() && validateQuestion7() && validateQuestion8()) {
       if (step === 0) {
         setStep(step + 1);
-        router.push("/locale/BlankTwo");
+        router.push("/pages/BlankTwo");
       } else if (step === 1) {
         setStep(step + 1);
-        router.push("/locale/BlankFinish");
+        router.push("/pages/BlankFinish");
       }
     }
   };
@@ -59,20 +59,21 @@ const FooterActions = () => {
   };
 
   return (
+    <div className="flex flex-col">
+    {/* Ошибка, если один из вопросов не был выбран */}
+    {step === 0 && (isSubmitted1 || isSubmitted2 || isSubmitted3 || isSubmitted4 || isSubmitted5 || isSubmitted6 || isSubmitted6_1 || isSubmitted7 || isSubmitted8) && (
+      <div className="text-sm text-red-500 mt-2 p-4">
+        Пожалуйста, ответьте на все обязательные вопросы.
+      </div>
+    )}
     <div className="flex justify-start p-4 gap-12 footerGap">
+      
       <button
         onClick={handleNext}
         className="text-black p-2 rounded-md bg-white shadow-md w-full max-w-[6rem] TextSizeButtonNext"
       >
         Далее
       </button>
-
-      {/* Ошибка, если один из вопросов не был выбран */}
-      {step === 0 && (isSubmitted1 || isSubmitted2 || isSubmitted3 || isSubmitted4 || isSubmitted5 || isSubmitted6 || isSubmitted6_1 || isSubmitted7 || isSubmitted8) && (
-        <div className="text-sm text-red-500 mt-2">
-          Пожалуйста, ответьте на все обязательные вопросы.
-        </div>
-      )}
 
       {/* Прогресс бар */}
       <div className="w-[19rem] max-w-[46rem] mb-4 mt-4 progressBarWidth">
@@ -96,7 +97,8 @@ const FooterActions = () => {
         Очистить
       </button>
     </div>
+    </div>
   );
 };
 
-export default FooterActions;
+export default FooterActions; 
