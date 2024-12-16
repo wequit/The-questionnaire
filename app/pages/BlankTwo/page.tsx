@@ -41,7 +41,6 @@ export default function BlankTwo() {
 
   return (
     <div>
-      {/* Компонент для загрузки вопросов */}
       <QuestionsFetcher onFetch={handleFetchQuestions} />
 
     <div className="flex justify-center items-center flex-col w-full col-span-2">
