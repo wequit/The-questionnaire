@@ -1,105 +1,91 @@
 "use client";
-import { useState } from "react";
-import Questions from "@/lib/utils/Questions.json";
+import { useQuestionStorage } from "@/app/components/Hooks/useQuestionStorage";
 
-export default function Question_Two_Three() {
-  const [selectedGender, setSelectedGender] = useState<string | null>(() => {
-    return localStorage.getItem("Question_2") || null;
-  });
-  const [selectedAge, setSelectedAge] = useState<string | null>(() => {
-    return localStorage.getItem("Question_3") || null;
-  });
-  const [isSubmitted, setIsSubmitted] = useState(false);
+// Интерфейс для вопроса и его опций
+interface Option {
+  id: number;
+  text: string;
+}
 
-  const handleGenderChange = (gender: string) => {
-    setSelectedGender(gender);
-    localStorage.setItem("Question_2", gender);
-    if (selectedAge) {
-      setIsSubmitted(false);
-    }
-  };
+interface Question {
+  id: number;
+  text: string;
+  is_required: boolean;
+  options: Option[];
+}
 
-  const handleAgeChange = (age: string) => {
-    setSelectedAge(age);
-    localStorage.setItem("Question_3", age);
-    if (selectedGender) {
-      setIsSubmitted(false);
-    }
-  };
+interface Question_Two_Three_Props {
+  questions: Question[];
+}
+
+export default function Question_Two_Three({ questions }: Question_Two_Three_Props) {
+    const { handleAgeChange, selectedAge } = useQuestionStorage({
+      localStorageKey: "Question_2",
+    });
+    const { handleGenderChange, selectedGender } = useQuestionStorage({
+      localStorageKey: "Question_3",
+    });
+    
+  // Проверяем, что вопросы были загружены
+  if (!questions || questions.length === 0) {
+    return <div>Loading...</div>;
+  }
+
+  const genderQuestion = questions[1]; // Второй вопрос (Жыныс)
+  const ageQuestion = questions[2];    // Третий вопрос (Возраст)
+
+  // Проверка на наличие вопросов для половых и возрастных данных
+  if (!genderQuestion || !ageQuestion) {
+    return <div>Questions are not available.</div>;
+  }
 
   return (
     <section className="p-6">
-      {Questions.QuestionTwo.map((questionData, index) => (
-        <div key={index} className="mb-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">
-            {questionData.questionTwo}
-          </h2>
+      {/* Второй вопрос (Жыныс) */}
+      <div key={genderQuestion.id} className="mb-6">
+        <h2 className="text-lg font-bold text-gray-900 mb-4">{genderQuestion.text}</h2>
 
-          <div className="text-gray-700 mb-6 mt-8">
-            <div className="flex items-center mb-2">
+        <div className="text-gray-700 mb-6 mt-8">
+          {genderQuestion.options.map((option: Option) => (
+            <div key={option.id} className="flex items-center mb-2">
               <input
-                id="gender1"
+                id={`gender-${option.id}`}
                 name="gender"
                 type="radio"
                 className="h-5 w-5 text-slate-800 focus:ring-blue-500 border-gray-300 rounded-md transition duration-200 ease-in-out"
-                onChange={() => handleGenderChange("female")}
-                checked={selectedGender === "female"}
+                onChange={() => handleGenderChange(option.text)}
+                checked={selectedGender === option.text}
               />
-              <label htmlFor="gender1" className="ml-3 block text-gray-700">
-                {questionData.optionsTwo[0]}
+              <label htmlFor={`gender-${option.id}`} className="ml-3 block text-gray-700">
+                {option.text}
               </label>
             </div>
-            <div className="flex items-center mb-2">
+          ))}
+        </div>
+      </div>
+
+      {/* Третий вопрос (Возраст) */}
+      <div key={ageQuestion.id} className="mb-6">
+        <h2 className="text-lg font-bold text-gray-900 mb-4">{ageQuestion.text}</h2>
+        <div className="text-gray-700 mb-6 mt-8">
+          {ageQuestion.options.map((option: Option) => (
+            <div key={option.id} className="flex items-center mb-2">
               <input
-                id="gender2"
-                name="gender"
+                id={`age-${option.id}`}
+                name="age"
                 type="radio"
                 className="h-5 w-5 text-slate-800 focus:ring-blue-500 border-gray-300 rounded-md transition duration-200 ease-in-out"
-                onChange={() => handleGenderChange("male")}
-                checked={selectedGender === "male"}
+                onChange={() => handleAgeChange(option.text)}
+                checked={selectedAge === option.text}
               />
-              <label htmlFor="gender2" className="ml-3 block text-gray-700">
-                {questionData.optionsTwo[1]}
+              <label htmlFor={`age-${option.id}`} className="ml-3 block text-gray-700">
+                {option.text}
               </label>
             </div>
-          </div>
+          ))}
         </div>
-      ))}
+      </div>
 
-      {Questions.QuestionThree.map((questionData, index) => (
-        <div key={index} className="mb-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">
-            {questionData.questionThree}
-          </h2>
-          <div className="text-gray-700 mb-6 mt-8">
-            {/* Перебираем optionsThree внутри каждого вопроса */}
-            {questionData.optionsThree.map((option, optionIndex) => (
-              <div key={optionIndex} className="flex items-center mb-2">
-                <input
-                  id={`age${index}-${optionIndex}`} // уникальный id для каждого input
-                  name="age"
-                  type="radio"
-                  className="h-5 w-5 text-slate-800 focus:ring-blue-500 border-gray-300 rounded-md transition duration-200 ease-in-out"
-                  onChange={() => handleAgeChange(option)} // передаем сам вариант
-                  checked={selectedAge === option} // проверка, выбран ли этот вариант
-                />
-                <label
-                  htmlFor={`age${index}-${optionIndex}`}
-                  className="ml-3 block text-gray-700"
-                >
-                  {option} {/* текст варианта */}
-                </label>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
-
-      {isSubmitted && (!selectedGender || !selectedAge) && (
-        <div className="text-sm text-red-500 mt-2">
-          Это обязательные вопросы.
-        </div>
-      )}
     </section>
   );
 }

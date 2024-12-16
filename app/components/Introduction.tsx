@@ -38,19 +38,29 @@ export default function Introduction() {
   return (
     <div className="p-6">
       <div className="flex justify-center mb-8">
-        <Image src={logo} alt="logo" width={150} height={150} />
+        <Image
+          src={logo}
+          alt="logo"
+          width={150}
+          height={150}
+          className="LogoWidth"
+        />
       </div>
-      <h1 className="text-3xl font-bold text-gray-900 mb-6">
-        {textContent.title}
-      </h1>
-      <p className="text-lg font-semibold text-gray-800 mb-4">
+
+      <div className="text-center">
+        <h1 className="text-3xl font-bold text-gray-900 mb-6 textSizeTitle">
+          {textContent.title}
+        </h1>
+      </div>
+
+      <p className="text-lg font-semibold text-gray-800 mb-4 mt-24 textSizeGreeting ">
         {textContent.greeting}
       </p>
-      <p className="text-base text-gray-700 mb-4">{textContent.body}</p>
-      <p className="text-base text-gray-700 mb-4 mt-20">
+      <p className="text-base text-gray-700 mb-4 textSizeBody">{textContent.body}</p>
+      <p className="text-base text-gray-700 mb-4 mt-20 textSizeClosing">
         <strong>{textContent.closing}</strong>
       </p>
-      <p className="text-base text-gray-700 mb-6 italic">
+      <p className="text-base text-gray-700 mb-6 italic textSizeCallToAction">
         {textContent.callToAction}
       </p>
 

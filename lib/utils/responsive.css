@@ -1,0 +1,103 @@
+
+.container {
+    @apply bg-white p-6 rounded-lg shadow-md w-full max-w-[46rem] mt-4;
+  }
+
+@media (max-width: 1050px) {
+    .responsive {
+        @apply bg-white p-6 rounded-lg shadow-md w-full max-w-[40rem] mt-4;
+    }
+
+    .progressBarWidth {
+        @apply w-[16rem];
+    }
+
+    .footerGap {
+        @apply gap-8;
+    }
+}
+
+@media (max-width: 680px)  {
+
+    .LogoWidth {
+        @apply w-[120px] h-[120px];
+    }
+
+    .textSizeTitle {
+        @apply text-2xl;
+    }
+
+    .textSizeGreeting {
+        @apply text-[1rem];
+    }
+
+    .textSizeBody {
+        @apply text-sm;
+    }
+
+    .textSizeClosing {
+        @apply text-sm;
+    }
+
+    .textSizeCallToAction {
+        @apply text-sm;
+    }
+
+    .responsive {
+        @apply bg-white p-6 rounded-lg shadow-md w-full max-w-[30rem] mt-4;
+    }
+
+    .footerGap {
+        @apply gap-4;
+    }
+
+    .progressBarWidth {
+        @apply w-[10rem];
+    }
+
+    .textSize {
+        @apply text-[13px];
+        @apply min-w-[7rem];
+    }
+    
+    .TextSizeButtonNext {
+        @apply text-[15px] h-[2.4rem] w-[5rem];
+    }
+
+    .TextSizeButtonClear {
+        @apply text-[15px] h-[2.4rem] w-[5rem];
+    }
+
+
+}
+
+@media (max-width: 515px)  {
+    .textSizeTitle {
+        @apply text-xl;     
+    }
+
+    .responsive {
+        @apply bg-white p-6 rounded-lg shadow-md w-full max-w-[25rem] mt-4;
+    }
+
+
+    .progressBarWidth {
+        @apply w-[6rem];
+    }
+
+    .textSize {
+        @apply text-[12px];
+        @apply min-w-[6rem];
+    }
+
+    .TextSizeButtonNext {
+        @apply text-[14px] h-[2.2rem] w-[5rem];
+    }
+}
+
+@media (max-width: 420px)  {
+    .progressBarWidth {
+        @apply hidden;
+    }
+
+}
