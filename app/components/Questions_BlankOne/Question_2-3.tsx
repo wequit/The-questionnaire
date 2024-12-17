@@ -40,7 +40,7 @@ export default function Question_Two_Three({ questions }: Question_Two_Three_Pro
   }
 
   return (
-    <section className="p-6">
+    <section className="p-6 P-420">
       {/* Второй вопрос (Жыныс) */}
       <div key={genderQuestion.id} className="mb-6">
         <h2 className="text-lg font-bold text-gray-900 mb-4 textSizeTittle">{genderQuestion.text}</h2>

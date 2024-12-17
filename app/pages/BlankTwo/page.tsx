@@ -45,7 +45,7 @@ export default function BlankTwo() {
 
     <div className="flex justify-center items-center flex-col w-full col-span-2">
       {components.map((Component, index) => (
-        <article key={index} className="container responsive">
+        <article key={index} className="container responsive min-h-[300px]!important">
           {Component}
         </article>
       ))}

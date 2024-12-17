@@ -30,7 +30,7 @@ export default function Question_Seven({ questions }: Question_Seven_Props) {
   }
 
   return (
-    <section className="p-6 min-h-[350px]">
+    <section className="p-6  P-420">
       <div className="mb-6">
         <h2 className="text-lg font-bold text-gray-900 mb-4 textSizeTittle">{question.text}</h2>
         <div className="text-gray-700 mb-6 mt-8 textSizeOptions">
@@ -59,7 +59,7 @@ export default function Question_Seven({ questions }: Question_Seven_Props) {
             type="text"
             value={otherText}
             onChange={handleOtherTextChange}
-            className="w-full border-0 border-b-2 border-gray-300 focus:border-blue-500 focus:ring-0 text-gray-700 outline-none transition-all duration-300"
+            className="w-full InputAnotherSize border-0 border-b-2 border-gray-300 focus:border-blue-500 focus:ring-0 text-gray-700 outline-none transition-all duration-300"
             placeholder="Введите ваш ответ..."
           />
         </div>

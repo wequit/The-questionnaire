@@ -30,7 +30,7 @@ export default function Question_Thirteen({ questions }: Question_Thirteen_Props
   }
 
   return (
-    <section className="p-6">
+    <section className="p-6 P-515">
       <div className="mb-6">
         <h2 className="text-lg font-bold text-gray-900 mb-4 textSizeTittle">{question.text}</h2>
         <div className="text-gray-700 mb-6 mt-8 textSizeOptions">
@@ -47,7 +47,7 @@ export default function Question_Thirteen({ questions }: Question_Thirteen_Props
                     id={`option-${option.id}`} // Уникальный id для каждой радиокнопки
                     name="Question_13"
                     type="radio"
-                    className="h-5 w-5 RadioSize text-blue-600 focus:ring-0 border-2 border-gray-300 rounded-full transition-all duration-300 ease-in-out hover:scale-110"
+                    className="h-5 w-5 RadioSize InputAnotherSizeBlankTwo text-blue-600 focus:ring-0 border-2 border-gray-300 rounded-full transition-all duration-300 ease-in-out hover:scale-110"
                     onChange={() => handleOptionChange(option.text)} // Передаем текст опции
                     checked={selectedOption === option.text}
                   />

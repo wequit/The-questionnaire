@@ -29,7 +29,7 @@ export default function Question_Six_One({ questions }: Question_Six_One_Props) 
   }
 
   return (
-    <section className="p-6">
+    <section className="p-6 P-420">
       <div className="mb-6">
         {/* Заголовок вопроса */}
         <h2 className="text-lg font-bold text-gray-900 mb-4 textSizeTittle">{question.text}</h2>
@@ -55,7 +55,7 @@ export default function Question_Six_One({ questions }: Question_Six_One_Props) 
 
       {/* Показываем поле ввода для текста, если выбрано "Другое" */}
       {selectedOptions.includes("Другое:") && (
-        <div className="mt-4 transition-all duration-300">
+        <div className=" InputAnotherSize mt-4 transition-all duration-300">
           <input
             type="text"
             value={otherText}

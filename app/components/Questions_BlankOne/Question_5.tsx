@@ -30,7 +30,7 @@ export default function Question_Five({ questions }: Question_Five_Props) {
   }
 
   return (
-    <section className="p-6">
+    <section className="p-6 P-420">
       <div className="mb-6">
         {/* Заголовок вопроса */}
         <h2 className="text-lg font-bold text-gray-900 mb-4 textSizeTittle">{question.text}</h2>

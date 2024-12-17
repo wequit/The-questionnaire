@@ -24,7 +24,7 @@ export default function RootLayout({
             </div>
           </header>
 
-          <main className="flex justify-center items-center min-h-screen text-black">
+          <main className="flex justify-center items-center  text-black">
             {children}
           </main>
 

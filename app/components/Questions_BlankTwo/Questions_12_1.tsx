@@ -29,7 +29,7 @@ export default function Question_Twelve_One({ questions }: Question_Twelve_One_P
   }
 
   return (
-    <section className="p-6">
+    <section className="p-6 P-515">
       <div className="mb-6">
         {/* Заголовок вопроса */}
         <h2 className="text-lg font-bold text-gray-900 mb-4 textSizeTittle">{question.text}</h2>
@@ -41,7 +41,7 @@ export default function Question_Twelve_One({ questions }: Question_Twelve_One_P
                 id={`optionTwelveOne-${option.id}`}
                 name="question_12_1"
                 type="checkbox"
-                className="h-5 w-5 RadioSize text-blue-600 focus:ring-0 border-2 border-gray-300 rounded-full transition-all duration-300 ease-in-out transform hover:scale-110 checked:bg-blue-600 checked:border-transparent"
+                className="h-5 w-5 RadioSize InputAnotherSizeBlankTwo text-blue-600 focus:ring-0 border-2 border-gray-300 rounded-full transition-all duration-300 ease-in-out transform hover:scale-110 checked:bg-blue-600 checked:border-transparent"
                 onChange={() => handleOptionChange(option.text)}
                 checked={selectedOptions.includes(option.text)} // Проверяем, выбрана ли опция
               />

@@ -2,14 +2,14 @@
 import { useState } from "react";
 import "@/lib/utils/responsive.css";
 import QuestionsFetcher from "@/lib/api/QuestionsFetcher"; // Импортируем компонент для загрузки вопросов
-import Question_One from "../components/Questions_BlankOne/Question_1";
-import Question_Two_Three from "../components/Questions_BlankOne/Question_2-3";
-import Question_Four from "../components/Questions_BlankOne/Question_4";
-import Question_Five from "../components/Questions_BlankOne/Question_5";
-import Question_Six from "../components/Questions_BlankOne/Question_6";
-import Question_Six_One from "../components/Questions_BlankOne/Question_6.1";
-import Question_Seven from "../components/Questions_BlankOne/Question_7";
-import Question_Eight from "../components/Questions_BlankOne/Question_8";
+import Question_One from "@/app/components/Questions_BlankOne/Question_1";
+import Question_Two_Three from "@/app/components/Questions_BlankOne/Question_2-3";
+import Question_Four from "@/app/components/Questions_BlankOne/Question_4";
+import Question_Five from "@/app/components/Questions_BlankOne/Question_5";
+import Question_Six from "@/app/components/Questions_BlankOne/Question_6";
+import Question_Six_One from "@/app/components/Questions_BlankOne/Question_6.1";
+import Question_Seven from "@/app/components/Questions_BlankOne/Question_7";
+import Question_Eight from "@/app/components/Questions_BlankOne/Question_8";
 
 interface Option {
   id: number;
@@ -23,7 +23,7 @@ interface Question {
   options: Option[];
 }
 
-export default function Home() {
+export default function BlankOne() {
   const [questions, setQuestions] = useState<Question[]>([]);
 
   // Функция для обновления состояния вопросов

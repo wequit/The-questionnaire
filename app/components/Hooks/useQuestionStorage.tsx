@@ -36,15 +36,16 @@ export const useQuestionStorage = ({ localStorageKey }: UseQuestionStorageProps)
     setIsSubmitted(false); // Сбрасываем ошибку
   };
 
-  const handleOtherTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOtherTextChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const value = e.target.value;
     setOtherText(value);
-
+  
     // Сохраняем текст для "Другое" в localStorage
     if (selectedOption === "Другое:") {
       localStorage.setItem(`${localStorageKey}_other`, value); // Сохраняем текст в локальном хранилище
     }
-  };
+      localStorage.setItem(`${localStorageKey}_other`, value)
+  };  
 
   const validateStep = () => {
     const storedOption = localStorage.getItem(localStorageKey);

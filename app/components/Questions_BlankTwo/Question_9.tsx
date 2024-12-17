@@ -22,7 +22,6 @@ export default function Question_Nine({ questions }: Question_Nine_Props) {
     localStorageKey: "Question_9",
   });
   
-  // Находим вопрос с id 7
   const question = questions.find((q) => q.id === 10);
 
   if (!question) {
@@ -30,21 +29,21 @@ export default function Question_Nine({ questions }: Question_Nine_Props) {
   }
 
   return (
-    <section className="p-6 min-h-[350px]">
+    <section className="p-6 P-515">
       <div className="mb-6">
         <h2 className="text-lg font-bold text-gray-900 mb-4 textSizeTittle">{question.text}</h2>
         <div className="text-gray-700 mb-6 mt-8 textSizeOptions">
           {question.options.map((option: Option, i) => (
             <div key={i} className="flex items-center mb-2 mt-4">
               <input
-                id={`optionSeven-${i}`}
+                id={`optionNine-${i}`}
                 name="Question_9"
                 type="radio"
                 className="h-5 w-5 RadioSize text-blue-600 focus:ring-0 border-2 border-gray-300 rounded-full transition-all duration-300 ease-in-out transform hover:scale-110"
                 onChange={() => handleOptionChange(option.text)}
-                checked={selectedOption === option.text} // Проверка, активен ли этот вариант
+                checked={selectedOption === option.text}
               />
-              <label htmlFor={`optionSeven-${i}`} className="ml-3 block text-gray-700">
+              <label htmlFor={`optionNine-${i}`} className="ml-3 block text-gray-700">
                 {option.text}
               </label>
             </div>
@@ -52,14 +51,13 @@ export default function Question_Nine({ questions }: Question_Nine_Props) {
         </div>
       </div>
 
-      {/* Показываем поле для ввода текста, если выбрано "Другое" */}
       {selectedOption === "Другое:" && (
         <div className="mt-4 transition-all duration-300">
           <input
             type="text"
             value={otherText}
             onChange={handleOtherTextChange}
-            className="w-full border-0 border-b-2 border-gray-300 focus:border-blue-500 focus:ring-0 text-gray-700 outline-none transition-all duration-300"
+            className="w-full border-0 border-b-2 InputAnotherSizeBlankTwo border-gray-300 focus:border-blue-500 focus:ring-0 text-gray-700 outline-none transition-all duration-300"
             placeholder="Введите ваш ответ..."
           />
         </div>

@@ -30,7 +30,7 @@ export default function Question_Ten({ questions }: Question_Ten_Props) {
   }
 
   return (
-    <section className="p-6 min-h-[350px]">
+    <section className="p-6 P-515">
       <div className="mb-6">
         <h2 className="text-lg font-bold text-gray-900 mb-4 textSizeTittle">{question.text}</h2>
         <div className="text-gray-700 mb-6 mt-8 textSizeOptions">
@@ -52,14 +52,13 @@ export default function Question_Ten({ questions }: Question_Ten_Props) {
         </div>
       </div>
 
-      {/* Показываем поле для ввода текста, если выбрано "Другое" */}
       {selectedOption === "Другое:" && (
         <div className="mt-4 transition-all duration-300">
           <input
             type="text"
             value={otherText}
             onChange={handleOtherTextChange}
-            className="w-full border-0 border-b-2 border-gray-300 focus:border-blue-500 focus:ring-0 text-gray-700 outline-none transition-all duration-300"
+            className="w-full border-0 border-b-2 InputAnotherSizeBlankTwo border-gray-300 focus:border-blue-500 focus:ring-0 text-gray-700 outline-none transition-all duration-300"
             placeholder="Введите ваш ответ..."
           />
         </div>
