@@ -23,20 +23,25 @@ export default function BlankTwo() {
   const handleFetchQuestions = (fetchedQuestions: Question[]) => {
     setQuestions(fetchedQuestions);
   };
-  const components = [
-   <Question_Fifteen key={15} questions={questions} />
-  ];
+  const components = [<Question_Fifteen key={15} questions={questions} />];
 
   return (
     <div>
       <QuestionsFetcher onFetch={handleFetchQuestions} />
 
-    <div className="flex justify-center items-center flex-col w-full col-span-2">
-      {components.map((Component, index) => (
-        <article key={index} className="container responsive min-h-[300px]">
-          {Component}
-        </article>
-      ))}
+      <div className="flex justify-center items-center flex-col w-full col-span-2">
+        {questions.length === 2 ? (
+          <p>Вопросы загружаются...</p>
+        ) : (
+          components.map((Component, index) => (
+            <article
+              key={index}
+              className="container responsive min-h-[300px]!important"
+            >
+              {Component}
+            </article>
+          ))
+        )}{" "}
       </div>
     </div>
   );

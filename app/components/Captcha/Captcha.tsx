@@ -2,53 +2,53 @@
 // import Image from 'next/image';
 
 // const Captcha = () => {
-//   const [captchaUrl, setCaptchaUrl] = useState<string | null>(null);
-//   const [captchaText, setCaptchaText] = useState('');
-//   const [captchaKey, setCaptchaKey] = useState<string | null>(null); // Стейт для хранения captcha_key
-//   const [captchaValid, setCaptchaValid] = useState<boolean | null>(null);
+//   const [captchaUrl, setCaptchaUrl] = useState<string | null>(null); // URL изображения капчи
+//   const [captchaKey, setCaptchaKey] = useState<string | null>(null); // Ключ капчи
+//   const [captchaText, setCaptchaText] = useState(''); // Введенный текст капчи
+//   const [captchaValid, setCaptchaValid] = useState<boolean | null>(null); // Результат проверки капчи
 
+//   // Загрузка капчи при загрузке компонента
 //   useEffect(() => {
-//     // Загружаем капчу
 //     const fetchCaptcha = async () => {
-//       const response = await fetch('http://127.0.0.1:8000/api/captcha/');
-//       const data = await response.blob();
-//       const imageUrl = URL.createObjectURL(data);
-//       setCaptchaUrl(imageUrl);  // captchaUrl теперь может быть строкой
+//       // Получаем captcha_key и captcha_image_url
+//       const response = await fetch('http://127.0.0.1:8000/api/verify-captcha/', {
+//         method: 'POST',
+//       });
 
-//       // Предположим, что сервер возвращает ключ captcha_key, который нужно сохранить
-//       const captchaKeyFromServer = await response.text(); // Предположим, что сервер возвращает ключ в тексте
-//       setCaptchaKey(captchaKeyFromServer);  // Устанавливаем captcha_key
+//       if (response.ok) {
+//         const data = await response.json();
+//         setCaptchaUrl(data.captcha_image_url); // Устанавливаем URL изображения капчи
+//         setCaptchaKey(data.captcha_key); // Сохраняем ключ капчи
+//       } else {
+//         console.error('Не удалось загрузить капчу');
+//       }
 //     };
 
 //     fetchCaptcha();
 //   }, []);
 
 //   const handleCaptchaSubmit = async () => {
-//     // Логирование ввода пользователя
-//     console.log('User input:', captchaText);
-//     console.log('Captcha key:', captchaKey);
-
-//     // Проверка на наличие captcha_key перед отправкой запроса
+//     // Проверяем, есть ли ключ капчи
 //     if (!captchaKey) {
 //       console.error('Captcha key is missing');
 //       return;
 //     }
 
-//     // Отправка POST запроса для проверки капчи
+//     // Отправляем POST-запрос для проверки капчи
 //     const response = await fetch('http://127.0.0.1:8000/api/verify-captcha/', {
 //       method: 'POST',
 //       headers: {
 //         'Content-Type': 'application/json',
 //       },
 //       body: JSON.stringify({
-//         user_input: captchaText,  // Передаем user_input
-//         captcha_key: captchaKey,  // Передаем captcha_key
+//         user_input: captchaText, // Текст, введенный пользователем
+//         captcha_key: captchaKey, // Ключ капчи
 //       }),
 //     });
 
 //     const result = await response.json();
 
-//     // Проверка правильности введенной капчи
+//     // Проверяем результат
 //     if (result.success) {
 //       setCaptchaValid(true);
 //     } else {
@@ -59,16 +59,20 @@
 //   return (
 //     <div>
 //       <div>
+//         {/* Отображаем изображение капчи */}
 //         {captchaUrl && <Image width={400} height={400} src={captchaUrl} alt="captcha" />}
 //       </div>
+//       {/* Поле для ввода текста капчи */}
 //       <input
 //         type="text"
 //         value={captchaText}
 //         onChange={(e) => setCaptchaText(e.target.value)}
 //         placeholder="Введите капчу"
 //       />
+//       {/* Кнопка для проверки капчи */}
 //       <button onClick={handleCaptchaSubmit}>Проверить</button>
 
+//       {/* Результат проверки */}
 //       {captchaValid !== null && (
 //         <div>{captchaValid ? 'Капча введена правильно!' : 'Капча введена неправильно.'}</div>
 //       )}

@@ -8,7 +8,7 @@ const FooterActions = () => {
 
   // Шаги: инициализация из localStorage
   const [step, setStep] = useState<number>(0);
-  const [error, setError] = useState<boolean>(false); // Состояние ошибки
+  const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
     const savedStep = localStorage.getItem("currentStep");

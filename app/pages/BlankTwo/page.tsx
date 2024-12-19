@@ -44,11 +44,15 @@ export default function BlankTwo() {
       <QuestionsFetcher onFetch={handleFetchQuestions} />
 
     <div className="flex justify-center items-center flex-col w-full col-span-2">
-      {components.map((Component, index) => (
-        <article key={index} className="container responsive min-h-[300px]!important">
-          {Component}
-        </article>
-      ))}
+    {questions.length === 1 ? (
+          <p>Вопросы загружаются...</p>
+        ) : (
+          components.map((Component, index) => (
+            <article key={index} className="container responsive min-h-[300px]!important">
+              {Component}
+            </article>
+          ))
+        )}
       </div>
     </div>
   );

@@ -47,11 +47,11 @@
     @apply w-[120px] h-[120px];
   }
 
-  .textSizeTitle {
+  /* .textSizeTitle {
     @apply text-2xl;
-  }
+  } */
 
-  .textSizeGreeting {
+  /* .textSizeGreeting {
     @apply text-[1rem];
   }
 
@@ -65,7 +65,7 @@
 
   .textSizeCallToAction {
     @apply text-sm;
-  }
+  } */
 
   .responsive {
     @apply bg-white p-6 rounded-lg shadow-md w-full max-w-[30rem] mt-4;
@@ -112,9 +112,11 @@
 }
 
 @media (max-width: 515px) {
+  
+/*   
   .textSizeTitle {
     @apply text-xl;
-  }
+  } */
 
   .P-515 {
     @apply p-2.5;
@@ -186,7 +188,7 @@
     @apply p-0.5;
   }
 
-  .textSizeTittle {
+  /* .textSizeTittle {
     @apply text-[12px];
   }
 
@@ -197,18 +199,18 @@
   .textSize {
     @apply text-[10px];
     @apply min-w-[4rem];
-  }
+  } */
 
   /* Intrudaction */
   .LogoWidth {
     @apply w-[100px] h-[100px];
   }
 
-  .textSizeTitle {
+  /* .textSizeTitle {
     @apply text-[15px];
-  }
+  } */
 
-  .textSizeGreeting {
+  /* .textSizeGreeting {
     
     @apply text-[13px] mt-14;
   }
@@ -223,7 +225,7 @@
 
   .textSizeCallToAction {
     @apply text-[11px];
-  }
+  } */
 
 /* BlankTwo */
 .footerGapBlankTwo {
