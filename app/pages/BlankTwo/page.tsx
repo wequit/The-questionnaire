@@ -22,12 +22,17 @@ interface Question {
   options: Option[];
 }
 
+interface Survey {
+  title: string;
+  description: string;
+  questions: Question[];
+}
 export default function BlankTwo() {
   const [questions, setQuestions] = useState<Question[]>([]);
 
   // Функция для обновления состояния вопросов
-  const handleFetchQuestions = (fetchedQuestions: Question[]) => {
-    setQuestions(fetchedQuestions);
+  const handleFetchSurvey = (survey: Survey) => {
+    setQuestions(survey.questions); // Извлекаем вопросы из Survey
   };
   const components = [
     <Question_Nine key={9} questions={questions} />,
@@ -41,7 +46,7 @@ export default function BlankTwo() {
 
   return (
     <div>
-      <QuestionsFetcher onFetch={handleFetchQuestions} />
+      <QuestionsFetcher  onFetch={handleFetchSurvey} />
 
     <div className="flex justify-center items-center flex-col w-full col-span-2">
     {questions.length === 1 ? (

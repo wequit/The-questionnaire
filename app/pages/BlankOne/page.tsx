@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import QuestionsFetcher from "@/lib/api/QuestionsFetcher";
 import Question_One from "@/app/components/Questions_BlankOne/Question_1";
@@ -10,7 +11,6 @@ import Question_Six from "@/app/components/Questions_BlankOne/Question_6";
 import Question_Six_One from "@/app/components/Questions_BlankOne/Question_6.1";
 import Question_Seven from "@/app/components/Questions_BlankOne/Question_7";
 import Question_Eight from "@/app/components/Questions_BlankOne/Question_8";
-
 
 interface Option {
   id: number;
@@ -24,27 +24,36 @@ interface Question {
   options: Option[];
 }
 
+interface Survey {
+  title: string;
+  description: string;
+  questions: Question[];
+}
+
 export default function BlankOne() {
   const [questions, setQuestions] = useState<Question[]>([]);
 
-  const handleFetchQuestions = (fetchedQuestions: Question[]) => {
-    setQuestions(fetchedQuestions);
+  const handleFetchSurvey = (survey: Survey) => {
+    setQuestions(survey.questions); // Извлекаем вопросы из Survey
   };
 
   const components = [
-      <Question_One key={1} questions={questions} />,
-      <Question_Two_Three key={2} questions={questions} />,
-      <Question_Four key={3} questions={questions} />,
-      <Question_Five key={4} questions={questions} />,
-      <Question_Six key={5} questions={questions} />,
-      <Question_Six_One key={6} questions={questions} />,
-      <Question_Seven key={7} questions={questions} />,
-      <Question_Eight key={8} questions={questions} />,
-    ];
+    <Question_One key={1} questions={questions}  />,
+    <Question_Two_Three key={2} questions={questions} />,
+    <Question_Four key={3} questions={questions} />,
+    <Question_Five key={4} questions={questions} />,
+    <Question_Six key={5} questions={questions} />,
+    <Question_Six_One key={6} questions={questions} />,
+    <Question_Seven key={7} questions={questions} />,
+    <Question_Eight key={8} questions={questions} />,
+  ];
 
   return (
     <div>
-      <QuestionsFetcher onFetch={handleFetchQuestions} />
+      {/* Фетчинг данных */}
+      <QuestionsFetcher onFetch={handleFetchSurvey}/>
+
+      {/* Основной контент */}
       <div className="flex justify-center items-center flex-col w-full col-span-2">
         {questions.length === 0 ? (
           <p>Вопросы загружаются...</p>

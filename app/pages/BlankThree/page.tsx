@@ -16,12 +16,18 @@ interface Question {
   options: Option[];
 }
 
+interface Survey {
+  title: string;
+  description: string;
+  questions: Question[];
+}
+
 export default function BlankTwo() {
   const [questions, setQuestions] = useState<Question[]>([]);
 
   // Функция для обновления состояния вопросов
-  const handleFetchQuestions = (fetchedQuestions: Question[]) => {
-    setQuestions(fetchedQuestions);
+  const handleFetchQuestions = (survey: Survey) => {
+    setQuestions(survey.questions);
   };
   const components = [<Question_Fifteen key={15} questions={questions} />];
 

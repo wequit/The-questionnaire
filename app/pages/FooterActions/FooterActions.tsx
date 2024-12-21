@@ -1,21 +1,29 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation"; // Import usePathname
 import { useQuestionStorage } from "@/app/components/Hooks/useQuestionStorage";
 
 const FooterActions = () => {
   const router = useRouter();
+  const pathname = usePathname(); // Get the current pathname
 
   // Шаги: инициализация из localStorage
   const [step, setStep] = useState<number>(0);
   const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
+    // Считываем шаг из localStorage при инициализации
     const savedStep = localStorage.getItem("currentStep");
     if (savedStep) {
       setStep(Number(savedStep));
     }
-  }, []);
+    
+    // Проверяем текущий маршрут и сбрасываем шаг на 0 для BlankOne
+    if (pathname === "/pages/BlankOne") {
+      setStep(0);
+      localStorage.setItem("currentStep", "0");
+    }
+  }, [pathname]); // Отслеживаем изменение маршрута
 
   const updateStep = (newStep: number) => {
     setStep(newStep);

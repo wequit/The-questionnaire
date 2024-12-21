@@ -23,7 +23,7 @@ export default function Question_One({ questions }: Question_One_Props) {
     localStorageKey: "Question_1",
   });
 
-  const question = questions.find((q) => q.id === 2);
+  const question = questions.find((q) => q.id === 1);
 
   if (!question) {
     return <div>Loading...</div>;
