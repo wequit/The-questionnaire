@@ -39,7 +39,7 @@ export default function Introduction({
       </div>
 
       {/* Описание */}
-      <p className="text-base text-gray-700 mb-4 textSizeBody">{description}</p>
+      <p className="text-base text-gray-700 mb-4 textSizeBody whitespace-pre-line ">{description}</p>
 
       {/* Кнопка для переключения языка */}
       <button

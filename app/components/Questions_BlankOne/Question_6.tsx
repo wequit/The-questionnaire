@@ -1,4 +1,3 @@
-"use client";
 import { useQuestionStorage } from "@/app/components/Hooks/useQuestionStorage";
 
 interface Option {
@@ -15,9 +14,10 @@ interface Question {
 
 interface Question_Six_Props {
   questions: Question[];
+  onAnswerChange: (questionId: number, answer: string) => void;
 }
 
-export default function Question_Six({ questions }: Question_Six_Props) {
+export default function Question_Six({ questions, onAnswerChange }: Question_Six_Props) {
   const { selectedOption, handleOptionChange} = useQuestionStorage({
     localStorageKey: "Question_6",
   });   
@@ -28,6 +28,11 @@ export default function Question_Six({ questions }: Question_Six_Props) {
   if (!question) {
     return <div>Вопрос не найден</div>;
   }
+
+  const handleChange = (option: string) => {
+    handleOptionChange(option); 
+    onAnswerChange(question.id, option); 
+  };
 
   return (
     <section className="p-6 P-420">
@@ -43,7 +48,7 @@ export default function Question_Six({ questions }: Question_Six_Props) {
                 name="question_6"
                 type="radio"
                 className="h-5 w-5 RadioSize text-blue-600 focus:ring-0 border-2 border-gray-300 rounded-full transition-all duration-300 ease-in-out transform hover:scale-110 checked:bg-blue-600 checked:border-transparent"
-                onChange={() => handleOptionChange(option.text)}
+                onChange={() => handleChange(option.text)}
                 checked={selectedOption === option.text}
               />
               <label htmlFor={`optionSix-${option.id}`} className="ml-3 block text-gray-700">

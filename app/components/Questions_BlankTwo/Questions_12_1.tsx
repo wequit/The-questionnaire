@@ -1,4 +1,3 @@
-"use client";
 import { useQuestionCheckboxes } from "@/app/components/Hooks/useCheckboxes";
 
 interface Option {

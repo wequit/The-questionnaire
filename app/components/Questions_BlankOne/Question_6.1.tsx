@@ -1,4 +1,3 @@
-"use client";
 import { useQuestionCheckboxes } from "@/app/components/Hooks/useCheckboxes";
 
 interface Option {
@@ -15,8 +14,9 @@ interface Question {
 
 interface Question_Six_One_Props {
   questions: Question[];
+  onAnswerChange: (questionId: number, answer: string) => void;
 }
-export default function Question_Six_One({ questions }: Question_Six_One_Props) {
+export default function Question_Six_One({ questions, onAnswerChange }: Question_Six_One_Props) {
   const { selectedOptions, otherText, handleOptionChange, handleOtherTextChange } = useQuestionCheckboxes({
     localStorageKey: "Question_6_1",
     localStorageOtherKey: "Question_6_1_other",
@@ -27,6 +27,11 @@ export default function Question_Six_One({ questions }: Question_Six_One_Props) 
   if (!question) {
     return <div>Вопрос не найден</div>;
   }
+  
+  const handleChange = (option: string) => {
+    handleOptionChange(option); 
+    onAnswerChange(question.id, option); 
+  };
 
   return (
     <section className="p-6 P-420">
@@ -42,7 +47,7 @@ export default function Question_Six_One({ questions }: Question_Six_One_Props) 
                 name="question_6_1"
                 type="checkbox"
                 className="h-5 w-5 RadioSize text-blue-600 focus:ring-0 border-2 border-gray-300 rounded-full transition-all duration-300 ease-in-out transform hover:scale-110 checked:bg-blue-600 checked:border-transparent"
-                onChange={() => handleOptionChange(option.text)}
+                onChange={() => handleChange(option.text)}
                 checked={selectedOptions.includes(option.text)} // Проверяем, выбрана ли опция
               />
               <label htmlFor={`optionSixOne-${option.id}`} className="ml-3 block text-gray-700">

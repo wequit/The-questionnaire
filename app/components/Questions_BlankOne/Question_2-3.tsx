@@ -1,4 +1,3 @@
-"use client";
 import { useQuestionStorage } from "@/app/components/Hooks/useQuestionStorage";
 
 // Интерфейс для вопроса и его опций
@@ -16,9 +15,10 @@ interface Question {
 
 interface Question_Two_Three_Props {
   questions: Question[];
+  onAnswerChange: (questionId: number, answer: string) => void;
 }
 
-export default function Question_Two_Three({ questions }: Question_Two_Three_Props) {
+export default function Question_Two_Three({ questions, onAnswerChange }: Question_Two_Three_Props) {
     const { handleOptionChange: handleGenderChange, selectedOption: selectedGender  } = useQuestionStorage({
       localStorageKey: "Question_2",
     });
@@ -26,6 +26,8 @@ export default function Question_Two_Three({ questions }: Question_Two_Three_Pro
       localStorageKey: "Question_3",
     });
     
+   
+
   // Проверяем, что вопросы были загружены
   if (!questions || questions.length === 0) {
     return <div>Loading...</div>;
@@ -38,6 +40,16 @@ export default function Question_Two_Three({ questions }: Question_Two_Three_Pro
   if (!genderQuestion || !ageQuestion) {
     return <div>Questions are not available.</div>;
   }
+
+  const handleChangeGender = (option: string) => {
+    handleGenderChange(option)
+    onAnswerChange(genderQuestion.id, option); 
+  };
+
+  const handleChangeAge = (option: string) => {
+    handleAgeChange(option)
+    onAnswerChange(ageQuestion.id, option); 
+  };
 
   return (
     <section className="p-6 P-420">
@@ -53,7 +65,7 @@ export default function Question_Two_Three({ questions }: Question_Two_Three_Pro
                 name="gender"
                 type="radio"
                 className="h-5 w-5 RadioSize text-slate-800 focus:ring-blue-500 border-gray-300 rounded-md transition duration-200 ease-in-out"
-                onChange={() => handleGenderChange(option.text)}
+                onChange={() => handleChangeGender(option.text)}
                 checked={selectedGender === option.text}
               />
               <label htmlFor={`gender-${option.id}`} className="ml-3 block text-gray-700">
@@ -75,7 +87,7 @@ export default function Question_Two_Three({ questions }: Question_Two_Three_Pro
                 name="age"
                 type="radio"
                 className="h-5 w-5 RadioSize text-slate-800 focus:ring-blue-500 border-gray-300 rounded-md transition duration-200 ease-in-out"
-                onChange={() => handleAgeChange(option.text)}
+                onChange={() => handleChangeAge(option.text)}
                 checked={selectedAge === option.text}
               />
               <label htmlFor={`age-${option.id}`} className="ml-3 block text-gray-700">

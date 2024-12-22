@@ -1,4 +1,3 @@
-"use client";
 import { useQuestionStorage } from "@/app/components/Hooks/useQuestionStorage";
 
 interface Option {
@@ -15,9 +14,10 @@ interface Question {
 
 interface Question_Seven_Props {
   questions: Question[];
+  onAnswerChange: (questionId: number, answer: string) => void;
 }
 
-export default function Question_Seven({ questions }: Question_Seven_Props) {
+export default function Question_Seven({ questions, onAnswerChange }: Question_Seven_Props) {
   const { otherText, handleOptionChange, handleOtherTextChange, selectedOption } = useQuestionStorage({
     localStorageKey: "Question_7",
   });
@@ -28,6 +28,11 @@ export default function Question_Seven({ questions }: Question_Seven_Props) {
   if (!question) {
     return <div>Вопрос не найден</div>;
   }
+
+ const handleChange = (option: string) => {
+    handleOptionChange(option); 
+    onAnswerChange(question.id, option); 
+  };
 
   return (
     <section className="p-6  P-420">
@@ -41,7 +46,7 @@ export default function Question_Seven({ questions }: Question_Seven_Props) {
                 name="Question_7"
                 type="radio"
                 className="h-5 w-5 RadioSize text-blue-600 focus:ring-0 border-2 border-gray-300 rounded-full transition-all duration-300 ease-in-out transform hover:scale-110"
-                onChange={() => handleOptionChange(option.text)}
+                onChange={() => handleChange(option.text)}
                 checked={selectedOption === option.text} // Проверка, активен ли этот вариант
               />
               <label htmlFor={`optionSeven-${i}`} className="ml-3 block text-gray-700">

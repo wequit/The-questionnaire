@@ -14,7 +14,7 @@ interface Question_Fifteen_Props {
 }
 
 export default function Question_Fifteen({ questions }: Question_Fifteen_Props) {
-  const [isCaptchaValid, setIsCaptchaValid] = useState<boolean | null>(null); // Используем null, чтобы правильно отображать "не пройдено"
+  // const [isCaptchaValid, setIsCaptchaValid] = useState<boolean | null>(null); // Используем null, чтобы правильно отображать "не пройдено"
   const { otherText, handleOtherTextChange } = useQuestionStorage({
     localStorageKey: "Question_15",
   });
@@ -25,11 +25,11 @@ export default function Question_Fifteen({ questions }: Question_Fifteen_Props) 
     return <div>Вопрос не найден</div>;
   }
 
-  // Функция, которая обновляет состояние в зависимости от проверки капчи
-  const handleCaptchaVerified
-   = (isValid: boolean) => {
-    setIsCaptchaValid(isValid);
-  };
+  // // Функция, которая обновляет состояние в зависимости от проверки капчи
+  // const handleCaptchaVerified
+  //  = (isValid: boolean) => {
+  //   setIsCaptchaValid(isValid);
+  // };
 
   return (
     <section className="p-6 P-515">
