@@ -14,7 +14,7 @@ interface Question_Fifteen_Props {
 }
 
 export default function Question_Fifteen({ questions }: Question_Fifteen_Props) {
-  // const [isCaptchaValid, setIsCaptchaValid] = useState<boolean | null>(null); // Используем null, чтобы правильно отображать "не пройдено"
+  // const [isCaptchaValid, setIsCaptchaValid] = useState<boolean | null>(null); 
   const { otherText, handleOtherTextChange } = useQuestionStorage({
     localStorageKey: "Question_15",
   });
@@ -40,8 +40,8 @@ export default function Question_Fifteen({ questions }: Question_Fifteen_Props) 
             id="otherTextInput"
             className="w-full h-24 p-3 border-2 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-700 textSizeOptions"
             placeholder="Менин жообум..."
-            value={otherText} // Значение берется из хука
-            onChange={(e) => handleOtherTextChange(e)} // Обновляет состояние и localStorage
+            value={otherText} 
+            onChange={(e) => handleOtherTextChange(e)}
           />
         </div>
       </div>

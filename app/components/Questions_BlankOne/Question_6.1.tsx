@@ -14,9 +14,9 @@ interface Question {
 
 interface Question_Six_One_Props {
   questions: Question[];
-  onAnswerChange: (questionId: number, answer: string) => void;
 }
-export default function Question_Six_One({ questions, onAnswerChange }: Question_Six_One_Props) {
+
+export default function Question_Six_One({ questions }: Question_Six_One_Props) {
   const { selectedOptions, otherText, handleOptionChange, handleOtherTextChange } = useQuestionCheckboxes({
     localStorageKey: "Question_6_1",
     localStorageOtherKey: "Question_6_1_other",
@@ -27,10 +27,12 @@ export default function Question_Six_One({ questions, onAnswerChange }: Question
   if (!question) {
     return <div>Вопрос не найден</div>;
   }
-  
+
   const handleChange = (option: string) => {
-    handleOptionChange(option); 
-    onAnswerChange(question.id, option); 
+    handleOptionChange(option);
+    const updatedAnswers = selectedOptions.includes(option)
+      ? selectedOptions.filter((item) => item !== option) 
+      : [...selectedOptions, option]; 
   };
 
   return (
@@ -48,19 +50,34 @@ export default function Question_Six_One({ questions, onAnswerChange }: Question
                 type="checkbox"
                 className="h-5 w-5 RadioSize text-blue-600 focus:ring-0 border-2 border-gray-300 rounded-full transition-all duration-300 ease-in-out transform hover:scale-110 checked:bg-blue-600 checked:border-transparent"
                 onChange={() => handleChange(option.text)}
-                checked={selectedOptions.includes(option.text)} // Проверяем, выбрана ли опция
+                checked={selectedOptions.includes(option.text)} 
               />
               <label htmlFor={`optionSixOne-${option.id}`} className="ml-3 block text-gray-700">
                 {option.text}
               </label>
             </div>
           ))}
+
+          {/* Опция "Другое" */}
+          <div className="flex items-center mb-2 mt-4">
+            <input
+              id="optionSixOne-other"
+              name="question_6_1"
+              type="checkbox"
+              className="h-5 w-5 RadioSize text-blue-600 focus:ring-0 border-2 border-gray-300 rounded-full transition-all duration-300 ease-in-out transform hover:scale-110 checked:bg-blue-600 checked:border-transparent"
+              onChange={() => handleChange("Другое:")}
+              checked={selectedOptions.includes("Другое:")}
+            />
+            <label htmlFor="optionSixOne-other" className="ml-3 block text-gray-700">
+              Другое:
+            </label>
+          </div>
         </div>
       </div>
 
-      {/* Показываем поле ввода для текста, если выбрано "Другое" */}
+      {/* Поле ввода для текста, если выбрано "Другое" */}
       {selectedOptions.includes("Другое:") && (
-        <div className=" InputAnotherSize mt-4 transition-all duration-300">
+        <div className="InputAnotherSize mt-4 transition-all duration-300">
           <input
             type="text"
             value={otherText}

@@ -21,7 +21,6 @@ export default function Question_Eleven({ questions }: Question_Eleven_Props) {
     localStorageKey: "Question_11",
   });
 
-  // Находим вопрос с id 7
   const question = questions.find((q) => q.id === 12);
 
   if (!question) {
@@ -41,7 +40,7 @@ export default function Question_Eleven({ questions }: Question_Eleven_Props) {
                 type="radio"
                 className="h-5 w-5 RadioSize InputAnotherSizeBlankTwo text-blue-600 focus:ring-0 border-2 border-gray-300 rounded-full transition-all duration-300 ease-in-out transform hover:scale-110"
                 onChange={() => handleOptionChange(option.text)}
-                checked={selectedOption === option.text} // Проверка, активен ли этот вариант
+                checked={selectedOption === option.text} 
               />
               <label htmlFor={`optionSeven-${i}`} className="ml-3 block text-gray-700">
                 {option.text}

@@ -4,14 +4,11 @@ import { useSubmitSurvey } from "@/app/components/Hooks/useSubmitSurvey";
 const FooterActions = () => {
   const { step, error, handleNext, handleBack, handleClearForm } = useValidate();
   const { handleSubmit, loading, error: submitError } = useSubmitSurvey();
-
   const progressPercentage = Math.min(((step + 1) / 3) * 100, 100);
 
-  const answers = {}; // Замените на реальный объект с ответами
-
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (step === 2) {
-      handleSubmit(answers);
+      await handleSubmit(); 
     } else {
       handleNext();
     }
@@ -35,7 +32,6 @@ const FooterActions = () => {
         } ${step === 2 ? "footerGapBlankThree" : ""}`}
       >
         <div className="flex gap-4">
-          {/* Кнопка "Назад" */}
           <button
             onClick={handleBack}
             className={`text-black p-3 rounded-md bg-white shadow-md w-full max-w-[6rem] ${
@@ -47,7 +43,6 @@ const FooterActions = () => {
             Назад
           </button>
 
-          {/* Кнопка "Далее/Отправить" */}
           <button
             onClick={onSubmit}
             disabled={loading}
@@ -59,7 +54,6 @@ const FooterActions = () => {
           </button>
         </div>
 
-        {/* Прогресс бар */}
         <div
           className={`${
             step === 1 ? "progressBarWidthBlankTwo" : "progressBarWidth"
@@ -79,7 +73,6 @@ const FooterActions = () => {
           </p>
         </div>
 
-        {/* Кнопка "Очистить форму" */}
         <button
           onClick={handleClearForm}
           className={`text-black p-2 rounded-md bg-white shadow-md w-full max-w-[10rem] ${

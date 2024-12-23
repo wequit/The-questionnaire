@@ -7,32 +7,28 @@ import { usePathname } from "next/navigation";
 
 export const useValidate = () => {
     const router = useRouter();
-    const pathname = usePathname(); // Get the current pathname
+    const pathname = usePathname(); 
 
-// Шаги: инициализация из localStorage
-const [step, setStep] = useState<number>(0);
-const [error, setError] = useState<boolean>(false);
+  const [step, setStep] = useState<number>(0);
+  const [error, setError] = useState<boolean>(false);
 
 useEffect(() => {
-  // Считываем шаг из localStorage при инициализации
   const savedStep = localStorage.getItem("currentStep");
   if (savedStep) {
     setStep(Number(savedStep));
   }
   
-  // Проверяем текущий маршрут и сбрасываем шаг на 0 для BlankOne
   if (pathname === "/pages/BlankOne") {
     setStep(0);
     localStorage.setItem("currentStep", "0");
   }
-}, [pathname]); // Отслеживаем изменение маршрута
+}, [pathname]); 
 
 const updateStep = (newStep: number) => {
   setStep(newStep);
   localStorage.setItem("currentStep", newStep.toString());
 };
 
-// Подключаем валидацию для вопросов
 const { validateStep: validateQuestion1 } = useQuestionStorage({
   localStorageKey: "Question_1",
 });
@@ -130,9 +126,8 @@ const handleNext = () => {
   }
 };
 
-// Функция для перехода на предыдущий шаг
 const handleBack = () => {
-  setError(false); // Сбрасываем ошибку
+  setError(false); 
   if (step === 1) {
     updateStep(0);
     router.push("/pages/BlankOne");

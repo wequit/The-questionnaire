@@ -14,15 +14,13 @@ interface Question {
 
 interface Question_Six_Props {
   questions: Question[];
-  onAnswerChange: (questionId: number, answer: string) => void;
 }
 
-export default function Question_Six({ questions, onAnswerChange }: Question_Six_Props) {
+export default function Question_Six({ questions }: Question_Six_Props) {
   const { selectedOption, handleOptionChange} = useQuestionStorage({
     localStorageKey: "Question_6",
   });   
 
-  // Находим вопрос с id 6
   const question = questions.find((q) => q.id === 6);
 
   if (!question) {
@@ -31,7 +29,6 @@ export default function Question_Six({ questions, onAnswerChange }: Question_Six
 
   const handleChange = (option: string) => {
     handleOptionChange(option); 
-    onAnswerChange(question.id, option); 
   };
 
   return (

@@ -1,6 +1,6 @@
 import { useQuestionStorage } from "@/app/components/Hooks/useQuestionStorage";
 
-// Интерфейс для вопроса и его опций
+
 interface Option {
   id: number;
   text: string;
@@ -15,10 +15,9 @@ interface Question {
 
 interface Question_Two_Three_Props {
   questions: Question[];
-  onAnswerChange: (questionId: number, answer: string) => void;
 }
 
-export default function Question_Two_Three({ questions, onAnswerChange }: Question_Two_Three_Props) {
+export default function Question_Two_Three({ questions }: Question_Two_Three_Props) {
     const { handleOptionChange: handleGenderChange, selectedOption: selectedGender  } = useQuestionStorage({
       localStorageKey: "Question_2",
     });
@@ -28,27 +27,23 @@ export default function Question_Two_Three({ questions, onAnswerChange }: Questi
     
    
 
-  // Проверяем, что вопросы были загружены
   if (!questions || questions.length === 0) {
     return <div>Loading...</div>;
   }
 
-  const genderQuestion = questions[1]; // Второй вопрос (Жыныс)
-  const ageQuestion = questions[2];    // Третий вопрос (Возраст)
+  const genderQuestion = questions[1]; 
+  const ageQuestion = questions[2];    
 
-  // Проверка на наличие вопросов для половых и возрастных данных
   if (!genderQuestion || !ageQuestion) {
     return <div>Questions are not available.</div>;
   }
 
   const handleChangeGender = (option: string) => {
     handleGenderChange(option)
-    onAnswerChange(genderQuestion.id, option); 
   };
 
   const handleChangeAge = (option: string) => {
     handleAgeChange(option)
-    onAnswerChange(ageQuestion.id, option); 
   };
 
   return (

@@ -14,10 +14,9 @@ interface Question {
 
 interface Question_One_Props {
   questions: Question[];
-  onAnswerChange: (questionId: number, answer: string) => void; // Передаем в родительский компонент
 }
 
-export default function Question_One({ questions, onAnswerChange }: Question_One_Props) {
+export default function Question_One({ questions }: Question_One_Props) {
   const { selectedOption, handleOptionChange } = useQuestionStorage({
     localStorageKey: "Question_1",
   });
@@ -29,10 +28,11 @@ export default function Question_One({ questions, onAnswerChange }: Question_One
   }
 
   const handleChange = (option: string) => {
-    handleOptionChange(option); 
-    onAnswerChange(question.id, option); 
+    console.log("Selected option:", option); 
+    handleOptionChange(option);
   };
-
+  
+  
   return (
     <section className="p-6 P-420">
       <h2 className="text-lg font-bold text-gray-900 mb-4">{question.text}</h2>
@@ -44,7 +44,7 @@ export default function Question_One({ questions, onAnswerChange }: Question_One
               name="Question_One"
               type="radio"
               className="h-5 w-5 text-blue-600"
-              onChange={() => handleChange(option.text)} // Вызываем handleChange
+              onChange={() => handleChange(option.text)} 
               checked={selectedOption === option.text}
             />
             <label htmlFor={option.id.toString()} className="ml-3">

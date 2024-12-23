@@ -14,15 +14,13 @@ interface Question {
 
 interface Question_Four_Props {
   questions: Question[];
-  onAnswerChange: (questionId: number, answer: string) => void;
 }
 
-export default function Question_Four({ questions, onAnswerChange }: Question_Four_Props) {
+export default function Question_Four({ questions }: Question_Four_Props) {
   const { selectedOption, handleOptionChange } = useQuestionStorage({
     localStorageKey: "Question_4",
   });
 
-  // Извлекаем нужный вопрос из массива вопросов
   const question = questions.find((q) => q.id === 4);
 
   if (!question) {
@@ -31,7 +29,6 @@ export default function Question_Four({ questions, onAnswerChange }: Question_Fo
 
   const handleChange = (option: string) => {
     handleOptionChange(option); 
-    onAnswerChange(question.id, option); 
   };
   
   return (
@@ -49,11 +46,11 @@ export default function Question_Four({ questions, onAnswerChange }: Question_Fo
               ) : (
                 <div className="flex items-center">
                   <input
-                    id={`option-${option.id}`} // Уникальный id для каждой радиокнопки
+                    id={`option-${option.id}`} 
                     name="Question_4"
                     type="radio"
                     className="h-5 w-5 RadioSize text-blue-600 focus:ring-0 border-2 border-gray-300 rounded-full transition-all duration-300 ease-in-out hover:scale-110"
-                    onChange={() => handleChange(option.text)} // Передаем текст опции
+                    onChange={() => handleChange(option.text)} 
                     checked={selectedOption === option.text}
                   />
                   <label htmlFor={`option-${option.id}`} className="ml-3 block text-gray-700">

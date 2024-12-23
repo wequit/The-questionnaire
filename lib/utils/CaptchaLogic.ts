@@ -1,4 +1,3 @@
-// src/utils/CaptchaLogic.ts
 
 export const fetchCaptcha = async (): Promise<{ imageUrl: string, captchaKey: string | null }> => {
     try {
@@ -7,7 +6,7 @@ export const fetchCaptcha = async (): Promise<{ imageUrl: string, captchaKey: st
   
       const imageBlob = await response.blob();
       const imageUrl = URL.createObjectURL(imageBlob);
-      const captchaKey = response.headers.get('Captcha-Key'); // Если сервер присылает ключ, возьмем его
+      const captchaKey = response.headers.get('Captcha-Key'); 
   
       return { imageUrl, captchaKey };
     } catch (error) {

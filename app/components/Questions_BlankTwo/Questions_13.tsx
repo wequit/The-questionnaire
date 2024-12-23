@@ -21,7 +21,6 @@ export default function Question_Thirteen({ questions }: Question_Thirteen_Props
     localStorageKey: "Question_13",
   });
 
-  // Извлекаем нужный вопрос из массива вопросов
   const question = questions.find((q) => q.id === 15);
 
   if (!question) {
@@ -43,11 +42,11 @@ export default function Question_Thirteen({ questions }: Question_Thirteen_Props
               ) : (
                 <div className="flex items-center">
                   <input
-                    id={`option-${option.id}`} // Уникальный id для каждой радиокнопки
+                    id={`option-${option.id}`} 
                     name="Question_13"
                     type="radio"
                     className="h-5 w-5 RadioSize InputAnotherSizeBlankTwo text-blue-600 focus:ring-0 border-2 border-gray-300 rounded-full transition-all duration-300 ease-in-out hover:scale-110"
-                    onChange={() => handleOptionChange(option.text)} // Передаем текст опции
+                    onChange={() => handleOptionChange(option.text)} 
                     checked={selectedOption === option.text}
                   />
                   <label htmlFor={`option-${option.id}`} className="ml-3 block text-gray-700">

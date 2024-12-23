@@ -14,10 +14,9 @@ interface Question {
 
 interface Question_Five_Props {
   questions: Question[];
-  onAnswerChange: (questionId: number, answer: string) => void;
 }
 
-export default function Question_Five({ questions, onAnswerChange }: Question_Five_Props) {
+export default function Question_Five({ questions}: Question_Five_Props) {
   const { selectedOption, handleOptionChange } = useQuestionStorage({
     localStorageKey: "Question_5",
   });
@@ -31,7 +30,6 @@ export default function Question_Five({ questions, onAnswerChange }: Question_Fi
 
   const handleChange = (option: string) => {
     handleOptionChange(option); 
-    onAnswerChange(question.id, option); 
   };
 
   return (

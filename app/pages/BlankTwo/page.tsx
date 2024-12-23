@@ -30,9 +30,8 @@ interface Survey {
 export default function BlankTwo() {
   const [questions, setQuestions] = useState<Question[]>([]);
 
-  // Функция для обновления состояния вопросов
   const handleFetchSurvey = (survey: Survey) => {
-    setQuestions(survey.questions); // Извлекаем вопросы из Survey
+    setQuestions(survey.questions); 
   };
   const components = [
     <Question_Nine key={9} questions={questions} />,

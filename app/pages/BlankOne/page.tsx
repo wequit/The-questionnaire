@@ -30,32 +30,22 @@ interface Survey {
 }
 
 export default function BlankOne() {
-  const [questions, setQuestions] = useState<Question[]>([]); // Вопросы
-  const [answers, setAnswers] = useState<Record<number, string>>({}); // Ответы на вопросы
+  const [questions, setQuestions] = useState<Question[]>([]); 
 
   const handleFetchSurvey = (survey: Survey) => {
-    setQuestions(survey.questions); // Извлекаем вопросы из Survey
-  };
-
-  const handleAnswerChange = (questionId: number, answer: string) => {
-    setAnswers((prevAnswers) => ({
-      ...prevAnswers,
-      [questionId]: answer,
-    }));
+    setQuestions(survey.questions);
   };
 
   const components = [
-    <Question_One key={1} questions={questions} onAnswerChange={handleAnswerChange} />,
-    <Question_Two_Three key={2} questions={questions} onAnswerChange={handleAnswerChange} />,
-    <Question_Four key={3} questions={questions} onAnswerChange={handleAnswerChange} />,
-    <Question_Five key={4} questions={questions} onAnswerChange={handleAnswerChange} />,
-    <Question_Six key={5} questions={questions} onAnswerChange={handleAnswerChange} />,
-    <Question_Six_One key={6} questions={questions} onAnswerChange={handleAnswerChange} />,
-    <Question_Seven key={7} questions={questions} onAnswerChange={handleAnswerChange} />,
-    <Question_Eight key={8} questions={questions} onAnswerChange={handleAnswerChange} />,
-  ];
-
-  
+    <Question_One key={1} questions={questions}  />,
+    <Question_Two_Three key={2} questions={questions}  />,
+    <Question_Four key={3} questions={questions}  />,
+    <Question_Five key={4} questions={questions}  />,
+    <Question_Six key={5} questions={questions}  />,
+    <Question_Six_One key={6} questions={questions}  />,
+    <Question_Seven key={7} questions={questions}  />,
+    <Question_Eight key={8} questions={questions}  />,
+  ];  
 
   return (
     <div>

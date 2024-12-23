@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useLanguage } from "@/lib/utils/LanguageContext"; // Используем контекст
+import { useLanguage } from "@/lib/utils/LanguageContext"; 
 
-// Определение типов для Survey, Question и Option
 interface Option {
   id: number;
   text: string;
@@ -30,7 +29,7 @@ export default function QuestionsFetcher({ onFetch }: QuestionsFetcherProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const { language } = useLanguage(); // Получаем язык из контекста
+  const { language } = useLanguage(); 
 
   useEffect(() => {
     const fetchSurvey = async () => {
@@ -44,7 +43,6 @@ export default function QuestionsFetcher({ onFetch }: QuestionsFetcherProps) {
 
         const data = await response.json();
 
-        // Формируем объект Survey с учетом языка
         const survey: Survey = {
           title: language === "ru" ? data.title_ru : data.title_kg,
           description: language === "ru" ? data.description_ru : data.description_kg,
@@ -59,7 +57,7 @@ export default function QuestionsFetcher({ onFetch }: QuestionsFetcherProps) {
           })),
         };
 
-        onFetch(survey);  // Передаем данные о заголовке и описании
+        onFetch(survey); 
       } catch (error) {
         setError("Ошибка загрузки данных опроса");
         console.error("Fetch Error:", error);
@@ -69,7 +67,7 @@ export default function QuestionsFetcher({ onFetch }: QuestionsFetcherProps) {
     };
 
     fetchSurvey();
-  }, [language]); // Перезагрузка данных при смене языка
+  }, [language]); 
 
   if (loading) return <div>Загрузка...</div>;
   if (error) return <div>{error}</div>;

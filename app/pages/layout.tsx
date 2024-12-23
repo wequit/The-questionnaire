@@ -1,11 +1,12 @@
 "use client";
 
 import './main.css';
-import { LanguageProvider } from "@/lib/utils/LanguageContext"; // Импортируем LanguageProvider
+import { LanguageProvider } from "@/lib/utils/LanguageContext"; 
 import QuestionsFetcher from "@/lib/api/QuestionsFetcher";
 import Introduction from "./Header-Introtuction/Header_Introduction";
 import FooterActions from "./FooterActions/FooterActions";
 import { useState } from 'react';
+import { AnswerProvider } from '@/lib/utils/AnswerContext';
 
 interface Survey {
   title: string;
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="kg">
       <body>
+        <AnswerProvider>
         <LanguageProvider>
           <QuestionsFetcher onFetch={handleFetchSurvey} />
           <div className="bg-gray-100 bg-gradient-to-b from-slate-300 to-slate-300">
@@ -45,6 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </footer>
           </div>
         </LanguageProvider>
+        </AnswerProvider>
       </body>
     </html>
   );
