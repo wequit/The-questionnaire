@@ -1,4 +1,3 @@
-"use client";
 import { useEffect, useState } from "react";
 
 interface UseQuestionStorageProps {
@@ -11,8 +10,8 @@ export const useQuestionStorage = ({ localStorageKey }: UseQuestionStorageProps)
   const [otherText, setOtherText] = useState<string>(""); 
 
   useEffect(() => {
-    
-    const savedOption = localStorage.getItem(localStorageKey);
+    // Вместо использования фиксированного ключа, используем localStorageKey
+    const savedOption = localStorage.getItem(localStorageKey);  
     const savedOtherText = localStorage.getItem(`${localStorageKey}_other`); 
     
     if (savedOption) {
@@ -23,17 +22,18 @@ export const useQuestionStorage = ({ localStorageKey }: UseQuestionStorageProps)
     }
   }, [localStorageKey]); 
 
-  const handleOptionChange = (option: string) => {
-    setSelectedOption(option); 
-    localStorage.setItem(localStorageKey, option); 
-
-    if (option !== "Другое:") {
-      localStorage.removeItem(`${localStorageKey}_other`);
-      setOtherText(""); 
+  const handleOptionChange = (questionId: number, optionId: string) => {
+    setSelectedOption(optionId); // Сохраняем ID как строку
+    localStorage.setItem(`${questionId}`, optionId); // Сохраняем ID вместо текста
+  
+    if (optionId !== "Другое:") {
+      localStorage.removeItem(`${questionId}_other`);
+      setOtherText("");
     }
-
-    setIsSubmitted(false); 
+  
+    setIsSubmitted(false);
   };
+  
 
   const handleOtherTextChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const value = e.target.value;
@@ -42,16 +42,15 @@ export const useQuestionStorage = ({ localStorageKey }: UseQuestionStorageProps)
     if (selectedOption === "Другое:") {
       localStorage.setItem(`${localStorageKey}_other`, value); 
     }
-      localStorage.setItem(`${localStorageKey}_other`, value)
   };  
 
   const validateStep = () => {
     const storedOption = localStorage.getItem(localStorageKey);
-    if (!storedOption) {
-      setIsSubmitted(true); 
+    if (!storedOption || (storedOption === "Другое:" && !localStorage.getItem(`${localStorageKey}_other`))) {
+      setIsSubmitted(true);
       return false;
     }
-    setIsSubmitted(false); 
+    setIsSubmitted(false);
     return true;
   };
 

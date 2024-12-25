@@ -1,9 +1,8 @@
-
-export const fetchCaptcha = async (): Promise<{ imageUrl: string, captchaKey: string | null }> => {
+  export const fetchCaptcha = async (): Promise<{ imageUrl: string, captchaKey: string | null }> => {
     try {
       const response = await fetch('http://127.0.0.1:8000/api/captcha/');
       if (!response.ok) throw new Error('Ошибка при получении капчи');
-  
+
       const imageBlob = await response.blob();
       const imageUrl = URL.createObjectURL(imageBlob);
       const captchaKey = response.headers.get('Captcha-Key'); 
@@ -13,7 +12,7 @@ export const fetchCaptcha = async (): Promise<{ imageUrl: string, captchaKey: st
       throw new Error('Ошибка при связи с сервером');
     }
   };
-  
+
   export const verifyCaptcha = async (captchaKey: string, userInput: string): Promise<boolean> => {
     try {
       const response = await fetch('http://127.0.0.1:8000/api/verify-captcha/', {
@@ -34,4 +33,3 @@ export const fetchCaptcha = async (): Promise<{ imageUrl: string, captchaKey: st
       throw new Error('Ошибка при проверке капчи');
     }
   };
-  

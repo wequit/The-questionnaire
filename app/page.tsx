@@ -3,8 +3,10 @@ import { useState } from "react";
 import QuestionsFetcher from "@/lib/api/QuestionsFetcher";
 import Question_One from "@/app/components/Questions_BlankOne/Question_1";
 import "@/lib/utils/responsive.css";
+import Question_Two from "@/app/components/Questions_BlankOne/Question_2";
 import Question_Two_Three from "@/app/components/Questions_BlankOne/Question_3";
 import Question_Four from "@/app/components/Questions_BlankOne/Question_4";
+import Question_Five from "./components/Questions_BlankOne/Question_5";
 // import Question_Five from "@/app/components/Questions_BlankOne/Question_5";
 // import Question_Six from "@/app/components/Questions_BlankOne/Question_6";
 // import Question_Six_One from "@/app/components/Questions_BlankOne/Question_6.1";
@@ -38,9 +40,10 @@ export default function BlankOne() {
 
   const components = [
     <Question_One key={1} questions={questions}  />,
-    <Question_Two_Three key={2} questions={questions}  />,
-    <Question_Four key={3} questions={questions}  />,
-    // <Question_Five key={4} questions={questions}  />,
+    <Question_Two key={2} questions={questions}/>,
+    <Question_Two_Three key={3} questions={questions}  />,
+    <Question_Four key={4} questions={questions}  />,
+    <Question_Five key={5} questions={questions}  />,
     // <Question_Six key={5} questions={questions}  />,
     // <Question_Six_One key={6} questions={questions}  />,
     // <Question_Seven key={7} questions={questions}  />,

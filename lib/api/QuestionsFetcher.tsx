@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useLanguage } from "@/lib/utils/LanguageContext"; 
+import { useLanguage } from "@/lib/utils/LanguageContext";
 
 interface Option {
   id: number;
@@ -29,23 +29,30 @@ export default function QuestionsFetcher({ onFetch }: QuestionsFetcherProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const { language } = useLanguage(); 
-
+  const { language } = useLanguage();
   useEffect(() => {
     const fetchSurvey = async () => {
       try {
         const response = await fetch(
-          "https://opros.pythonanywhere.com/api/v1/surveys/2/"
+          "https://opros.pythonanywhere.com/api/v1/surveys/1/",
+          {
+            method: "GET",
+            headers: {
+              "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM1MTUwMTM4LCJpYXQiOjE3MzUxNDY1MzgsImp0aSI6ImI3NDZmYTNlODZmYjQ5YmJhMDc2ZjUzZWEzNTZlYjJjIiwidXNlcl9pZCI6Mn0.zk9tA5IZ1yZ9K-7ooLhgL9ND1hUoKeAFdG8TMobFU38",
+              "Content-Type": "application/json",
+            },
+          }
         );
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-
+  
         const data = await response.json();
-
+  
         const survey: Survey = {
           title: language === "ru" ? data.title_ru : data.title_kg,
-          description: language === "ru" ? data.description_ru : data.description_kg,
+          description:
+            language === "ru" ? data.description_ru : data.description_kg,
           questions: data.questions.map((q: any) => ({
             id: q.id,
             text: language === "ru" ? q.text_ru : q.text_kg,
@@ -56,8 +63,8 @@ export default function QuestionsFetcher({ onFetch }: QuestionsFetcherProps) {
             })),
           })),
         };
-
-        onFetch(survey); 
+  
+        onFetch(survey);
       } catch (error) {
         setError("Ошибка загрузки данных опроса");
         console.error("Fetch Error:", error);
@@ -65,9 +72,10 @@ export default function QuestionsFetcher({ onFetch }: QuestionsFetcherProps) {
         setLoading(false);
       }
     };
-
+  
     fetchSurvey();
-  }, [language]); 
+  }, [language]);
+  
 
   if (loading) return <div>Загрузка...</div>;
   if (error) return <div>{error}</div>;

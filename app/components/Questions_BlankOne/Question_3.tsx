@@ -12,12 +12,12 @@ interface Question {
   options: Option[];
 }
 
-interface Question_One_Props {
+interface Question_Three_Props {
   questions: Question[];
 }
 
-export default function Question_One({ questions }: Question_One_Props) {
-  const question = questions.find((q) => q.id === 1); // Предположим, что это первый вопрос
+export default function Question_Three({ questions }: Question_Three_Props) {
+  const question = questions.find((q) => q.id === 3); // Предположим, что это первый вопрос
  
   const { selectedOption, handleOptionChange } = useQuestionStorage({
     localStorageKey: `${question?.id}`, // Используем id вопроса как ключ
@@ -39,7 +39,7 @@ export default function Question_One({ questions }: Question_One_Props) {
           <div key={option.id} className="flex items-center mb-2">
             <input
              id={`option-${option.id}`}
-              name="Question_One"
+              name="Question_Three"
               type="radio"
               className="h-5 w-5 text-blue-600"
               onChange={() =>  handleChange(question.id, option.id)}

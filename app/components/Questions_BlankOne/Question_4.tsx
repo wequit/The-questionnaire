@@ -17,18 +17,17 @@ interface Question_Four_Props {
 }
 
 export default function Question_Four({ questions }: Question_Four_Props) {
-  const { selectedOption, handleOptionChange } = useQuestionStorage({
-    localStorageKey: "Question_4",
-  });
-
   const question = questions.find((q) => q.id === 4);
+  const { selectedOption, handleOptionChange } = useQuestionStorage({
+    localStorageKey: `${question?.id}`, 
+  });
 
   if (!question) {
     return <div>Вопрос не найден</div>;
   }
 
-  const handleChange = (option: string) => {
-    handleOptionChange(option); 
+  const handleChange = (questionId: number, optionId: number ) => {
+    handleOptionChange(questionId, optionId.toString());  
   };
   
   return (
@@ -46,12 +45,12 @@ export default function Question_Four({ questions }: Question_Four_Props) {
               ) : (
                 <div className="flex items-center">
                   <input
-                    id={`option-${option.id}`} 
-                    name="Question_4"
+                    id={option.id.toString()} 
+                    name="QuestionFour"
                     type="radio"
                     className="h-5 w-5 RadioSize text-blue-600 focus:ring-0 border-2 border-gray-300 rounded-full transition-all duration-300 ease-in-out hover:scale-110"
-                    onChange={() => handleChange(option.text)} 
-                    checked={selectedOption === option.text}
+                    onChange={() =>  handleChange(question.id, option.id)} 
+                    checked={selectedOption === option.id.toString()}
                   />
                   <label htmlFor={`option-${option.id}`} className="ml-3 block text-gray-700">
                     {option.text} {/* отображаем текст из option */}
