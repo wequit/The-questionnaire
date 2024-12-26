@@ -3,6 +3,7 @@ import Flag from "react-world-flags";
 import Image from "next/image";
 import logo from "@/public/Logo.png";
 import { useLanguage } from "@/lib/utils/LanguageContext";
+import { useAnswerContext } from "@/lib/utils/AnswerContext";
 
 interface IntroductionProps {
   title: string;
@@ -17,7 +18,7 @@ export default function Introduction({
     return <div>Загрузка введения...</div>;
   }
   const { language, toggleLanguage } = useLanguage();
-
+  const { courtName } = useAnswerContext();
   return (
     <div className="p-6">
       {/* Логотип */}
@@ -33,9 +34,10 @@ export default function Introduction({
 
       {/* Заголовок */}
       <div className="text-center">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6 textSizeTitle">
-          {title}
-        </h1>
+        <h3 className="text-3xl font-bold text-gray-900 mb-6 textSizeTitle">
+        {`${title} ${courtName}`} 
+        </h3>
+        
       </div>
 
       {/* Описание */}

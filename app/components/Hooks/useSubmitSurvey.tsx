@@ -11,29 +11,26 @@ export const useSubmitSurvey = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Функция для получения ответов из localStorage
   const getAnswersFromLocalStorage = (): QuestionResponse[] => {
     const responses: QuestionResponse[] = [];
   
     Object.keys(localStorage).forEach((key) => {
-      // Проверяем, является ли ключ числом (ID вопроса)
       if (!isNaN(Number(key))) {
-        const questionId = parseInt(key, 10); // Преобразуем ключ в число
+        const questionId = parseInt(key, 10); 
         const storedOption = localStorage.getItem(key);
   
         if (storedOption) {
           responses.push({
             question: questionId,
-            selected_option: parseInt(storedOption, 10), // Преобразуем значение в число
+            selected_option: parseInt(storedOption, 10), 
           });
         }
       }
     });
   
-    return responses; // Возвращаем все собранные ответы
+    return responses; 
   };
 
-  // Функция для отправки данных анкеты
   const handleSubmit = async () => {
     setLoading(true);
     setError(null);
@@ -42,11 +39,9 @@ export const useSubmitSurvey = () => {
       const responses = getAnswersFromLocalStorage();
       console.log("Ответы из localStorage:", responses);
   
-      // Список обязательных вопросов
       const requiredQuestionIds = [1, 2, 3, 4];
       const answeredQuestionIds = responses.map(response => response.question);
   
-      // Проверяем, есть ли неотвеченные обязательные вопросы
       const unansweredRequiredQuestions = requiredQuestionIds.filter(
         id => !answeredQuestionIds.includes(id)
       );
@@ -56,7 +51,6 @@ export const useSubmitSurvey = () => {
         return;
       }
   
-      // Обновляем статус фингерпринта на "completed"
       updateFingerprintStatus("completed");
   
       const payload = {
@@ -66,7 +60,6 @@ export const useSubmitSurvey = () => {
   
       console.log("Отправляемый payload:", payload);
   
-      // Отправляем данные на сервер
       const response = await fetch(
         "https://opros.pythonanywhere.com/api/v1/surveys/1/responses/",
         {

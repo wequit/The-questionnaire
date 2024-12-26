@@ -17,10 +17,10 @@ interface Question_One_Props {
 }
 
 export default function Question_One({ questions }: Question_One_Props) {
-  const question = questions.find((q) => q.id === 1); // Предположим, что это первый вопрос
+  const question = questions.find((q) => q.id === 1); 
  
   const { selectedOption, handleOptionChange } = useQuestionStorage({
-    localStorageKey: `${question?.id}`, // Используем id вопроса как ключ
+    localStorageKey: `${question?.id}`, 
   });
 
   if (!question) {
@@ -28,7 +28,7 @@ export default function Question_One({ questions }: Question_One_Props) {
   }
 
   const handleChange = (questionId: number, optionId: number) => {
-    handleOptionChange(questionId, optionId.toString()); // Передаем ID вопроса и ответа
+    handleOptionChange(questionId, optionId.toString()); 
   };
   
   return (

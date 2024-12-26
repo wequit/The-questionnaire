@@ -10,7 +10,6 @@ export const useQuestionStorage = ({ localStorageKey }: UseQuestionStorageProps)
   const [otherText, setOtherText] = useState<string>(""); 
 
   useEffect(() => {
-    // Вместо использования фиксированного ключа, используем localStorageKey
     const savedOption = localStorage.getItem(localStorageKey);  
     const savedOtherText = localStorage.getItem(`${localStorageKey}_other`); 
     
@@ -23,8 +22,8 @@ export const useQuestionStorage = ({ localStorageKey }: UseQuestionStorageProps)
   }, [localStorageKey]); 
 
   const handleOptionChange = (questionId: number, optionId: string) => {
-    setSelectedOption(optionId); // Сохраняем ID как строку
-    localStorage.setItem(`${questionId}`, optionId); // Сохраняем ID вместо текста
+    setSelectedOption(optionId); 
+    localStorage.setItem(`${questionId}`, optionId); 
   
     if (optionId !== "Другое:") {
       localStorage.removeItem(`${questionId}_other`);

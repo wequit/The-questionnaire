@@ -38,7 +38,7 @@ export default function QuestionsFetcher({ onFetch }: QuestionsFetcherProps) {
           {
             method: "GET",
             headers: {
-              "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM1MTUwMTM4LCJpYXQiOjE3MzUxNDY1MzgsImp0aSI6ImI3NDZmYTNlODZmYjQ5YmJhMDc2ZjUzZWEzNTZlYjJjIiwidXNlcl9pZCI6Mn0.zk9tA5IZ1yZ9K-7ooLhgL9ND1hUoKeAFdG8TMobFU38",
+              "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM1MTk0MTUyLCJpYXQiOjE3MzUxOTA1NTIsImp0aSI6IjY2OTAwY2U2OTA4OTRiYTM5NjA4MjUwOWZiNTY2ODIyIiwidXNlcl9pZCI6Mn0.jPbKsJMJngeeZqW_bQikRbZXGtrTwfQ79UQc6KhAnjU",
               "Content-Type": "application/json",
             },
           }
