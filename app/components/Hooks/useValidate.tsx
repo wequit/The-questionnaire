@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuestionStorage } from "./useQuestionStorage";
 
 export const useValidate = () => {
@@ -18,72 +18,29 @@ export const useValidate = () => {
   const { validateStep: validateQuestion4 } = useQuestionStorage({
     localStorageKey: "4",
   });
-  // const { validateStep: validateQuestion5 } = useQuestionStorage({
-  //   localStorageKey: "Question_5",
-  // });
-  // const { validateStep: validateQuestion6 } = useQuestionStorage({
-  //   localStorageKey: "Question_6",
-  // });
-  // const { validateStep: validateQuestion6_1 } = useQuestionStorage({
-  //   localStorageKey: "Question_6_1",
-  // });
-  // const { validateStep: validateQuestion7 } = useQuestionStorage({
-  //   localStorageKey: "Question_7",
-  // });
-  // const { validateStep: validateQuestion8 } = useQuestionStorage({
-  //   localStorageKey: "Question_8",
-  // });
-  // const { validateStep: validateQuestion9 } = useQuestionStorage({
-  //   localStorageKey: "Question_9",
-  // });
-  // const { validateStep: validateQuestion10 } = useQuestionStorage({
-  //   localStorageKey: "Question_10",
-  // });
-  // const { validateStep: validateQuestion11 } = useQuestionStorage({
-  //   localStorageKey: "Question_11",
-  // });
-  // const { validateStep: validateQuestion12 } = useQuestionStorage({
-  //   localStorageKey: "Question_12",
-  // });
-  // const { validateStep: validateQuestion13 } = useQuestionStorage({
-  //   localStorageKey: "Question_13",
-  // });
-  // const { validateStep: validateQuestion14 } = useQuestionStorage({
-  //   localStorageKey: "Question_14",
-  // });
-  // const { validateStep: validateQuestion15 } = useQuestionStorage({
-  //   localStorageKey: "Question_15",
-  // });
+  const { validateStep: validateQuestion5 } = useQuestionStorage({
+    localStorageKey: "5",
+  });
 
   const handleNext = () => {
-    if (
-      validateQuestion1() &&
-      validateQuestion2() &&
-      validateQuestion3() &&
-      validateQuestion4() 
-      // validateQuestion5() &&
-      // validateQuestion6() &&
-      // validateQuestion6_1() &&
-      // validateQuestion7() &&
-      // validateQuestion8() &&
-      // validateQuestion9() &&
-      // validateQuestion10() &&
-      // validateQuestion11() &&
-      // validateQuestion12() &&
-      // validateQuestion13() &&
-      // validateQuestion14() &&
-      // validateQuestion15()
-    ) {
-      setError(false);
-    } else {
-      setError(true);
-    }
+    const isValid1 = validateQuestion1();
+    const isValid2 = validateQuestion2();
+    const isValid3 = validateQuestion3();
+    const isValid4 = validateQuestion4();
+    const isValid5 = validateQuestion5();
+
+    const allValid = isValid1 && isValid2 && isValid3 && isValid4 && isValid5;
+    setError(!allValid);
   };
 
   const handleClearForm = () => {
     localStorage.clear();
     window.location.reload();
   };
+
+  useEffect(() => {
+    handleNext();
+  }, [validateQuestion1, validateQuestion2, validateQuestion3, validateQuestion4, validateQuestion5]);
 
   return {
     error,

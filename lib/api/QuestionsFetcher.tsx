@@ -1,23 +1,28 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import { useLanguage } from "@/lib/utils/LanguageContext";
+'use client'
+import { useState, useEffect, useRef } from "react";
+import { fetchWithAuth } from "@/lib/api/auth"; 
 
 interface Option {
   id: number;
-  text: string;
+  text_ru: string;
+  text_kg: string;
 }
 
 interface Question {
   id: number;
-  text: string;
+  text_ru: string;
+  text_kg: string;
   is_required: boolean;
   options: Option[];
+  selected_option: number | null;
+  custom_answer?: string; 
 }
 
 interface Survey {
-  title: string;
-  description: string;
+  title_ru: string;
+  title_kg: string;
+  description_ru: string;
+  description_kg: string;
   questions: Question[];
 }
 
@@ -26,59 +31,58 @@ interface QuestionsFetcherProps {
 }
 
 export default function QuestionsFetcher({ onFetch }: QuestionsFetcherProps) {
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const hasFetched = useRef(false); 
 
-  const { language } = useLanguage();
   useEffect(() => {
     const fetchSurvey = async () => {
+      if (hasFetched.current) return; 
+      hasFetched.current = true; 
+
       try {
-        const response = await fetch(
-          "https://opros.pythonanywhere.com/api/v1/surveys/1/",
-          {
-            method: "GET",
-            headers: {
-              "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM1MTk0MTUyLCJpYXQiOjE3MzUxOTA1NTIsImp0aSI6IjY2OTAwY2U2OTA4OTRiYTM5NjA4MjUwOWZiNTY2ODIyIiwidXNlcl9pZCI6Mn0.jPbKsJMJngeeZqW_bQikRbZXGtrTwfQ79UQc6KhAnjU",
-              "Content-Type": "application/json",
-            },
-          }
+        const response = await fetchWithAuth(
+          "https://opros.pythonanywhere.com/api/v1/surveys/1/"
         );
+
         if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+          throw new Error("Ошибка загрузки данных опроса");
         }
-  
-        const data = await response.json();
-  
+
+        const data = await response.json(); 
+
         const survey: Survey = {
-          title: language === "ru" ? data.title_ru : data.title_kg,
-          description:
-            language === "ru" ? data.description_ru : data.description_kg,
+          title_ru: data.title_ru,
+          title_kg: data.title_kg,
+          description_ru: data.description_ru,
+          description_kg: data.description_kg,
           questions: data.questions.map((q: any) => ({
             id: q.id,
-            text: language === "ru" ? q.text_ru : q.text_kg,
+            text_ru: q.text_ru,
+            text_kg: q.text_kg,
             is_required: q.has_other_option || false,
             options: q.answer_options.map((option: any) => ({
               id: option.id,
-              text: language === "ru" ? option.text_ru : option.text_kg,
+              text_ru: option.text_ru,
+              text_kg: option.text_kg,
             })),
+            selected_option: null, 
+            custom_answer: null, 
           })),
         };
-  
-        onFetch(survey);
-      } catch (error) {
+
+        onFetch(survey); 
+      } catch (err) {
         setError("Ошибка загрузки данных опроса");
-        console.error("Fetch Error:", error);
-      } finally {
-        setLoading(false);
+        console.error("Error fetching survey:", err);
       }
     };
-  
-    fetchSurvey();
-  }, [language]);
-  
 
-  if (loading) return <div>Загрузка...</div>;
-  if (error) return <div>{error}</div>;
+    fetchSurvey(); 
+  }, []); 
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return null;
 }

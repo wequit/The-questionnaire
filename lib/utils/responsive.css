@@ -2,6 +2,10 @@
   @apply bg-white p-6 rounded-lg shadow-md w-full max-w-[46rem] mt-4;
 }
 
+.containerButtonFooter{
+  @apply rounded-lg  w-full max-w-[48rem] ;
+}
+
 .progressBarWidthBlankTwo {
   @apply w-[14rem];
 }
