@@ -4,7 +4,7 @@ import Image from "next/image";
 import logo from "@/public/Logo.png";
 import { useLanguage } from "@/lib/utils/LanguageContext";
 import { useAnswerContext } from "@/lib/utils/AnswerContext";
-import Completed from "../сompleted/page";
+import Completed from "../сompleted/Completed";
 import { getOrCreateFingerprint } from "@/lib/utils/fingerprint";
 
 interface IntroductionProps {

@@ -35,19 +35,28 @@ export default function Question_Five({ questions }: Question_Five_Props) {
     handleOptionChange(optionId.toString());
   };
 
-  // Функция для вычисления размеров
-  const getSize = (index: number, total: number) => {
+  const getSizeStyle = (index: number, total: number) => {
     const middle = Math.floor(total / 2);
     const distanceFromMiddle = Math.abs(index - middle);
-    const size = 8 + distanceFromMiddle * 12; // Увеличение размера (больше, чем раньше)
-    return size;
+
+    // Для центральной кнопки минимальный размер
+    const size = distanceFromMiddle === 0 ? 24 : 32 + distanceFromMiddle * 8;
+
+    return {
+      height: `${size}px`,
+      width: `${size}px`,
+    };
   };
 
-  const getBackgroundColor = (index: number, total: number, isSelected: boolean) => {
+  const getBackgroundColor = (
+    index: number,
+    total: number,
+    isSelected: boolean
+  ) => {
     const middle = Math.floor(total / 2);
-    if (index < middle) return isSelected ? "bg-red-600" : "bg-red-400";
-    if (index === middle) return isSelected ? "bg-gray-500" : "bg-gray-300";
-    return isSelected ? "bg-green-600" : "bg-green-400";
+    if (index < middle) return isSelected ? "bg-red-600" : "border-2 border-red-400 hover:bg-red-600 hover:border-red-500";
+    if (index === middle) return isSelected ? "bg-gray-500" : "border-2 border-gray-400 hover:bg-gray-500 hover:border-gray-500";
+    return isSelected ? "bg-green-600" : "border-2 border-green-400 hover:bg-green-600 hover:border-green-600";
   };
 
   const questionText = language === "ru" ? question.text_ru : question.text_kg;
@@ -57,22 +66,18 @@ export default function Question_Five({ questions }: Question_Five_Props) {
   return (
     <section className="p-6">
       <div className="mb-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">
-          {questionText}
-        </h2>
+        <h2 className="text-lg font-bold text-gray-900 mb-4">{questionText}</h2>
 
         <div className="flex items-center justify-between gap-4 text-gray-700 mt-8">
-          <span className="font-bold text-red-700">
+          <span className="text-xs text-center font-bold text-red-600 font-inter uppercase">
             {optionText(question.options[0])}
           </span>
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-10">
             {question.options
               .slice(1, question.options.length - 1) // Убираем первый и последний элементы
               .map((option: Option, index, filteredOptions) => {
                 const isSelected = selectedOption === option.id.toString();
-                const size = getSize(index, filteredOptions.length); // Получаем размер
-
                 return (
                   <label
                     key={option.id}
@@ -88,24 +93,18 @@ export default function Question_Five({ questions }: Question_Five_Props) {
                       checked={isSelected}
                     />
                     <div
-                      style={{
-                        height: `${size}px`,
-                        width: `${size}px`,
-                      }}
                       className={`${getBackgroundColor(
                         index,
                         filteredOptions.length,
                         isSelected
-                      )} border-2 border-transparent rounded-full flex items-center justify-center`}
+                      )} border-2 border-transparent rounded-full flex items-center justify-center transition-all duration-300 ease-in-out `}
+                      style={getSizeStyle(index, filteredOptions.length)} // Применяем динамические размеры
                     >
+                      {isSelected || (
+                        <IoIosCheckmark className="text-white w-6 h-6 opacity-0 hover:opacity-100 transition-opacity duration-300" />
+                      )}
                       {isSelected && (
-                        <IoIosCheckmark
-                          className="text-white"
-                          style={{
-                            width: `${size / 1.5}px`, // Увеличиваем галочку
-                            height: `${size / 1.5}px`, // Увеличиваем галочку
-                          }}
-                        />
+                        <IoIosCheckmark className="text-white w-6 h-6" />
                       )}
                     </div>
                   </label>
@@ -113,7 +112,7 @@ export default function Question_Five({ questions }: Question_Five_Props) {
               })}
           </div>
 
-          <span className="text-green-600 font-bold">
+          <span className="text-xs text-center font-bold text-green-600 font-inter uppercase">
             {optionText(question.options[question.options.length - 1])}
           </span>
         </div>

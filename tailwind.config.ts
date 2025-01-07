@@ -60,7 +60,11 @@ export default {
       fontFamily: {
         serif: ["Merriweather", "serif"],
         sans: ["Open Sans", "sans-serif"],
+		inter: ["Inter, sans-serif"]
       },
+	  safelist: [
+		'h-6', 'w-6', 'h-8', 'w-8', 'h-10', 'w-10',
+	  ],
     },
   },
   plugins: [require("tailwindcss-animate")],

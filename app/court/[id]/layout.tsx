@@ -3,6 +3,7 @@
 import './main.css';
 import "@fontsource/open-sans/700.css"
 import "@fontsource/merriweather"
+import "@fontsource/inter/"; 
 import { LanguageProvider } from "@/lib/utils/LanguageContext"; 
 import QuestionsFetcher from "@/lib/api/QuestionsFetcher";
 import Introduction from "../../pages/Header-Introtuction/Header_Introduction";
