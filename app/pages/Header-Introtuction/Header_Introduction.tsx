@@ -30,48 +30,56 @@ export default function Introduction({
   const description = language === "ru" ? description_ru : description_kg;
 
   return (
-    <div className="p-6">
-      <div className="flex items-center mb-4 flex-col">
-        <Image src={logo} alt="Logo" width={100} height={100} />
-        <h3 className="text-2xl text-center font-bold text-gray-900 ml-4 mt-4">
+    <div className="p-6 max-w-2xl mx-auto">
+      <div className="flex items-center mb-6 flex-col">
+        <Image
+          src={logo}
+          alt="Logo"
+          width={150}
+          height={100}
+          className="mb-4"
+        />
+        <h3 className="text-2xl text-center text-gray-900 my-4 font-sans uppercase">
           {`${title} ${courtName}`}
         </h3>
+        <hr className="border-t-2 border-gray-300 w-full mt-2" />
       </div>
+
       {hasCompletedSurvey ? (
         <Completed />
       ) : (
         <div>
           {/* Описание */}
-          <p className="text-base text-gray-700 mb-4 textSizeBody whitespace-pre-line ">
+          <p className="text-lg text-gray-800 mt-[3rem] leading-relaxed tracking-wide whitespace-pre-line">
             {description}
           </p>
 
           {/* Кнопка для переключения языка */}
           <button
             onClick={toggleLanguage}
-            className="mt-6 px-6 py-3 bg-sky-800 text-white rounded-md flex items-center space-x-3 transition-all duration-300 ease-in-out transform hover:bg-sky-900 "
+            className="mt-6 px-6 py-3 bg-gradient-to-r from-sky-600 to-sky-800 text-white font-medium text-base rounded-md shadow-lg flex items-center space-x-3  ease-in-out hover:from-sky-600 hover:to-sky-900 transition-transform duration-300 "
           >
             {language === "ru" ? (
               <>
-                <span className="text-sm">Сменить язык</span>
+                <span>Сменить язык</span>
                 <Flag
                   code="ru"
                   width={24}
                   height={24}
-                  className="transition-all transform hover:scale-110"
+                  className="transition-transform hover:scale-110"
                 />
-                <span className="ml-2 text-sm">Русский</span>
+                <span className="ml-2">Русский</span>
               </>
             ) : (
               <>
-                <span className="text-sm">Сменить язык</span>
+                <span>Тилди өзгөртүү</span>
                 <Flag
                   code="kg"
                   width={24}
                   height={24}
-                  className="transition-all transform hover:scale-110"
+                  className="transition-transform hover:scale-110"
                 />
-                <span className="ml-2 text-sm">Киргизский</span>
+                <span className="ml-2">Киргизский</span>
               </>
             )}
           </button>

@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { useQuestionStorage } from "@/app/components/Hooks/useQuestionStorage";
 import OtherOption from "@/lib/utils/OtherOption";
-import { useState } from "react";
 import { useLanguage } from "@/lib/utils/LanguageContext";
+import { IoIosCheckmark } from "react-icons/io";
 
 interface Option {
   id: number;
@@ -24,6 +25,7 @@ interface Question_Four_Props {
 export default function Question_Four({ questions }: Question_Four_Props) {
   const { language } = useLanguage();
   const question = questions.find((q) => q.id === 4);
+
   const { handleOptionChange, selectedOption } = useQuestionStorage({
     localStorageKey: "4",
   });
@@ -35,7 +37,7 @@ export default function Question_Four({ questions }: Question_Four_Props) {
   );
 
   if (!question) {
-    return <div>Вопрос не найден</div>;
+    return <div>Loading...</div>;
   }
 
   const otherOptionIndex = question.options.findIndex(
@@ -48,7 +50,7 @@ export default function Question_Four({ questions }: Question_Four_Props) {
   );
 
   const handleOptionChangeWrapper = (questionId: number, optionId: string) => {
-    handleOptionChange(optionId.toString());
+    handleOptionChange(optionId);
     if (optionId !== "custom") {
       localStorage.removeItem(`${questionId}_custom`);
       setCustomAnswer("");
@@ -60,56 +62,48 @@ export default function Question_Four({ questions }: Question_Four_Props) {
     language === "ru" ? option.text_ru : option.text_kg;
 
   return (
-    <section className="p-6 P-420">
-      <div className="mb-6">
-        <h2 className="text-lg font-bold text-gray-900 mb-4 textSizeTittle">
-          {questionText}
-        </h2>
-        <div className="text-gray-700 mb-6 mt-8 textSizeOptions">
-          {/* Перебор вариантов из options */}
-          {filteredOptions.map((option: Option) => (
-            <div key={option.id} className="flex items-center mb-2 mt-4">
-              {/* Для опций с текстом "Такыр жеткиликтүү эмес" и "Толук жеткиликтүү" используем ��екст */}
-              {optionText(option) === "Такыр жеткиликтүү эмес" ||
-              optionText(option) === "Толук жеткиликтүү" ? (
-                <p className="text-gray-700">{optionText(option)}</p>
-              ) : (
-                <div className="flex items-center">
-                  <input
-                    id={option.id.toString()}
-                    name="QuestionFour"
-                    type="radio"
-                    className="h-5 w-5 RadioSize text-blue-600 focus:ring-0 border-2 border-gray-300 rounded-full transition-all duration-300 ease-in-out hover:scale-110"
-                    onChange={() =>
-                      handleOptionChangeWrapper(
-                        question.id,
-                        option.id.toString()
-                      )
-                    }
-                    checked={selectedOption === option.id.toString()}
-                  />
-                  <label
-                    htmlFor={`option-${option.id}`}
-                    className="ml-3 block text-gray-700"
-                  >
-                    {optionText(option)}
-                  </label>
-                </div>
-              )}
-            </div>
-          ))}
-          <div className="mt-4">
-            {otherOption && (
-              <OtherOption
-                questionId={question.id}
-                isSelected={selectedOption === "custom"}
-                onOptionChange={handleOptionChangeWrapper}
-                customAnswer={customAnswer}
-                setCustomAnswer={setCustomAnswer}
+    <section className="p-6">
+      <h2 className="text-xl font-semibold text-gray-900 mb-6">{questionText}</h2>
+      <div className="text-gray-700">
+        {/* Отображаем только фильтрованные опции */}
+        {filteredOptions.map((option: Option) => (
+          <div key={option.id} className="flex items-center mb-4">
+            <label
+              htmlFor={`option-${option.id}`}
+              className="flex items-center cursor-pointer"
+            >
+              <input
+                id={`option-${option.id}`}
+                name={`question-${question.id}`}
+                type="radio"
+                className="hidden peer"
+                onChange={() =>
+                  handleOptionChangeWrapper(question.id, option.id.toString())
+                }
+                checked={selectedOption === option.id.toString()}
               />
-            )}
+              {/* Кастомная радиокнопка */}
+              <div className="w-7 h-7 border-2 border-gray-300 rounded-full flex items-center justify-center relative peer-checked:border-blue-100 peer-checked:bg-gradient-to-r peer-checked:from-sky-500 peer-checked:to-sky-700 transition-all duration-300 ease-in-out">
+                {/* Галочка появляется, если радиокнопка активна */}
+                {selectedOption === option.id.toString() && (
+                  <IoIosCheckmark className="text-white w-6 h-6" />
+                )}
+              </div>
+              <span className="ml-4 text-lg text-gray-900">{optionText(option)}</span>
+            </label>
           </div>
-        </div>
+        ))}
+
+        {/* Добавляем компонент для "Другое:" */}
+        {otherOption && (
+          <OtherOption
+            questionId={question.id}
+            isSelected={selectedOption === "custom"}
+            onOptionChange={handleOptionChangeWrapper}
+            customAnswer={customAnswer}
+            setCustomAnswer={setCustomAnswer}
+          />
+        )}
       </div>
     </section>
   );

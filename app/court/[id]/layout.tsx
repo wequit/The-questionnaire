@@ -1,6 +1,8 @@
 'use client';
 
 import './main.css';
+import "@fontsource/open-sans/700.css"
+import "@fontsource/merriweather"
 import { LanguageProvider } from "@/lib/utils/LanguageContext"; 
 import QuestionsFetcher from "@/lib/api/QuestionsFetcher";
 import Introduction from "../../pages/Header-Introtuction/Header_Introduction";
@@ -24,15 +26,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="kg">
-      <body>
+      <body className='h-screen'>
         <AnswerProvider>
           <LanguageProvider>
             {/* Компонент для получения данных опроса */}
             <QuestionsFetcher onFetch={handleFetchSurvey} />
             
-            <div className="bg-gray-100 bg-gradient-to-b from-slate-900 to-slate-400 ">
+            <div className="bg-gray-100 bg-gradient-to-b from-slate-900 to-slate-400  ">
               <header className="flex justify-center items-center text-black">
-                <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-[46rem] my-8 responsive">
+                <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-[46rem] mt-4 responsive">
                   {/* Передаем данные в Introduction, если они есть */}
                   {survey && (
                     <Introduction

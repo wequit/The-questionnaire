@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import "@/lib/utils/responsive.css";
-import Question_Fifteen from "@/app/components/Questions_BlankThree/Question_15";
+// import Question_Fifteen from "@/app/components/Questions_BlankThree/Question_15";
 import QuestionsFetcher from "@/lib/api/QuestionsFetcher";
 
 interface Option {

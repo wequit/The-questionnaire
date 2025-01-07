@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { useQuestionStorage } from "./useQuestionStorage";
 
@@ -31,20 +29,21 @@ export const useValidate = () => {
 
     const allValid = isValid1 && isValid2 && isValid3 && isValid4 && isValid5;
     setError(!allValid);
-  };
 
-  const handleClearForm = () => {
-    localStorage.clear();
-    window.location.reload();
-  };
+    console.log("Validation results:", {
+      question1: isValid1,
+      question2: isValid2,
+      question3: isValid3,
+      question4: isValid4,
+      question5: isValid5,
+      allValid,
+    });
 
-  useEffect(() => {
-    handleNext();
-  }, [validateQuestion1, validateQuestion2, validateQuestion3, validateQuestion4, validateQuestion5]);
+    return allValid; 
+  };
 
   return {
     error,
     handleNext,
-    handleClearForm,
   };
 };

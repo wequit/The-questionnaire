@@ -1,5 +1,6 @@
 import { useQuestionStorage } from "@/app/components/Hooks/useQuestionStorage";
 import { useLanguage } from "@/lib/utils/LanguageContext";
+import { IoIosCheckmark } from "react-icons/io";
 
 interface Option {
   id: number;
@@ -21,18 +22,18 @@ interface Question_Three_Props {
 
 export default function Question_Three({ questions }: Question_Three_Props) {
   const { language } = useLanguage();
-  const question = questions.find((q) => q.id === 3); // Предположим, что это первый вопрос
+  const question = questions.find((q) => q.id === 3); 
 
   const { selectedOption, handleOptionChange } = useQuestionStorage({
-    localStorageKey: '3'
+    localStorageKey: "3",
   });
 
   if (!question) {
     return <div>Loading...</div>;
   }
 
-  const handleChange = ( optionId: number) => {
-    handleOptionChange( optionId.toString()); // Передаем ID вопроса и ответа
+  const handleChange = (optionId: number) => {
+    handleOptionChange(optionId.toString()); // Передаем ID вопроса и ответа
   };
 
   const questionText = language === "ru" ? question.text_ru : question.text_kg;
@@ -41,20 +42,32 @@ export default function Question_Three({ questions }: Question_Three_Props) {
 
   return (
     <section className="p-6 P-420">
-      <h2 className="text-lg font-bold text-gray-900 mb-4">{questionText}</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-4">{questionText}</h2>
       <div className="text-gray-700">
         {question.options.map((option: Option) => (
-          <div key={option.id} className="flex items-center mb-2">
-            <input
-              id={`option-${option.id}`}
-              name="Question_Three"
-              type="radio"
-              className="h-5 w-5 text-blue-600"
-              onChange={() => handleChange(option.id)}
-              checked={selectedOption === option.id.toString()}
-            />
-            <label htmlFor={option.id.toString()} className="ml-3">
-            {optionText(option)}
+          <div key={option.id} className="flex items-center mb-4">
+            <label
+              htmlFor={`option-${option.id}`}
+              className="flex items-center cursor-pointer"
+            >
+              <input
+                id={`option-${option.id}`}
+                name="Question_Three"
+                type="radio"
+                className="hidden peer"
+                onChange={() => handleChange(option.id)}
+                checked={selectedOption === option.id.toString()}
+              />
+
+              {/* Кастомная радиокнопка */}
+              <div className="w-7 h-7 border-2 border-gray-300 rounded-full flex items-center justify-center relative peer-checked:border-blue-200 peer-checked:bg-gradient-to-r peer-checked:from-sky-500 peer-checked:to-sky-700 transition-all duration-300 ease-in-out">
+                {/* Галочка появляется, если радиокнопка активна */}
+                {selectedOption === option.id.toString() && (
+                  <IoIosCheckmark className="text-white w-6 h-6" />
+                )}
+              </div>
+
+              <span className="ml-4 text-lg text-gray-900">{optionText(option)}</span>
             </label>
           </div>
         ))}

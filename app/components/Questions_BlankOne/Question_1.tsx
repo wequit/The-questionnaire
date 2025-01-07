@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuestionStorage } from "@/app/components/Hooks/useQuestionStorage";
 import OtherOption from "@/lib/utils/OtherOption";
 import { useLanguage } from "@/lib/utils/LanguageContext";
+import { IoIosCheckmark } from "react-icons/io";
 
 interface Option {
   id: number;
@@ -49,7 +50,7 @@ export default function Question_One({ questions }: Question_One_Props) {
   );
 
   const handleOptionChangeWrapper = (questionId: number, optionId: string) => {
-    handleOptionChange(optionId) ;
+    handleOptionChange(optionId);
     if (optionId !== "custom") {
       localStorage.removeItem(`${questionId}_custom`);
       setCustomAnswer("");
@@ -61,25 +62,34 @@ export default function Question_One({ questions }: Question_One_Props) {
     language === "ru" ? option.text_ru : option.text_kg;
 
   return (
-    <section className="p-6 P-420">
-      <h2 className="text-lg font-bold text-gray-900 mb-4">{questionText}</h2>
+    <section className="p-6">
+      <h2 className="text-xl font-semibold text-gray-900 mb-6">{questionText}</h2>
       <div className="text-gray-700">
         {/* Отображаем только фильтрованные опции */}
         {filteredOptions.map((option: Option) => (
-          <div key={option.id} className="flex items-start mb-2">
-            <input
-              id={`option-${option.id}`}
-              name={`question-${question.id}`}
-              type="radio"
-              className="h-5 w-5 text-blue-600 flex-shrink-0"
-              onChange={() => handleOptionChangeWrapper(question.id, option.id.toString())}
-              checked={selectedOption === option.id.toString()}
-            />
+          <div key={option.id} className="flex items-center mb-4">
             <label
               htmlFor={`option-${option.id}`}
-              className="ml-3 text-gray-900 leading-5"
+              className="flex items-center cursor-pointer"
             >
-              {optionText(option)}
+              <input
+                id={`option-${option.id}`}
+                name={`question-${question.id}`}
+                type="radio"
+                className="hidden peer"
+                onChange={() =>
+                  handleOptionChangeWrapper(question.id, option.id.toString())
+                }
+                checked={selectedOption === option.id.toString()}
+              />
+              {/* Кастомная радиокнопка */}
+              <div className="w-7 h-7 border-2 border-gray-300 rounded-full flex items-center justify-center relative peer-checked:border-blue-100 peer-checked:bg-gradient-to-r peer-checked:from-sky-500 peer-checked:to-sky-700 transition-all duration-300 ease-in-out">
+                {/* Галочка появляется, если радиокнопка активна */}
+                {selectedOption === option.id.toString() && (
+                  <IoIosCheckmark className="text-white w-6 h-6" />
+                )}
+              </div>
+              <span className="ml-4 text-lg text-gray-900">{optionText(option)}</span>
             </label>
           </div>
         ))}

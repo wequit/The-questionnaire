@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 
 interface UseQuestionStorageProps {
@@ -24,7 +22,8 @@ export const useQuestionStorage = ({ localStorageKey }: UseQuestionStorageProps)
   };
 
   const validateStep = () => {
-    const isValid = selectedOption !== null;
+    const currentOption = localStorage.getItem(localStorageKey); // Проверяем значение напрямую из localStorage
+    const isValid = currentOption !== null;
     console.log(`Validation for ${localStorageKey}:`, isValid);
     return isValid;
   };
