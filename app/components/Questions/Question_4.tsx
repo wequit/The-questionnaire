@@ -25,7 +25,7 @@ interface Question_Four_Props {
   questions: Question[];
 }
 
-export default function Question_Four({ questions }: Question_Four_Props) {
+export default function Question_Fourr({ questions }: Question_Four_Props) {
   const { language } = useLanguage();
   const { setValidError, getValidError } = useAnswerContext();
   const question = questions.find((q) => q.id === 4);
