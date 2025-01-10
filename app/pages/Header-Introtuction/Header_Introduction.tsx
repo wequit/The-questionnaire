@@ -56,37 +56,40 @@ export default function Introduction({
             {description}
           </p>
 
-          {/* Кнопка для переключения языка */}
-          <button
-            onClick={toggleLanguage}
-            className="mt-6 px-4 py-3 bg-gradient-to-r from-sky-600 to-sky-800 text-white font-medium text-sm rounded-md shadow-lg flex items-center space-x-3 ease-in-out hover:from-sky-600 hover:to-sky-900 transition-transform duration-300"
-          >
-            {language === "ru" ? (
-              <>
-                <span>Сменить язык</span>
-                <Flag
-                  code="ru"
-                  width={24}
-                  height={24}
-                  className="transition-transform hover:scale-110"
-                />
-                <span className="ml-2">Русский</span>
-              </>
-            ) : (
-              <>
-                <span>Тилди өзгөртүү</span>
-                <Flag
-                  code="kg"
-                  width={24}
-                  height={24}
-                  className="transition-transform hover:scale-110"
-                />
-                <span className="ml-2">Киргизский</span>
-              </>
-            )}
-          </button>
+          {/* Контейнер для кнопки */}
+          <div className="flex justify-center mt-6"> 
+            <button
+              onClick={toggleLanguage}
+              className="px-4 py-3 bg-gradient-to-r from-sky-600 to-sky-800 text-white font-medium text-sm rounded-md shadow-lg flex items-center space-x-3 ease-in-out hover:from-sky-600 hover:to-sky-900 transition-transform duration-300"
+            >
+              {language === "ru" ? (
+                <>
+                  <span>Сменить язык</span>
+                  <Flag
+                    code="ru"
+                    width={24}
+                    height={24}
+                    className="transition-transform hover:scale-110"
+                  />
+                  <span className="ml-2">Русский язык</span>
+                </>
+              ) : (
+                <>
+                  <span>Тилди өзгөртүү</span>
+                  <Flag
+                    code="kg"
+                    width={24}
+                    height={24}
+                    className="transition-transform hover:scale-110"
+                  />
+                  <span className="ml-2">Кыргыз тили</span>
+                </>
+              )}
+            </button>
+          </div>
         </div>
       )}
     </div>
   );
 }
+
