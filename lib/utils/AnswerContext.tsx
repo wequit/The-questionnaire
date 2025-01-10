@@ -61,28 +61,36 @@ export const AnswerProvider = ({ children }: { children: ReactNode }) => {
     return answers;
   };
 
-  useEffect(() => {
-    const courtIdFromUrl = window.location.pathname.split('/')[2];
-    if (courtIdFromUrl) {
-      setCourtId(courtIdFromUrl);
-    }
+  // Пример обновления в AnswerContext:
+useEffect(() => {
+  const courtIdFromUrl = window.location.pathname.split('/')[2];
+  if (courtIdFromUrl) {
+    setCourtId(courtIdFromUrl);
+  }
 
-    const fetchCourtData = async (courtId: string | null) => {
-      if (courtId) {
-        try {
-          const response = await fetch(`https://opros.pythonanywhere.com/api/v1/court/${courtId}/`);
-          const data = await response.json();
-          setCourtName(data.name_ru);
-        } catch (error) {
-          console.error('Ошибка при загрузке данных о суде:', error);
-        } finally {
-          setLoading(false);
-        }
+  const fetchCourtData = async (courtId: string | null) => {
+    if (courtId) {
+      try {
+        const response = await fetch(`https://opros.pythonanywhere.com/api/v1/court/${courtId}/`);
+        const data = await response.json();
+        // Сохраняем названия для обоих языков
+        setCourtName({
+          ru: data.name_ru,
+          kg: data.name_kg,
+        });
+      } catch (error) {
+        console.error('Ошибка при загрузке данных о суде:', error);
+      } finally {
+        setLoading(false);
       }
-    };
+    }
+  };
 
-    fetchCourtData(courtIdFromUrl);
-  }, [courtId]);
+  fetchCourtData(courtIdFromUrl);
+}, [courtId]);
+
+
+  
 
   const setValidError = (questionId: number, value: boolean) => {
     setValidErrors((prev) => ({ ...prev, [questionId]: value }));

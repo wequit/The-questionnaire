@@ -66,23 +66,24 @@ export const useSubmitSurvey = () => {
       setError("Пожалуйста, ответьте на все обязательные вопросы.");
       return;
     }
-
+  
     setLoading(true);
     setError(null);
     setSubmitSuccess(null);
-
+  
     try {
       const responses = getAnswersFromLocalStorage();
-
+  
+      // Меняем статус на "completed" перед отправкой
       updateFingerprintStatus("completed");
-
+  
       if (!courtId) {
         setError("Не указан ID суда.");
         return;
       }
-
+  
       const fingerprint = getOrCreateFingerprint();
-
+  
       const payload = {
         fingerprint: {
           id: fingerprint.id,
@@ -92,7 +93,7 @@ export const useSubmitSurvey = () => {
         court: courtId,
         question_responses: responses,
       };
-
+  
       const response = await fetch(
         "https://opros.pythonanywhere.com/api/v1/surveys/1/responses/",
         {
@@ -103,24 +104,26 @@ export const useSubmitSurvey = () => {
           body: JSON.stringify(payload),
         }
       );
-
+  
       if (response.status === 403) {
         setError("Вы уже прошли этот опрос. Спасибо за ваше участие!");
         return;
       }
-
+  
       if (!response.ok) {
         throw new Error("Ошибка отправки данных.");
       }
-
+  
       setSubmitSuccess("Опрос успешно отправлен!");
     } catch (err) {
       console.error("Ошибка:", err);
       setError(err instanceof Error ? err.message : "Неизвестная ошибка.");
     } finally {
       setLoading(false);
+      location.reload();
     }
   };
+  
 
   return { handleSubmit, loading, errorMessage, submitSuccess, scrollToFirstUnansweredQuestion , isSubmitting};
 };
