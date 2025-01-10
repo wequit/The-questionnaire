@@ -1,6 +1,7 @@
 import { useQuestionStorage } from "@/app/components/Hooks/useQuestionStorage";
 import { useLanguage } from "@/lib/utils/LanguageContext";
 import { useState, useEffect, useRef } from "react";
+import { useValidate } from "../Hooks/useValidate";
 
 interface Question {
   id: number;
@@ -21,21 +22,18 @@ export default function Question_TwentyThree({ questions }: Question_TwentyThree
     return <div>Loading...</div>;
   }
 
+  const { updateAnsweredStatus } = useValidate();
   const { selectedOption, handleOptionChange } = useQuestionStorage({
     localStorageKey: question.id.toString(),
   });
 
-  const [customAnswer, setCustomAnswer] = useState<string>("");
+  const [customAnswer, setCustomAnswer] = useState<string>(
+    selectedOption === "custom"
+      ? localStorage.getItem(`${question.id}_custom`) || ""
+      : ""
+  );
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-
-  useEffect(() => {
-    // Проверка, чтобы текст из localStorage был загружен в textarea
-    const savedCustomAnswer = localStorage.getItem(`${question.id}_custom`);
-    if (savedCustomAnswer) {
-      setCustomAnswer(savedCustomAnswer);
-    }
-  }, []);
 
   useEffect(() => {
     // Автоматическая настройка высоты textarea
@@ -44,31 +42,23 @@ export default function Question_TwentyThree({ questions }: Question_TwentyThree
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
 
-    // Обновляем атрибут data-question-answered на основе наличия текста в customAnswer
-    const questionElement = document.getElementById(`question-${question?.id}`);
-    if (questionElement) {
-      questionElement.setAttribute(
-        "data-question-answered",
-        customAnswer ? "true" : "false"
-      );
-    }
-  }, [customAnswer]);
+    // Обновляем статус ответа
+    updateAnsweredStatus(question.id, true); // Вопрос всегда "отвечен", т.к. он необязательный
+  }, [customAnswer, selectedOption]);
 
   const questionText = language === "ru" ? question.text_ru : question.text_kg;
 
   const handleInputChange = (value: string) => {
     setCustomAnswer(value);
-    // Сохраняем введенный ответ в localStorage
-    localStorage.setItem(`${question.id}_custom`, value);
-    // Устанавливаем custom в выбранный вариант
-    handleOptionChange("custom");
+    localStorage.setItem(`${question.id}_custom`, value); // Сохраняем ответ
+    handleOptionChange("custom"); // Устанавливаем "custom" как выбранный вариант
   };
 
   return (
     <section
       id={`question-${question.id}`}
       className="p-10 Padding"
-      data-question-answered="true"
+      data-question-answered="true" // Вопрос всегда считается отвеченным
     >
       <h2 className="text-lg font-bold font-inter text-gray-900 mb-6 ContainerQuestion">{questionText}</h2>
       <div className="text-gray-700">
