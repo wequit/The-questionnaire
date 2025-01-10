@@ -26,16 +26,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   };
 
   return (
-    <html lang="kg">
+    <html lang="kg" className="scroll-smooth">
       <body className='h-screen'>
         <AnswerProvider>
           <LanguageProvider>
             {/* Компонент для получения данных опроса */}
             <QuestionsFetcher onFetch={handleFetchSurvey} />
             
-            <div className="bg-gray-100 bg-gradient-to-b from-slate-900 to-slate-400  ">
+            <div className="bg-gray-100 bg-gradient-to-b from-slate-900 to-slate-500  ">
               <header className="flex justify-center items-center text-black">
-                <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-[46rem] mt-4 responsive">
+                <div className="bg-white p-6 rounded-lg shadow-md w-full container mt-4 responsive">
                   {/* Передаем данные в Introduction, если они есть */}
                   {survey && (
                     <Introduction

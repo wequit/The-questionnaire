@@ -30,16 +30,16 @@ export default function Introduction({
   const description = language === "ru" ? description_ru : description_kg;
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
+    <div className="p-6  PaddingHeader">
       <div className="flex items-center mb-6 flex-col">
         <Image
           src={logo}
           alt="Logo"
           width={150}
           height={100}
-          className="mb-4"
+          className="mb-4 ContainerLogo"
         />
-        <h3 className="text-2xl text-center text-gray-900 my-4 font-sans uppercase">
+        <h3 className="text-2xl text-center text-gray-900 my-4 font-sans uppercase ContainerTittle">
           {`${title} ${courtName}`}
         </h3>
         <hr className="border-t-2 border-gray-300 w-full mt-2" />
@@ -50,18 +50,18 @@ export default function Introduction({
       ) : (
         <div>
           {/* Описание */}
-          <p className="text-lg text-gray-800 mt-[3rem] leading-relaxed tracking-wide whitespace-pre-line">
+          <p className=" text-gray-800 mt-[3rem] leading-relaxed tracking-wide whitespace-pre-line ContainerDescription">
             {description}
           </p>
 
           {/* Кнопка для переключения языка */}
           <button
             onClick={toggleLanguage}
-            className="mt-6 px-6 py-3 bg-gradient-to-r from-sky-600 to-sky-800 text-white font-medium text-base rounded-md shadow-lg flex items-center space-x-3  ease-in-out hover:from-sky-600 hover:to-sky-900 transition-transform duration-300 "
+            className="mt-6 px-4 py-3 bg-gradient-to-r from-sky-600 to-sky-800 text-white font-medium text-sm rounded-md shadow-lg flex items-center space-x-3  ease-in-out hover:from-sky-600 hover:to-sky-900 transition-transform duration-300 "
           >
             {language === "ru" ? (
               <>
-                <span>Сменить язык</span>
+                <span >Сменить язык</span>
                 <Flag
                   code="ru"
                   width={24}

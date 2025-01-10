@@ -1,49 +1,47 @@
-import { useState, useEffect } from "react";
-import { useQuestionStorage } from "./useQuestionStorage";
+import { useState } from "react";
 
 export const useValidate = () => {
   const [error, setError] = useState<boolean>(false);
 
-  const { validateStep: validateQuestion1 } = useQuestionStorage({
-    localStorageKey: "1",
-  });
-  const { validateStep: validateQuestion2 } = useQuestionStorage({
-    localStorageKey: "2",
-  });
-  const { validateStep: validateQuestion3 } = useQuestionStorage({
-    localStorageKey: "3",
-  });
-  const { validateStep: validateQuestion4 } = useQuestionStorage({
-    localStorageKey: "4",
-  });
-  const { validateStep: validateQuestion5 } = useQuestionStorage({
-    localStorageKey: "5",
+  const questionNumbers = Array.from({ length: 23 }, (_, i) => i + 1);
+
+  // Массив валидаторов, которые проверяют наличие ответа для каждого вопроса
+  const validators = questionNumbers.map((questionId) => {
+    // Возвращаем функцию для проверки, был ли выбран ответ (смотрим на атрибут data-question-answered)
+    return () => {
+      const questionElement = document.getElementById(`question-${questionId}`);
+      return questionElement?.getAttribute("data-question-answered") === "true";
+    };
   });
 
   const handleNext = () => {
-    const isValid1 = validateQuestion1();
-    const isValid2 = validateQuestion2();
-    const isValid3 = validateQuestion3();
-    const isValid4 = validateQuestion4();
-    const isValid5 = validateQuestion5();
+    console.time("handleNext"); // Замеряем время на валидацию
+  
+    const results = validators.map((validate) => validate());
+    const allValid = results.every((isValid) => isValid); // Все ли ответы правильные (true)?
+  
+    setError(!allValid); // Если есть ошибочные, то выставляем error в true
+  
+    console.timeEnd("handleNext"); // Заканчиваем замер времени
+  
+    return allValid;
+  };
+  
 
-    const allValid = isValid1 && isValid2 && isValid3 && isValid4 && isValid5;
-    setError(!allValid);
-
-    console.log("Validation results:", {
-      question1: isValid1,
-      question2: isValid2,
-      question3: isValid3,
-      question4: isValid4,
-      question5: isValid5,
-      allValid,
-    });
-
-    return allValid; 
+  // Функция для обновления атрибута data-question-answered
+  const updateAnsweredStatus = (questionId: number, isAnswered: boolean) => {
+    const questionElement = document.getElementById(`question-${questionId}`);
+    if (questionElement) {
+      questionElement.setAttribute(
+        "data-question-answered",
+        isAnswered ? "true" : "false"
+      );
+    }
   };
 
   return {
     error,
     handleNext,
+    updateAnsweredStatus, // Возвращаем функцию для обновления статуса
   };
 };

@@ -12,25 +12,29 @@ export const useQuestionStorage = ({ localStorageKey }: UseQuestionStorageProps)
     if (storedOption) {
       setSelectedOption(storedOption);
     }
-    console.log(`Loaded option for ${localStorageKey}:`, storedOption);
   }, [localStorageKey]);
 
   const handleOptionChange = (option: string) => {
     setSelectedOption(option);
     localStorage.setItem(localStorageKey, option);
-    console.log(`Option changed for ${localStorageKey}:`, option);
+    updateAnsweredStatus(true, localStorageKey);
+  };
+
+  const updateAnsweredStatus = (isAnswered: boolean, questionId: string) => {
+    const questionElement = document.getElementById(`question-${questionId}`);
+    if (questionElement) {
+      questionElement.setAttribute("data-question-answered", isAnswered ? "true" : "false");
+    }
   };
 
   const validateStep = () => {
-    const currentOption = localStorage.getItem(localStorageKey); // Проверяем значение напрямую из localStorage
-    const isValid = currentOption !== null;
-    console.log(`Validation for ${localStorageKey}:`, isValid);
-    return isValid;
+    const currentOption = localStorage.getItem(localStorageKey);
+    return currentOption !== null;
   };
 
   return {
     selectedOption,
     handleOptionChange,
-    validateStep,
+    validateStep
   };
 };

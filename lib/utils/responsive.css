@@ -1,9 +1,11 @@
 .container {
-  @apply bg-white p-6 rounded-lg shadow-md w-full max-w-[46rem] mt-4;
+  @apply bg-white p-6 rounded-lg shadow-md w-full max-w-[41rem] mt-4;
+  @apply max-md:w-[34rem];
+  @apply max-[600px]:w-[26rem];
 }
 
-.containerButtonFooter{
-  @apply rounded-lg  w-full max-w-[48rem] ;
+.containerButtonFooter {
+  @apply rounded-lg  w-full max-w-[41rem];
 }
 
 .progressBarWidthBlankTwo {
@@ -14,246 +16,116 @@
   @apply gap-12;
 }
 
-.progressBarWidthBlankThree {
-  @apply w-[12rem];
-}
-
 .footerGap {
   @apply gap-12;
 }
 
-@media (max-width: 1050px) {
-  .responsive {
-    @apply bg-white p-6 rounded-lg shadow-md w-full max-w-[40rem] mt-4;
-  }
-  .progressBarWidthBlankThree {
-    width: 9rem !important;
-  }
+/* Стили для ползунка */
+textarea::-webkit-scrollbar {
+  display: none; /* Устанавливаем ширину ползунка */
+}
 
-  .progressBarWidthBlankTwo {
-    @apply w-[11rem];
-  }
-
-  .progressBarWidth {
-    @apply w-[16rem];
-  }
-
-  .footerGapBlankTwo {
-    @apply gap-8;
-  }
-  .footerGap {
-    @apply gap-8;
+@media (max-width: 768px) {
+  .containerButtonFooter {
+    @apply max-w-[34rem];
   }
 }
 
-@media (max-width: 680px) {
-  .LogoWidth {
-    @apply w-[120px] h-[120px];
+@media (max-width: 600px) {
+  .containerButtonFooter {
+    @apply max-w-[26rem];
+  }
+  .ContainerButtonSend {
+    @apply text-xs;
+  }
+  .ContainerButtonClear {
+    @apply text-xs;
   }
 
-  /* .textSizeTitle {
-    @apply text-2xl;
-  } */
-
-  /* .textSizeGreeting {
-    @apply text-[1rem];
+  .PaddingHeader {
+    @apply p-3;
   }
-
-  .textSizeBody {
+  .ContainerLogo {
+    @apply w-28 h-28;
+  }
+  .ContainerTittle {
+    @apply text-[0.93rem];
+  }
+  .ContainerDescription {
     @apply text-sm;
   }
 
-  .textSizeClosing {
-    @apply text-sm;
+  .Padding {
+    @apply p-6;
   }
-
-  .textSizeCallToAction {
-    @apply text-sm;
-  } */
-
-  .responsive {
-    @apply bg-white p-6 rounded-lg shadow-md w-full max-w-[30rem] mt-4;
+  .ContainerQuestion {
+    @apply text-base;
   }
-
-  .footerGapBlankTwo {
-    @apply gap-12;
+  .ContainerOptionText {
+    @apply text-base;
   }
-  .footerGap {
-    @apply gap-4;
+  .ContainerRadio {
+    @apply flex-shrink-0;
   }
-  .progressBarWidthBlankThree {
-    @apply hidden;
-  }
-
-  .progressBarWidthBlankTwo {
-    @apply hidden;
-  }
-
-  .progressBarWidth {
-    @apply w-[10rem];
-  }
-
-  .textSize {
-    @apply text-[13px];
-    @apply min-w-[7rem];
-  }
-
-  .TextSizeButtonNextBlankTwo {
-    @apply text-[14px] min-h-[38px] w-[5rem];
-  }
-
-  .TextSizeButtonNext {
-    @apply text-[15px]  w-[5rem];
-  }
-
-.TextSizeButtonNextThree{
-  @apply text-[13px] min-h-[38px] w-[6rem];
-}
-  
-  .TextSizeButtonClear {
-    @apply text-[15px] min-h-[38px] w-[5rem];
+  .Gap {
+    @apply gap-7;
   }
 }
 
-@media (max-width: 515px) {
-  
-/*   
-  .textSizeTitle {
-    @apply text-xl;
-  } */
-
-  .P-515 {
-    @apply p-2.5;
+@media (max-width: 455px) {
+  .container {
+    @apply max-w-[22rem];
   }
 
-  .responsive {
-    @apply bg-white p-6 rounded-lg shadow-md w-full max-w-[25rem] mt-4;
+  .containerButtonFooter {
+    @apply max-w-[22rem];
+  }
+  .ContainerButtonSend {
+    @apply text-xs max-w-[6rem];
+  }
+  .ContainerButtonClear {
+    @apply text-xs max-w-[8rem];
   }
 
-  .progressBarWidth {
-    @apply w-[6rem];
+  .PaddingHeader {
+    @apply p-1;
+  }
+  .ContainerLogo {
+    @apply w-28 h-28;
+  }
+  .ContainerTittle {
+    @apply text-[0.88rem] leading-6;
+  }
+  .ContainerDescription {
+    @apply text-xs;
   }
 
-  .textSize {
-    @apply text-[12px];
-    @apply min-w-[6rem];
+  .Padding {
+    @apply p-4;
   }
-  .TextSizeButtonNextBlankTwo {
-    @apply text-[13px] min-h-[30px] w-[4.5footerGaprem];
+  .ContainerQuestion {
+    @apply text-sm;
   }
-
-  .TextSizeButtonClearBlankTwo {
-    @apply text-[14px] min-h-[35px] w-[4.5rem];
+  .ContainerOptionText {
+    @apply text-xs;
   }
-
-  .textSizeTittle {
-    @apply text-[14px];
+  .ContainerRadio {
+    @apply flex-shrink-0 w-6 h-6;
   }
-
-  .textSizeOptions {
-    @apply text-[12px];
+  .Placeholder {
+    @apply placeholder:text-xs text-xs;
   }
-
-  .RadioSize {
-    @apply h-4 w-4;
-  }
-
-  .InputAnotherSize {
-    @apply text-[13px];
-  }
-
-  .footerGapBlankTwo {
+  .Gap {
     @apply gap-6;
   }
-
-  .footerGapBlankThree {
-    @apply gap-[0.9rem];
+  .ContainerQuestionEX {
+    @apply text-[0.79rem];
   }
 
-  .TextSizeButtonNext {
-    @apply text-[12px]  w-[5rem];
+  .TextRed {
+    @apply text-[0.60rem];
   }
-
-  .TextSizeButtonClear {
-    @apply text-[12px]  w-[5rem];
-  }
-}
-
-@media (max-width: 420px) {
-  .progressBarWidth {
-    @apply hidden;
-  }
-
-  .responsive {
-    @apply bg-white p-6 rounded-lg shadow-md  w-full max-w-[18rem] mt-4;
-  }
-
-  .P-420 {
-    @apply p-0.5;
-  }
-
-  /* .textSizeTittle {
-    @apply text-[12px];
-  }
-
-  .textSizeOptions {
-    @apply text-[11px];
-  }
-
-  .textSize {
-    @apply text-[10px];
-    @apply min-w-[4rem];
-  } */
-
-  /* Intrudaction */
-  .LogoWidth {
-    @apply w-[100px] h-[100px];
-  }
-
-  /* .textSizeTitle {
-    @apply text-[15px];
-  } */
-
-  /* .textSizeGreeting {
-    
-    @apply text-[13px] mt-14;
-  }
-
-  .textSizeBody {
-    @apply text-[10px];
-  }
-
-  .textSizeClosing {
-    @apply text-[11px];
-  }
-
-  .textSizeCallToAction {
-    @apply text-[11px];
-  } */
-
-/* BlankTwo */
-.footerGapBlankTwo {
-    @apply gap-2;
-  }
-
-.TextSizeButtonNextBlankTwo {
-    @apply text-[11px] min-h-[30px] w-[3.5rem] p-1; 
-  }
-
-  .TextSizeButtonClearBlankTwo {
-    @apply text-[11px] min-h-[35px] w-[3.8rem];
-  }
-
-  .InputAnotherSizeBlankTwo {
-    @apply text-[10px];
-  }
-
-  /* BlankThree */
-  .TextSizeButtonNextBlankThree {
-    @apply text-[11px] min-h-[38px] w-[4.5rem] p-1;
-  }
-  
-  .textSize {
-    @apply min-w-[5rem];
+  .TextGreen {
+    @apply text-[0.60rem];
   }
 }

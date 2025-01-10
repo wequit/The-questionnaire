@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 import type { Config } from "tailwindcss";
 
 export default {
@@ -60,12 +59,15 @@ export default {
       fontFamily: {
         serif: ["Merriweather", "serif"],
         sans: ["Open Sans", "sans-serif"],
-		inter: ["Inter, sans-serif"]
+        inter: ["Inter, sans-serif"]
       },
-	  safelist: [
-		'h-6', 'w-6', 'h-8', 'w-8', 'h-10', 'w-10',
-	  ],
+      safelist: [
+        'h-6', 'w-6', 'h-8', 'w-8', 'h-10', 'w-10',
+      ],
     },
+  },
+  corePlugins: {
+    scrollBehavior: true,
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;

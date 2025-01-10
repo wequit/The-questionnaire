@@ -1,8 +1,5 @@
 import { useState } from "react";
-import {
-  getOrCreateFingerprint,
-  updateFingerprintStatus,
-} from "@/lib/utils/fingerprint";
+import {  getOrCreateFingerprint,  updateFingerprintStatus} from "@/lib/utils/fingerprint";
 import { useAnswerContext } from "@/lib/utils/AnswerContext";
 import { useValidate } from "./useValidate";
 
@@ -11,7 +8,6 @@ interface QuestionResponse {
   selected_option: number | null;
   custom_answer?: string;
 }
-
 export const useSubmitSurvey = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMessage, setError] = useState<string | null>(null);
@@ -21,31 +17,52 @@ export const useSubmitSurvey = () => {
 
   const getAnswersFromLocalStorage = (): QuestionResponse[] => {
     const responses: QuestionResponse[] = [];
-
+  
     Object.keys(localStorage).forEach((key) => {
       if (!isNaN(Number(key))) {
         const questionId = parseInt(key, 10);
         const storedOption = localStorage.getItem(key);
-
+  
         const customAnswer = localStorage.getItem(`${questionId}_custom`) || "";
-
+  
         if (storedOption || customAnswer) {
           responses.push({
             question: questionId,
-            selected_option: storedOption ? parseInt(storedOption, 10) : null,
+            selected_option: customAnswer ? null : storedOption ? parseInt(storedOption, 10) : null,
             custom_answer: customAnswer || undefined,
           });
         }
       }
     });
-
+  
+    responses.sort((a, b) => a.question - b.question);
+  
     return responses;
   };
+  
 
+  const scrollToFirstUnansweredQuestion = () => {
+    const unansweredElements = document.querySelectorAll(
+      '[data-question-answered="false"]'
+    );
+  
+    if (unansweredElements.length > 0) {
+      const firstUnansweredElement = unansweredElements[0];
+      const elementTop = firstUnansweredElement.getBoundingClientRect().top + window.scrollY;
+  
+      window.scrollTo({
+        top: elementTop - 200, // Можно вычесть значение, чтобы добавить отступ сверху
+        behavior: "smooth", // Плавное прокручивание
+      });
+    }
+  };
+  
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const handleSubmit = async () => {
+    setIsSubmitting(true);
     handleNext();
     if (error) {
-      console.log("Validation failed, not submitting.");
       setError("Пожалуйста, ответьте на все обязательные вопросы.");
       return;
     }
@@ -56,14 +73,6 @@ export const useSubmitSurvey = () => {
 
     try {
       const responses = getAnswersFromLocalStorage();
-      const requiredQuestionIds = [1, 2, 3, 4, 5];
-      const answeredQuestionIds = responses.map(
-        (response) => response.question
-      );
-
-      const unansweredRequiredQuestions = requiredQuestionIds.filter(
-        (id) => !answeredQuestionIds.includes(id)
-      );
 
       updateFingerprintStatus("completed");
 
@@ -113,5 +122,6 @@ export const useSubmitSurvey = () => {
     }
   };
 
-  return { handleSubmit, loading, errorMessage, submitSuccess };
+  return { handleSubmit, loading, errorMessage, submitSuccess, scrollToFirstUnansweredQuestion , isSubmitting};
 };
+

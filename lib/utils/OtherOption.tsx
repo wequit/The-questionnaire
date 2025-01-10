@@ -17,37 +17,37 @@ export default function OtherOption({
   setCustomAnswer,
 }: OtherOptionProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [showClearButton, setShowClearButton] = useState(false);
+  const [localAnswer, setLocalAnswer] = useState(customAnswer);
 
   const handleCustomAnswerChange = (value: string) => {
-    setCustomAnswer(value);
-    localStorage.setItem(`${questionId}_custom`, value);
+    setLocalAnswer(value);
+  
+    setTimeout(() => {
+      setCustomAnswer(value);
+      localStorage.setItem(`${questionId}_custom`, value);
+    }, 0);
+  
     if (!isSelected) {
-      onOptionChange(questionId, "custom");
+      onOptionChange(questionId, "custom"); // Обрабатываем выбор кастомного ответа
     }
-
-    // Появление кнопки крестика, если есть текст
-    setShowClearButton(value.length > 0);
   };
-
-  // Функция для установки фокуса на поле ввода
+  
   const handleOptionChangeWithFocus = () => {
     onOptionChange(questionId, "custom");
-    // Перемещаем фокус на поле ввода, если оно выбрано
     if (inputRef.current) {
       inputRef.current.focus();
     }
   };
-
-  // Функция для удаления текста и скрытия крестика
+  
   const handleClearInput = () => {
+    setLocalAnswer("");
     setCustomAnswer("");
     localStorage.removeItem(`${questionId}_custom`);
-    setShowClearButton(false); // Скрываем крестик
   };
+  
 
   return (
-    <div className="flex items-start mb-4">
+    <div className="flex items-center mb-4">
       <label
         htmlFor={`custom-option-${questionId}`}
         className="flex items-center cursor-pointer"
@@ -57,41 +57,36 @@ export default function OtherOption({
           name={`question-${questionId}`}
           type="radio"
           className="hidden peer"
-          onChange={handleOptionChangeWithFocus} // Вызываем функцию при изменении радиокнопки
+          onChange={handleOptionChangeWithFocus}
           checked={isSelected}
         />
         {/* Кастомная радиокнопка */}
-        <div className="w-7 h-7 border-2 border-gray-300 rounded-full flex items-center justify-center relative peer-checked:border-blue-100 peer-checked:bg-gradient-to-r peer-checked:from-sky-500 peer-checked:to-sky-700 transition-all duration-300 ease-in-out">
+        <div className="w-7 h-7 ContainerRadio border-2 border-gray-300 rounded-full flex items-center justify-center relative peer-checked:border-blue-100 peer-checked:bg-gradient-to-r peer-checked:from-sky-500 peer-checked:to-sky-700 transition-all duration-300 ease-in-out">
           {isSelected && <IoIosCheckmark className="text-white w-6 h-6" />}
         </div>
-        <span className="ml-4 text-lg text-gray-900">Другое:</span>
+        <span className="ml-4 text-lg text-gray-900 ContainerOptionText">Другое:</span>
       </label>
 
-      {/* Поле ввода всегда видно, даже если не выбрано "Другое:" */}
-      <div className="ml-4 flex items-center gap-3 w-full">
-        <div className="flex relative w-full">
-          <input
-            ref={inputRef} // Привязываем ref к полю ввода
-            type="text"
-            value={customAnswer}
-            onChange={(e) => handleCustomAnswerChange(e.target.value)}
-            className="w-full border-0 border-b-2 border-gray-300 px-3 shadow-none outline-none focus:ring-0 focus:border-blue-500 transition duration-300 ease-in-out"
-            placeholder="Введите ваш ответ"
-          />
-          {/* Кнопка "крестик" появляется с анимацией, если выбрано "Другое:" и поле не пустое */}
-          {isSelected && customAnswer && (
-            <button
-              type="button"
-              onClick={handleClearInput}
-              className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500 transition-all duration-300 ${
-                showClearButton ? "opacity-100" : "opacity-0"
-              }`}
-              title="Очистить"
-            >
-              ✕
-            </button>
-          )}
-        </div>
+      <div className="ml-4 flex items-center gap-3 w-full relative">
+        <input
+          ref={inputRef}
+          type="text"
+          value={localAnswer}
+          onChange={(e) => handleCustomAnswerChange(e.target.value)}
+          className="w-full border-0 Placeholder border-b-2 border-gray-300 px-3 py-1 shadow-none outline-none focus:ring-0 focus:border-blue-500 transition duration-300 ease-in-out pr-8"
+          placeholder="Введите ваш ответ"
+        />
+        {/* Кнопка "крестик" в конце поля ввода */}
+        {localAnswer && (
+          <button
+            type="button"
+            onClick={handleClearInput}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500 transition-all duration-300 px-2"
+            title="Очистить"
+          >
+            ✕
+          </button>
+        )}
       </div>
     </div>
   );
