@@ -74,7 +74,15 @@ export default function Question_Nine({ questions }: Question_Nine_Props) {
     }
 
     if (windowWidth <= 455) {
-      size = 27 + distanceFromMiddle * 8;
+      size = 37 + distanceFromMiddle * 8;
+    }
+
+    if (windowWidth <= 405) {
+      size = 32 + distanceFromMiddle * 8;
+    }
+    
+    if (windowWidth <= 374) {
+      size = 29 + distanceFromMiddle * 8;
     }
 
     return {
@@ -112,7 +120,7 @@ export default function Question_Nine({ questions }: Question_Nine_Props) {
           </span>
 
           {/* Второй span справа */}
-          <span className="text-xs font-bold text-green-600 font-inter uppercase TextGreen TextGreenWidth">
+          <span className="text-xs font-bold text-green-600 font-inter uppercase TextGreen TextGreenWidth ">
             {optionText(question.options[question.options.length - 1])}
           </span>
         </div>

@@ -75,7 +75,15 @@ export default function Question_TwentyOne({ questions }: Question_TwentyOne_Pro
     }
 
     if (windowWidth <= 455) {
-      size = 27 + distanceFromMiddle * 8;
+      size = 37 + distanceFromMiddle * 8;
+    }
+
+    if (windowWidth <= 405) {
+      size = 32 + distanceFromMiddle * 8;
+    }
+    
+    if (windowWidth <= 374) {
+      size = 29 + distanceFromMiddle * 8;
     }
 
     return {

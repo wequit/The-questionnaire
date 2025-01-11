@@ -63,19 +63,28 @@ export default function Question_Five({ questions }: Question_Five_Props) {
     const middle = Math.floor(total / 2);
     const distanceFromMiddle = Math.abs(index - middle);
 
-    let size = 52 + distanceFromMiddle * 13; // Для экранов больше 768px
+    let size = 52 + distanceFromMiddle * 13; 
 
     if (windowWidth <= 768) {
-      size = 44 + distanceFromMiddle * 10; // Для экранов меньше 768px
+      size = 44 + distanceFromMiddle * 10; 
     }
     
     if (windowWidth <= 585) {
-      size = 30 + distanceFromMiddle * 10; // Для экранов меньше 585px
+      size = 30 + distanceFromMiddle * 10; 
     }
 
     if (windowWidth <= 455) {
-      size = 27 + distanceFromMiddle * 8;
+      size = 37 + distanceFromMiddle * 8;
     }
+
+    if (windowWidth <= 405) {
+      size = 32 + distanceFromMiddle * 8;
+    }
+    
+    if (windowWidth <= 374) {
+      size = 29 + distanceFromMiddle * 8;
+    }
+
 
     return {
       height: `${size}px`,

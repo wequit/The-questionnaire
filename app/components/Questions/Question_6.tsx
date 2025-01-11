@@ -75,7 +75,15 @@ export default function Question_Six({ questions }: Question_Six_Props) {
     }
 
     if (windowWidth <= 455) {
-      size = 27 + distanceFromMiddle * 8; // Для экранов меньше 455px
+      size = 37 + distanceFromMiddle * 8; // Для экранов меньше 455px
+    }
+
+    if (windowWidth <= 405) {
+      size = 32 + distanceFromMiddle * 8;
+    }
+    
+    if (windowWidth <= 374) {
+      size = 29 + distanceFromMiddle * 8;
     }
 
     return {

@@ -66,7 +66,7 @@ export default function Question_TwentyThree({ questions }: Question_TwentyThree
           ref={textareaRef}
           value={customAnswer}
           onChange={(e) => handleInputChange(e.target.value)}
-          className="w-full Placeholder border-0 border-b-2 border-gray-300 px-3 py-2 shadow-none outline-none focus:ring-0 focus:border-blue-500 transition duration-300 ease-in-out resize-none"
+          className="w-full Placeholder border-0 border-b-2 border-gray-300 px-3 pb-5 shadow-none outline-none focus:ring-0 focus:border-blue-500 transition duration-300 ease-in-out resize-none"
           placeholder="Введите ваш ответ"
           rows={1}
         />

@@ -44,10 +44,10 @@ textarea::-webkit-scrollbar {
     @apply max-w-[26rem];
   }
   .ContainerButtonSend {
-    @apply text-xs;
+    @apply text-xs max-w-[7rem];
   }
   .ContainerButtonClear {
-    @apply text-xs;
+    @apply text-xs max-w-[10rem];
   }
 
   .PaddingHeader {
@@ -87,12 +87,24 @@ textarea::-webkit-scrollbar {
     @apply gap-7;
   }
   
+/* .TextColor{
+  @apply text-center
+} */
+
   .TextRedWidth {
-    @apply w-24 text-[0.68rem];
+    @apply w-24 text-[0.68rem] text-center;
   }
   .TextGreenWidth {
-    @apply w-20 text-[0.68rem];
+    @apply w-20 text-[0.68rem] text-center;
   }
+
+  .TextRedWidth_19{
+    @apply w-28 text-[0.68rem] text-center;
+  }
+  .TextGreenWidth_19 {
+    @apply w-20 text-[0.68rem] text-center;
+  }
+
 }
 
 @media (max-width: 455px) {
@@ -101,15 +113,9 @@ textarea::-webkit-scrollbar {
   }
 
   .containerButtonFooter {
-    @apply max-w-[22rem];
+    @apply max-w-[24rem];
   }
-  .ContainerButtonSend {
-    @apply text-xs max-w-[6rem];
-  }
-  .ContainerButtonClear {
-    @apply text-xs max-w-[8rem];
-  }
-
+  
   .PaddingHeader {
     @apply p-1;
   }
@@ -120,20 +126,20 @@ textarea::-webkit-scrollbar {
     @apply text-lg leading-6;
   }
   .ContainerCourt{
-    @apply text-xl 
+    @apply text-2xl 
   }
   .ContainerDescription {
-    @apply text-xs;
+    @apply text-sm;
   }
 
   .Padding {
     @apply p-4;
   }
   .ContainerQuestion {
-    @apply text-sm;
+    @apply text-base;
   }
   .ContainerOptionText {
-    @apply text-xs;
+    @apply text-base;
   }
   .ContainerRadio {
     @apply flex-shrink-0 w-6 h-6;
@@ -149,11 +155,19 @@ textarea::-webkit-scrollbar {
   }
 
   .TextRed {
-    @apply text-[0.60rem];
+    @apply text-[0.65rem];
   }
   .TextGreen {
-    @apply text-[0.60rem];
+    @apply text-[0.65rem];
   }
+  .ContainerHeaderButton{
+    @apply text-[0.65rem] px-3 py-2
+  }
+
+  .ContainerFlag{
+    @apply w-5 h-5  
+  }
+
 }
 
 @media (max-width: 405px) {
@@ -161,16 +175,24 @@ textarea::-webkit-scrollbar {
     @apply max-w-[22rem];
   }
 
+  .containerButtonFooter {
+    @apply max-w-[22rem];
+  }
+
   .ContainerTittle {
     @apply text-base leading-6;
   }
   .ContainerCourt{
-    @apply text-lg
+    @apply text-xl
   }  
 }
 
 @media (max-width: 374px) {
   .container {
+    @apply max-w-[21rem];
+  }
+
+  .containerButtonFooter {
     @apply max-w-[21rem];
   }
 }
@@ -180,10 +202,18 @@ textarea::-webkit-scrollbar {
     @apply max-w-[19rem];
   }
 
+  .containerButtonFooter {
+    @apply max-w-[19rem];
+  }
+
   .ContainerTittle {
     @apply text-xs leading-6;
   }
   .ContainerCourt{
     @apply text-base 
   }  
+
+  .Gap {
+    @apply gap-4;
+  }
 }

@@ -89,8 +89,8 @@ export default function Introduction({
 
           <div className="flex justify-center mt-6">
             <button
-              onClick={handleLanguageChange} // Обработчик переключения языка
-              className="px-4 py-3 bg-gradient-to-r from-sky-600 to-sky-800 text-white font-medium text-sm rounded-md shadow-lg flex items-center space-x-3 ease-in-out hover:from-sky-600 hover:to-sky-900 transition-transform duration-300"
+              onClick={handleLanguageChange}
+              className="ContainerHeaderButton px-4 py-3 bg-gradient-to-r from-sky-600 to-sky-800 text-white font-medium text-sm rounded-md shadow-lg flex items-center space-x-3 ease-in-out hover:from-sky-600 hover:to-sky-900 transition-transform duration-300"
             >
               {language === "ru" ? (
                 <>
@@ -99,7 +99,7 @@ export default function Introduction({
                     code="kg"
                     width={24}
                     height={24}
-                    className="transition-transform hover:scale-110"
+                    className="transition-transform hover:scale-110 ContainerFlag"
                   />
                   <span className="ml-2">Кыргыз тили</span>
                 </>
@@ -110,7 +110,7 @@ export default function Introduction({
                     code="ru"
                     width={24}
                     height={24}
-                    className="transition-transform hover:scale-110"
+                    className="transition-transform hover:scale-110 ContainerFlag"
                   />
                   <span className="ml-2">Русский язык</span>
                 </>

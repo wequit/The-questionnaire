@@ -74,7 +74,15 @@ export default function Question_Ten({ questions }: Question_Ten_Props) {
     }
 
     if (windowWidth <= 455) {
-      size = 27 + distanceFromMiddle * 8;
+      size = 37 + distanceFromMiddle * 8;
+    }
+
+    if (windowWidth <= 405) {
+      size = 32 + distanceFromMiddle * 8;
+    }
+    
+    if (windowWidth <= 374) {
+      size = 29 + distanceFromMiddle * 8;
     }
 
     return {

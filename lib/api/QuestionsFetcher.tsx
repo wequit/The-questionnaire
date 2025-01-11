@@ -1,6 +1,5 @@
-'use client'
+'use client';
 import { useState, useEffect, useRef } from "react";
-import { fetchWithAuth } from "@/lib/api/auth"; 
 
 interface Option {
   id: number;
@@ -40,10 +39,9 @@ export default function QuestionsFetcher({ onFetch }: QuestionsFetcherProps) {
       hasFetched.current = true; 
 
       try {
-        const response = await fetchWithAuth(
-          "https://opros.pythonanywhere.com/api/v1/surveys/1/"
-        );
-
+        // Простой запрос без авторизации
+        const response = await fetch("https://opros.pythonanywhere.com/api/v1/surveys/1/");
+        
         if (!response.ok) {
           throw new Error("Ошибка загрузки данных опроса");
         }

@@ -119,6 +119,7 @@ export default function Question_Sixteen({
             onOptionChange={() => handleCheckboxChange("custom", question.id)}
             customAnswer={customAnswer}
             setCustomAnswer={setCustomAnswer}
+            language={language}
           />
         )}
       </div>
