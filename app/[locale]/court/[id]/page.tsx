@@ -7,7 +7,7 @@ import "@/lib/utils/responsive.css";
 import Question_Two from "@/app/components/Questions/Question_2";
 import Question_Two_Three from "@/app/components/Questions/Question_3";
 import Question_Fourr from "@/app/components/Questions/Question_4";
-import Question_Five from "../../components/Questions/Question_5";
+import Question_Five from "../../../components/Questions/Question_5";
 import Question_Six from "@/app/components/Questions/Question_6";
 import Question_Seven from "@/app/components/Questions/Question_7";
 import Question_Eight from "@/app/components/Questions/Question_8";

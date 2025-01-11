@@ -6,8 +6,8 @@ import "@fontsource/merriweather"
 import "@fontsource/inter/"; 
 import { LanguageProvider } from "@/lib/utils/LanguageContext"; 
 import QuestionsFetcher from "@/lib/api/QuestionsFetcher";
-import Introduction from "../../pages/Header-Introtuction/Header_Introduction";
-import FooterActions from "../../pages/FooterActions/FooterActions";
+import Introduction from "../../../pages/Header-Introtuction/Header_Introduction";
+import FooterActions from "../../../pages/FooterActions/FooterActions";
 import { useState } from 'react';
 import { AnswerProvider } from '@/lib/utils/AnswerContext';
 

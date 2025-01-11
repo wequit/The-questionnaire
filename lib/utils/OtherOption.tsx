@@ -23,48 +23,37 @@ export default function OtherOption({
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [localAnswer, setLocalAnswer] = useState(customAnswer);
 
-  // Найти вопрос по ID
   const question = questions.find((q) => q.id === questionId);
 
-  // Утилита для получения текста на нужном языке
   const getLocalizedText = (option: { text_ru: string; text_kg: string }) =>
     language === "ru" ? option.text_ru : option.text_kg;
 
-  // Найти опцию "Другое:"
   const otherOption =
     question?.options.find(
       (opt) => getLocalizedText(opt) === (language === "ru" ? "Другое:" : "Башка:")
     ) || null;
 
-  // Найти последний введённый ответ, если он есть
   const lastAnswer = question?.options
-  ? question.options[question.options.length - 1]?.text_ru
-  : null;
+    ? question.options[question.options.length - 1]?.text_ru
+    : null;
 
-
-  // Обработчик изменений в поле ввода
   const handleCustomAnswerChange = (value: string) => {
     setLocalAnswer(value);
-
-    // Задержка для синхронизации с состоянием и localStorage
     setTimeout(() => {
       setCustomAnswer(value);
       localStorage.setItem(`${questionId}_custom`, value);
     }, 0);
 
-    // Если "Другое" не выбрано, выбираем эту опцию
     if (!isSelected) {
       onOptionChange(questionId, "custom");
     }
   };
 
-  // Фокус на поле ввода при выборе "Другое:"
   const handleOptionChangeWithFocus = () => {
     onOptionChange(questionId, "custom");
     inputRef.current?.focus();
   };
 
-  // Очистка поля ввода
   const handleClearInput = () => {
     setLocalAnswer("");
     setCustomAnswer("");
@@ -86,7 +75,10 @@ export default function OtherOption({
           checked={isSelected}
         />
         {/* Кастомная радиокнопка */}
-        <div className="w-7 h-7 ContainerRadio border-2 border-gray-300 rounded-full flex items-center justify-center relative peer-checked:border-blue-100 peer-checked:bg-gradient-to-r peer-checked:from-sky-500 peer-checked:to-sky-700 transition-all duration-300 ease-in-out">
+        <div
+          className="w-7 h-7 ContainerRadio border-2 border-gray-300 rounded-full flex items-center justify-center relative peer-checked:border-blue-100 peer-checked:bg-gradient-to-r peer-checked:from-sky-500 peer-checked:to-sky-700 transition-all duration-300 ease-in-out"
+          onClick={handleOptionChangeWithFocus}  // Добавлено для активации радиокнопки
+        >
           {isSelected && <IoIosCheckmark className="text-white w-6 h-6" />}
         </div>
         <span className="ml-4 text-lg text-gray-900 ContainerOptionText">
@@ -102,10 +94,10 @@ export default function OtherOption({
           onChange={(e) => handleCustomAnswerChange(e.target.value)}
           className="w-full border-0 Placeholder border-b-2 border-gray-300 px-3 py-1 shadow-none outline-none focus:ring-0 focus:border-blue-500 transition duration-300 ease-in-out pr-8"
           placeholder={
-            (language === "ru" ? "Введите ваш ответ" : "Жообуңузду киргизиңиз")
+            language === "ru" ? "Введите ваш ответ" : "Жообуңузду киргизиңиз"
           }
+          onClick={handleOptionChangeWithFocus}  // Добавлено для активации радиокнопки
         />
-        {/* Кнопка "крестик" для очистки поля */}
         {localAnswer && (
           <button
             type="button"
@@ -120,3 +112,4 @@ export default function OtherOption({
     </div>
   );
 }
+

@@ -67,7 +67,7 @@ export const AnswerProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    const courtIdFromUrl = window.location.pathname.split('/')[2];
+    const courtIdFromUrl = window.location.pathname.split('/')[3];
     if (courtIdFromUrl) {
       setCourtId(courtIdFromUrl);
     }

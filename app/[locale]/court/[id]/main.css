@@ -81,4 +81,6 @@ body {
   }
 }
 
-
+input:focus {
+  touch-action: manipulation; 
+}

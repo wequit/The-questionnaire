@@ -1,4 +1,7 @@
+"use client";
+
 import React, { createContext, useState, useContext, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 type Language = "ru" | "kg";
 
@@ -18,10 +21,24 @@ export const useLanguage = () => {
 };
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>("kg");
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // Извлекаем текущий язык из URL
+  const [language, setLanguage] = useState<Language>(pathname.split("/")[1] as Language || "kg");  // По умолчанию "kg"
+
+  useEffect(() => {
+    const currentLanguage = pathname.split("/")[1] as Language;
+    setLanguage(currentLanguage);
+  }, [pathname]);
 
   const toggleLanguage = () => {
-    setLanguage((prev) => (prev === "ru" ? "kg" : "ru"));
+    const newLanguage = language === "ru" ? "kg" : "ru";  // Переключаем между "ru" и "kg"
+
+    // Меняем язык в URL
+    const newPath = pathname.replace(`/${language}`, `/${newLanguage}`);
+    router.push(newPath);
+    setLanguage(newLanguage);
   };
 
   return (
@@ -30,3 +47,4 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     </LanguageContext.Provider>
   );
 };
+

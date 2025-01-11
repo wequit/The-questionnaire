@@ -7,6 +7,7 @@ interface OtherOptionCheckBoxProps {
   onOptionChange: (optionId: string, isChecked: boolean) => void;
   customAnswer: string;
   setCustomAnswer: (value: string) => void;
+  language: "ru" | "kg";
 }
 
 export default function OtherOptionCheckBox({
@@ -15,6 +16,7 @@ export default function OtherOptionCheckBox({
   onOptionChange,
   customAnswer,
   setCustomAnswer,
+  language,
 }: OtherOptionCheckBoxProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [localAnswer, setLocalAnswer] = useState(customAnswer);
@@ -54,7 +56,7 @@ export default function OtherOptionCheckBox({
   };
 
   return (
-    <div className="flex items-center mb-4">
+    <div className="flex justify-center items-center mb-4">
       {/* Чекбокс с кастомной меткой */}
       <label
         htmlFor={`custom-option-${questionId}`}
@@ -72,33 +74,35 @@ export default function OtherOptionCheckBox({
         <div className="w-7 h-7 border-2 ContainerRadio border-gray-300 rounded flex items-center justify-center relative peer-checked:border-blue-100 peer-checked:bg-gradient-to-r peer-checked:from-sky-500 peer-checked:to-sky-700 transition-all duration-300 ease-in-out">
           {isSelected && <IoIosCheckmark className="text-white w-6 h-6" />}
         </div>
-        <span className="ml-4 text-lg text-gray-900 ContainerOptionText">Другое:</span>
+        <span className="ml-4 text-lg text-gray-900 ContainerOptionText">
+          {language === "ru" ? "Другое:" : "Башка:"}
+        </span>
       </label>
 
       {/* Текстовое поле для ввода ответа отображается только при выборе чекбокса */}
-      <div className="ml-4 flex items-center gap-3 w-full">
+      <div className="ml-4 flex items-center gap-3 w-full relative">
         {isSelected && (
-          <div className="flex relative w-full">
-            <input
-              ref={inputRef}
-              type="text"
-              value={localAnswer}
-              onChange={(e) => handleCustomAnswerChange(e.target.value)}
-              className="w-full border-0 Placeholder border-b-2 border-gray-300 px-3 shadow-none outline-none focus:ring-0 focus:border-blue-500 transition duration-300 ease-in-out"
-              placeholder="Введите ваш ответ"
-            />
-            {/* Кнопка для очистки поля */}
-            {localAnswer && (
-              <button
-                type="button"
-                onClick={handleClearInput}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500 transition-all duration-300"
-                title="Очистить"
-              >
-                ✕
-              </button>
-            )}
-          </div>
+          <input
+            ref={inputRef}
+            type="text"
+            value={localAnswer}
+            onChange={(e) => handleCustomAnswerChange(e.target.value)}
+            className="w-full border-0 Placeholder border-b-2 border-gray-300 px-3 py-1 shadow-none outline-none focus:ring-0 focus:border-blue-500 transition duration-300 ease-in-out pr-8"
+            placeholder={
+              language === "ru" ? "Введите ваш ответ" : "Жообуңузду киргизиңиз"
+            }
+          />
+        )}
+        {/* Кнопка для очистки поля */}
+        {localAnswer && (
+          <button
+            type="button"
+            onClick={handleClearInput}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500 transition-all duration-300 px-2"
+            title={language === "ru" ? "Очистить" : "Тазалоо"}
+          >
+            ✕
+          </button>
         )}
       </div>
     </div>

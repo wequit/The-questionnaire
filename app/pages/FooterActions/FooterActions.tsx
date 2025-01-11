@@ -3,7 +3,7 @@ import { useValidate } from "../../components/Hooks/useValidate";
 import { useSubmitSurvey } from "../../components/Hooks/useSubmitSurvey";
 import { getOrCreateFingerprint } from "@/lib/utils/fingerprint";
 import { useAnswerContext } from "@/lib/utils/AnswerContext";
-import { useLanguage } from "@/lib/utils/LanguageContext"; // Добавлен импорт контекста языка
+import { useLanguage } from "@/lib/utils/LanguageContext";
 
 const FooterActions = () => {
   const { handleNext } = useValidate();
@@ -57,7 +57,7 @@ const FooterActions = () => {
     window.location.reload();
   };
 
-  // Тексты кнопок на разных языках
+  // Тексты для кнопок в зависимости от языка
   const submitText = language === "ru" ? "Отправить" : "Жөнөтүү";
   const clearText = language === "ru" ? "Очистить ответы" : "Жоопторду тазалоо";
 
@@ -66,32 +66,32 @@ const FooterActions = () => {
       {hasCompletedSurvey ? (
         ""
       ) : (
-        <div className="flex justify-between items-center containerButtonFooter my-4">
+        <div className="flex justify-between items-center containerButtonFooter my-4 gap-4">
           <button
-            onClick={onSubmit}
-            className={`text-green-700 p-3 font-inter rounded-md bg-white shadow-md w-full max-w-[9rem] ContainerButtonSend`}
-            disabled={loading}
+            onClick={handleClearAnswers}
+            className="text-red-500 font-inter text-md p-4 rounded-lg bg-white shadow-lg hover:bg-red-100 transition-all duration-300 transform  w-full max-w-[12rem] ContainerButtonClear"
           >
-            {loading ? "Отправка..." : submitText} {/* Текст кнопки отправки */}
+            {clearText}
           </button>
 
           <button
-            onClick={handleClearAnswers}
-            className="text-red-500 font-inter p-3 rounded-md bg-white shadow-md w-full max-w-[12rem] ContainerButtonClear"
+            onClick={onSubmit}
+            className={`text-green-700 p-4 font-inter text-md rounded-lg bg-white shadow-lg hover:bg-green-100 transition-all duration-300 transform  w-full max-w-[9rem] ContainerButtonSend`}
+            disabled={loading}
           >
-            {clearText} {/* Текст кнопки очистки */}
+            {loading ? (language === "ru" ? "Отправка..." : "Жөнөтүлүүдө...") : submitText} {/* Текст кнопки отправки */}
           </button>
 
           {/* Успешное сообщение */}
           {submitSuccess && (
-            <div className="mt-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4">
+            <div className="mt-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-md">
               <p>{submitSuccess}</p>
             </div>
           )}
 
           {/* Ошибка от сервера */}
           {errorMessage && (
-            <div className="mt-4 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+            <div className="mt-4 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md">
               <p>{errorMessage}</p>
             </div>
           )}
