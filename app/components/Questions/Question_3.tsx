@@ -62,7 +62,7 @@ export default function Question_Three({ questions }: Question_Three_Props) {
       <h2 className="text-lg font-bold font-inter text-gray-900 mb-4 ContainerQuestion">
         {questionText}
       </h2>
-      <div className="text-gray-700">
+      <div className="text-gray-700 font-inter">
         {question.options.map((option: Option) => (
           <div key={option.id} className="flex items-center mb-4">
             <label

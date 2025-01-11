@@ -70,7 +70,7 @@ export default function Introduction({
         <Completed />
       ) : (
         <div>
-          <p className="PaddingDescription text-gray-800 mt-[3rem] leading-relaxed tracking-wide whitespace-pre-line break-words ContainerDescription">
+          <p className="PaddingDescription text-gray-800 mt-[3rem] font-inter leading-relaxed tracking-wide whitespace-pre-line break-words ContainerDescription">
             <span className="font-bold">{description.split("\r\n")[0]}</span>
             <br />
             {description
@@ -90,7 +90,7 @@ export default function Introduction({
           <div className="flex justify-center mt-6">
             <button
               onClick={handleLanguageChange}
-              className="ContainerHeaderButton px-4 py-3 bg-gradient-to-r from-sky-600 to-sky-800 text-white font-medium text-sm rounded-md shadow-lg flex items-center space-x-3 ease-in-out hover:from-sky-600 hover:to-sky-900 transition-transform duration-300"
+              className="ContainerHeaderButton my-2 px-4 py-3 bg-gradient-to-r from-sky-600 to-sky-800 text-white font-medium text-sm rounded-md shadow-lg flex items-center space-x-3 ease-in-out hover:from-sky-600 hover:to-sky-900 transition-transform duration-300"
             >
               {language === "ru" ? (
                 <>

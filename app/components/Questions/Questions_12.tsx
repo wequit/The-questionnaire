@@ -116,12 +116,12 @@ export default function Question_Twelve({ questions }: Question_Twelve_Props) {
 
         <div className="flex items-start justify-between text-gray-700 mt-12 TextColor">
           {/* Первый span слева */}
-          <span className="text-xs font-bold text-red-600 font-inter uppercase TextRed ">
+          <span className="text-xs font-bold text-red-600 font-inter uppercase TextRed TextRedWidth ">
             {optionText(question.options[0])}
           </span>
 
           {/* Второй span справа */}
-          <span className="text-xs font-bold text-green-600 font-inter uppercase TextGreen ">
+          <span className="text-xs font-bold text-green-600 font-inter uppercase TextGreen TextGreenWidth ">
             {optionText(question.options[question.options.length - 1])}
           </span>
         </div>

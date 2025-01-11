@@ -86,7 +86,7 @@ export default function Question_One({ questions }: Question_One_Props) {
           Пожалуйста, ответьте на этот вопрос.
         </p>
       )}
-      <div className="text-gray-700 mt-4">
+      <div className="text-gray-700 mt-4 font-inter">
         {filteredOptions.map((option: Option) => (
           <div key={option.id} className="flex items-center mb-4">
             <label

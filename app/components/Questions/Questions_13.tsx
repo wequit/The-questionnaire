@@ -68,7 +68,7 @@ export default function Question_Thirteen({ questions }: Question_Thirteen_Props
   return (
     <section  id={`question-${question.id}`} className="p-10 Padding" data-question-answered="true">
       <h2 className="text-lg font-semibold font-inter text-gray-900 mb-6 ContainerQuestion">{questionText}</h2>
-      <div className="text-gray-700">
+      <div className="text-gray-700 font-inter">
         {/* Отображаем только фильтрованные опции */}
         {filteredOptions.map((option: Option) => (
           <div key={option.id} className="flex items-center mb-4">

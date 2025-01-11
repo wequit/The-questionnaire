@@ -91,7 +91,7 @@ textarea::-webkit-scrollbar {
   @apply text-center
 } */
 
-  .TextRedWidth {
+  /* .TextRedWidth {
     @apply w-24 text-[0.68rem] text-center;
   }
   .TextGreenWidth {
@@ -103,7 +103,7 @@ textarea::-webkit-scrollbar {
   }
   .TextGreenWidth_19 {
     @apply w-20 text-[0.68rem] text-center;
-  }
+  } */
 
 }
 
@@ -155,10 +155,10 @@ textarea::-webkit-scrollbar {
   }
 
   .TextRed {
-    @apply text-[0.65rem];
+    @apply text-[0.61rem];
   }
   .TextGreen {
-    @apply text-[0.65rem];
+    @apply text-[0.61rem];
   }
   .ContainerHeaderButton{
     @apply text-[0.65rem] px-3 py-2
@@ -185,11 +185,25 @@ textarea::-webkit-scrollbar {
   .ContainerCourt{
     @apply text-xl
   }  
+
+  /* .TextRedWidthFIX{
+    @apply text-[0.60rem]
+  }
+  .TextGreenWidthFIX{
+    @apply text-[0.60rem]
+  } */
 }
 
 @media (max-width: 374px) {
   .container {
     @apply max-w-[21rem];
+  }
+
+  .TextRed {
+    @apply text-[0.59rem];
+  }
+  .TextGreen {
+    @apply text-[0.59rem];
   }
 
   .containerButtonFooter {
@@ -215,5 +229,12 @@ textarea::-webkit-scrollbar {
 
   .Gap {
     @apply gap-4;
+  }
+
+  .TextRed {
+    @apply text-[0.51rem];
+  }
+  .TextGreen {
+    @apply text-[0.51rem];
   }
 }

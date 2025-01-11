@@ -81,7 +81,7 @@ export default function Question_Sixteen({
       <h2 className="text-lg font-semibold font-inter text-gray-900 mb-6 ContainerQuestion">
         {questionText}
       </h2>
-      <div className="text-gray-700">
+      <div className="text-gray-700 font-inter">
         {/* Отображаем только фильтрованные опции */}
         {filteredOptions.map((option: Option) => (
           <div key={option.id} className="flex items-center mb-4">
