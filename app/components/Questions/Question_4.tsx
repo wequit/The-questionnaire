@@ -123,6 +123,7 @@ export default function Question_Fourr({ questions }: Question_Four_Props) {
             onOptionChange={handleChange}
             customAnswer={customAnswer}
             setCustomAnswer={setCustomAnswer}
+            language={language}
           />
         )}
       </div>

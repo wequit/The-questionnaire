@@ -106,6 +106,7 @@ export default function Question_Thirteen({ questions }: Question_Thirteen_Props
             onOptionChange={handleChange}
             customAnswer={customAnswer}
             setCustomAnswer={setCustomAnswer}
+            language={language}
           />
         )}
       </div>

@@ -19,19 +19,22 @@ export default function OtherOptionCheckBox({
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [localAnswer, setLocalAnswer] = useState(customAnswer);
 
+  // Обработка изменений в поле ввода
   const handleCustomAnswerChange = (value: string) => {
     setLocalAnswer(value);
 
+    // Сохраняем кастомный ответ в состоянии и localStorage
     setTimeout(() => {
       setCustomAnswer(value);
       localStorage.setItem(`${questionId}_custom`, value);
     }, 0);
 
     if (!isSelected) {
-      onOptionChange("custom", true); // Отмечаем кастомный ответ как выбранный
+      onOptionChange("custom", true); // Выбираем кастомный ответ
     }
   };
 
+  // Очистка кастомного ответа
   const handleClearInput = () => {
     setLocalAnswer("");
     setCustomAnswer("");
@@ -39,16 +42,20 @@ export default function OtherOptionCheckBox({
     onOptionChange("custom", false); // Снимаем выбор с кастомного ответа
   };
 
+  // Обработка изменения состояния чекбокса
   const handleCheckboxChange = (isChecked: boolean) => {
     onOptionChange("custom", isChecked);
 
     if (!isChecked) {
       handleClearInput();
+    } else {
+      inputRef.current?.focus(); // Фокус на поле ввода при выборе чекбокса
     }
   };
 
   return (
     <div className="flex items-center mb-4">
+      {/* Чекбокс с кастомной меткой */}
       <label
         htmlFor={`custom-option-${questionId}`}
         className="flex items-center cursor-pointer"
@@ -61,14 +68,14 @@ export default function OtherOptionCheckBox({
           onChange={(e) => handleCheckboxChange(e.target.checked)}
           checked={isSelected}
         />
-        {/* Кастомный чекбокс */}
+        {/* Кастомный стиль чекбокса */}
         <div className="w-7 h-7 border-2 ContainerRadio border-gray-300 rounded flex items-center justify-center relative peer-checked:border-blue-100 peer-checked:bg-gradient-to-r peer-checked:from-sky-500 peer-checked:to-sky-700 transition-all duration-300 ease-in-out">
           {isSelected && <IoIosCheckmark className="text-white w-6 h-6" />}
         </div>
         <span className="ml-4 text-lg text-gray-900 ContainerOptionText">Другое:</span>
       </label>
 
-      {/* Поле ввода отображается только при выборе "Другое:" */}
+      {/* Текстовое поле для ввода ответа отображается только при выборе чекбокса */}
       <div className="ml-4 flex items-center gap-3 w-full">
         {isSelected && (
           <div className="flex relative w-full">
@@ -80,6 +87,7 @@ export default function OtherOptionCheckBox({
               className="w-full border-0 Placeholder border-b-2 border-gray-300 px-3 shadow-none outline-none focus:ring-0 focus:border-blue-500 transition duration-300 ease-in-out"
               placeholder="Введите ваш ответ"
             />
+            {/* Кнопка для очистки поля */}
             {localAnswer && (
               <button
                 type="button"

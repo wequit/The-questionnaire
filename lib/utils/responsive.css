@@ -1,5 +1,5 @@
 .container {
-  @apply bg-white p-6 rounded-lg shadow-md w-full max-w-[41rem] mt-4;
+  @apply bg-white p-4 rounded-lg shadow-md w-full max-w-[41rem] mt-4;
   @apply max-md:w-[34rem];
   @apply max-[600px]:w-[26rem];
 }
@@ -20,6 +20,10 @@
   @apply gap-12;
 }
 
+.Gap {
+  @apply gap-12;
+}
+
 /* Стили для ползунка */
 textarea::-webkit-scrollbar {
   display: none; /* Устанавливаем ширину ползунка */
@@ -29,6 +33,10 @@ textarea::-webkit-scrollbar {
   .containerButtonFooter {
     @apply max-w-[34rem];
   }
+  
+.Gap {
+  @apply gap-10;
+}
 }
 
 @media (max-width: 600px) {
@@ -69,6 +77,16 @@ textarea::-webkit-scrollbar {
   }
   .Gap {
     @apply gap-7;
+  }
+/* 
+  .TextColor{
+    @apply text-center
+  } */
+  .TextRedWidth {
+    @apply w-24 text-[0.68rem];
+  }
+  .TextGreenWidth {
+    @apply w-20 text-[0.68rem];
   }
 }
 
@@ -119,7 +137,7 @@ textarea::-webkit-scrollbar {
     @apply gap-6;
   }
   .ContainerQuestionEX {
-    @apply text-[0.79rem];
+    @apply text-base;
   }
 
   .TextRed {

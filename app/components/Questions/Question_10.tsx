@@ -2,6 +2,9 @@ import { useQuestionStorage } from "@/app/components/Hooks/useQuestionStorage";
 import { useLanguage } from "@/lib/utils/LanguageContext";
 import { IoIosCheckmark } from "react-icons/io";
 import { useValidate } from "../Hooks/useValidate";
+import { CgDanger } from "react-icons/cg";
+import { useState, useEffect } from "react";
+import { useAnswerContext } from "@/lib/utils/AnswerContext";
 
 interface Option {
   id: number;
@@ -22,7 +25,9 @@ interface Question_Ten_Props {
 }
 
 export default function Question_Ten({ questions }: Question_Ten_Props) {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const { language } = useLanguage();
+  const { setValidError, getValidError } = useAnswerContext();
   const question = questions.find((q) => q.id === 10);
 
   if (!question) {
@@ -31,19 +36,46 @@ export default function Question_Ten({ questions }: Question_Ten_Props) {
 
   const { updateAnsweredStatus } = useValidate();
   const { handleOptionChange, selectedOption } = useQuestionStorage({
-    localStorageKey:  question.id.toString(),
+    localStorageKey: question.id.toString(),
   });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); 
 
   const handleChange = (questionId: number, optionId: string) => {
     handleOptionChange(optionId);
     updateAnsweredStatus(questionId, true);
+    requestAnimationFrame(() => {
+      setValidError(questionId, false);
+    });
   };
 
   const getSizeStyle = (index: number, total: number) => {
     const middle = Math.floor(total / 2);
     const distanceFromMiddle = Math.abs(index - middle);
 
-    const size = distanceFromMiddle === 0 ? 44 : 52 + distanceFromMiddle * 13;
+    let size = 52 + distanceFromMiddle * 13;
+
+    if (windowWidth <= 768) {
+      size = 44 + distanceFromMiddle * 10;
+    }
+
+    if (windowWidth <= 600) {
+      size = 30 + distanceFromMiddle * 10;
+    }
+
+    if (windowWidth <= 455) {
+      size = 27 + distanceFromMiddle * 8;
+    }
 
     return {
       height: `${size}px`,
@@ -66,25 +98,26 @@ export default function Question_Ten({ questions }: Question_Ten_Props) {
   const optionText = (option: Option) =>
     language === "ru" ? option.text_ru : option.text_kg;
 
+  const isError = !selectedOption && getValidError(question.id);
+
   return (
-    <section  id={`question-${question.id}`} className="p-10" data-question-answered="true">
+    <section id={`question-${question.id}`} className="p-10 Padding" data-question-answered="true">
       <div className="mb-6">
-        <h2 className="text-lg font-bold font-inter text-gray-900 mb-4">{questionText}</h2>
+        <h2 className="text-lg font-bold font-inter text-gray-900 mb-4 ContainerQuestionEX">{questionText}</h2>
 
         <div className="flex items-start justify-between text-gray-700 mt-12">
           {/* Первый span слева */}
-          <span className="text-xs font-bold text-red-600 font-inter uppercase">
+          <span className="text-xs font-bold text-red-600 font-inter uppercase TextRed">
             {optionText(question.options[0])}
           </span>
 
           {/* Второй span справа */}
-          <span className="text-xs font-bold text-green-600 font-inter uppercase">
+          <span className="text-xs font-bold text-green-600 font-inter uppercase TextGreen">
             {optionText(question.options[question.options.length - 1])}
           </span>
         </div>
 
-        <div className="flex items-center justify-center gap-10 px-16 mt-4">
-          {" "}
+        <div className="flex items-center justify-center Gap px-16 mt-4">
           {question.options
             .slice(1, question.options.length - 1)
             .map((option: Option, index, filteredOptions) => {
@@ -109,20 +142,24 @@ export default function Question_Ten({ questions }: Question_Ten_Props) {
                       filteredOptions.length,
                       isSelected
                     )} border-2 rounded-full flex items-center justify-center transition-all duration-300 ease-in-out`}
-                    style={getSizeStyle(index, filteredOptions.length)} 
+                    style={getSizeStyle(index, filteredOptions.length)}
                   >
                     {isSelected || (
                       <IoIosCheckmark className="text-white w-16 h-16 opacity-0 hover:opacity-100 transition-opacity duration-300" />
                     )}
-                    {isSelected && (
-                      <IoIosCheckmark className="text-white w-16 h-16" />
-                    )}
+                    {isSelected && <IoIosCheckmark className="text-white w-16 h-16" />}
                   </div>
                 </label>
               );
             })}
         </div>
       </div>
+      {isError && (
+        <div className="text-red-600 flex items-center">
+          <CgDanger className="w-7 h-7" />
+          <h2 className="ml-3">Это обязательный вопрос.</h2>
+        </div>
+      )}
     </section>
   );
 }

@@ -4,6 +4,7 @@ import { IoIosCheckmark } from "react-icons/io";
 import { useValidate } from "../Hooks/useValidate";
 import { useAnswerContext } from "@/lib/utils/AnswerContext";
 import { CgDanger } from "react-icons/cg";
+import { useEffect, useState } from "react";
 
 interface Option {
   id: number;
@@ -24,6 +25,7 @@ interface Question_TwentyTwo_Props {
 }
 
 export default function Question_TwentyTwo({ questions }: Question_TwentyTwo_Props) {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const { language } = useLanguage();
   const { setValidError, getValidError } = useAnswerContext();
   const question = questions.find((q) => q.id === 22);
@@ -38,6 +40,18 @@ export default function Question_TwentyTwo({ questions }: Question_TwentyTwo_Pro
     localStorageKey:  question.id.toString(),
   });
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const handleChange = (questionId: number, optionId: string) => {
     handleOptionChange(optionId);
     updateAnsweredStatus(questionId, true);
@@ -50,7 +64,19 @@ export default function Question_TwentyTwo({ questions }: Question_TwentyTwo_Pro
     const middle = Math.floor(total / 2);
     const distanceFromMiddle = Math.abs(index - middle);
 
-    const size = distanceFromMiddle === 0 ? 44 : 52 + distanceFromMiddle * 13;
+    let size = 52 + distanceFromMiddle * 13;
+
+    if (windowWidth <= 768) {
+      size = 44 + distanceFromMiddle * 10;
+    }
+
+    if (windowWidth <= 600) {
+      size = 30 + distanceFromMiddle * 10;
+    }
+
+    if (windowWidth <= 455) {
+      size = 27 + distanceFromMiddle * 8;
+    }
 
     return {
       height: `${size}px`,
@@ -76,23 +102,23 @@ export default function Question_TwentyTwo({ questions }: Question_TwentyTwo_Pro
   const isError = !selectedOption && getValidError(question.id);
 
   return (
-    <section  id={`question-${question.id}`} className="p-10" data-question-answered={selectedOption ? "true" : "false"}>
+    <section  id={`question-${question.id}`} className="p-10 Padding" data-question-answered={selectedOption ? "true" : "false"}>
       <div className="mb-6">
-        <h2 className="text-lg font-bold font-inter text-gray-900 mb-4">{questionText}</h2>
+        <h2 className="text-lg font-bold font-inter text-gray-900 mb-4 ContainerQuestionEX">{questionText}</h2>
 
         <div className="flex items-start justify-between text-gray-700 mt-12">
           {/* Первый span слева */}
-          <span className="text-xs font-bold text-red-600 font-inter uppercase">
+          <span className="text-xs font-bold text-red-600 font-inter uppercase TextRed">
             {optionText(question.options[0])}
           </span>
 
           {/* Второй span справа */}
-          <span className="text-xs font-bold text-green-600 font-inter uppercase">
+          <span className="text-xs font-bold text-green-600 font-inter uppercase TextGreen">
             {optionText(question.options[question.options.length - 1])}
           </span>
         </div>
 
-        <div className="flex items-center justify-center gap-10 px-16 mt-4">
+        <div className="flex items-center justify-center Gap px-16 mt-4">
           {" "}
           {question.options
             .slice(1, question.options.length - 1)

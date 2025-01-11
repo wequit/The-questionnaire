@@ -29,10 +29,15 @@ export default function Question_Five({ questions }: Question_Five_Props) {
   const { language } = useLanguage();
   const { setValidError, getValidError } = useAnswerContext();
   const question = questions.find((q) => q.id === 5);
-  
+
   if (!question) {
     return <div>Вопрос не найден</div>;
   }
+
+  const { updateAnsweredStatus } = useValidate();
+  const { handleOptionChange, selectedOption } = useQuestionStorage({
+    localStorageKey: question.id.toString(),
+  });
 
   useEffect(() => {
     const handleResize = () => {
@@ -44,13 +49,7 @@ export default function Question_Five({ questions }: Question_Five_Props) {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
-
-  const { updateAnsweredStatus } = useValidate();
-  const { handleOptionChange, selectedOption } = useQuestionStorage({
-    localStorageKey:  question.id.toString(),
-  });
-
+  }, []) 
 
   const handleChange = (questionId: number, optionId: string) => {
     handleOptionChange(optionId);
@@ -90,9 +89,17 @@ export default function Question_Five({ questions }: Question_Five_Props) {
     isSelected: boolean
   ) => {
     const middle = Math.floor(total / 2);
-    if (index < middle) return isSelected ? "bg-red-500 border-red-500" : "border-2 border-red-300 hover:bg-red-500 hover:border-red-500";
-    if (index === middle) return isSelected ? "bg-gray-500 border-gray-500" : "border-2 border-gray-400 hover:bg-gray-500 hover:border-gray-500";
-    return isSelected ? "bg-green-500 border-green-500" : "border-2 border-green-300 hover:bg-green-500 hover:border-green-500";
+    if (index < middle)
+      return isSelected
+        ? "bg-red-500 border-red-500"
+        : "border-2 border-red-300 hover:bg-red-500 hover:border-red-500";
+    if (index === middle)
+      return isSelected
+        ? "bg-gray-500 border-gray-500"
+        : "border-2 border-gray-400 hover:bg-gray-500 hover:border-gray-500";
+    return isSelected
+      ? "bg-green-500 border-green-500"
+      : "border-2 border-green-300 hover:bg-green-500 hover:border-green-500";
   };
 
   const questionText = language === "ru" ? question.text_ru : question.text_kg;
@@ -100,11 +107,17 @@ export default function Question_Five({ questions }: Question_Five_Props) {
     language === "ru" ? option.text_ru : option.text_kg;
 
   const isError = !selectedOption && getValidError(question.id);
-  
+
   return (
-    <section  id={`question-${question.id}`} className="p-10 Padding" data-question-answered={selectedOption ? "true" : "false"}>
+    <section
+      id={`question-${question.id}`}
+      className="p-10 Padding"
+      data-question-answered={selectedOption ? "true" : "false"}
+    >
       <div className="mb-6">
-        <h2 className="text-[0.950rem] font-bold font-inter text-gray-900 mb-4 ContainerQuestionEX">{questionText}</h2>
+        <h2 className="text-[0.950rem] font-bold font-inter text-gray-900 mb-4 ContainerQuestionEX">
+          {questionText}
+        </h2>
 
         <div className="flex items-start justify-between text-gray-700 mt-12">
           {/* Первый span слева */}
@@ -118,10 +131,10 @@ export default function Question_Five({ questions }: Question_Five_Props) {
           </span>
         </div>
 
-        <div className="flex items-center justify-center gap-10 Gap px-16 mt-4">
+        <div className="flex items-center justify-center Gap px-16 mt-4">
           {" "}
           {question.options
-            .slice(1, question.options.length - 1) 
+            .slice(1, question.options.length - 1)
             .map((option: Option, index, filteredOptions) => {
               const isSelected = selectedOption === option.id.toString();
               return (
@@ -135,7 +148,9 @@ export default function Question_Five({ questions }: Question_Five_Props) {
                     name={`question-${option.id}`}
                     type="radio"
                     className="hidden"
-                    onChange={() => handleChange(question.id, option.id.toString())}
+                    onChange={() =>
+                      handleChange(question.id, option.id.toString())
+                    }
                     checked={isSelected}
                   />
                   <div
@@ -144,7 +159,7 @@ export default function Question_Five({ questions }: Question_Five_Props) {
                       filteredOptions.length,
                       isSelected
                     )} border-2 rounded-full flex items-center justify-center transition-all duration-300 ease-in-out`}
-                    style={getSizeStyle(index, filteredOptions.length)} 
+                    style={getSizeStyle(index, filteredOptions.length)}
                   >
                     {isSelected || (
                       <IoIosCheckmark className="text-white w-16 h-16 opacity-0 hover:opacity-100 transition-opacity duration-300" />

@@ -2,8 +2,10 @@ import { useQuestionStorage } from "@/app/components/Hooks/useQuestionStorage";
 import { useLanguage } from "@/lib/utils/LanguageContext";
 import { IoIosCheckmark } from "react-icons/io";
 import { useValidate } from "../Hooks/useValidate";
-import { useAnswerContext } from "@/lib/utils/AnswerContext";
 import { CgDanger } from "react-icons/cg";
+import { useAnswerContext } from "@/lib/utils/AnswerContext";
+import { useEffect } from "react";
+import { useState } from "react";
 
 interface Option {
   id: number;
@@ -24,6 +26,7 @@ interface Question_Six_Props {
 }
 
 export default function Question_Six({ questions }: Question_Six_Props) {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const { language } = useLanguage();
   const { setValidError, getValidError } = useAnswerContext();
   const question = questions.find((q) => q.id === 6);
@@ -34,10 +37,21 @@ export default function Question_Six({ questions }: Question_Six_Props) {
 
   const { updateAnsweredStatus } = useValidate();
   const { handleOptionChange, selectedOption } = useQuestionStorage({
-    localStorageKey:  question.id.toString(),
+    localStorageKey: question.id.toString(),
   });
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
 
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); 
+  
   const handleChange = (questionId: number, optionId: string) => {
     handleOptionChange(optionId);
     updateAnsweredStatus(questionId, true);
@@ -50,7 +64,19 @@ export default function Question_Six({ questions }: Question_Six_Props) {
     const middle = Math.floor(total / 2);
     const distanceFromMiddle = Math.abs(index - middle);
 
-    const size = distanceFromMiddle === 0 ? 44 : 52 + distanceFromMiddle * 13;
+    let size = 52 + distanceFromMiddle * 13; // Для экранов больше 768px
+
+    if (windowWidth <= 768) {
+      size = 44 + distanceFromMiddle * 10; // Для экранов меньше 768px
+    }
+
+    if (windowWidth <= 600) {
+      size = 30 + distanceFromMiddle * 10; // Для экранов меньше 585px
+    }
+
+    if (windowWidth <= 455) {
+      size = 27 + distanceFromMiddle * 8; // Для экранов меньше 455px
+    }
 
     return {
       height: `${size}px`,
@@ -64,9 +90,17 @@ export default function Question_Six({ questions }: Question_Six_Props) {
     isSelected: boolean
   ) => {
     const middle = Math.floor(total / 2);
-    if (index < middle) return isSelected ? "bg-red-500  border-red-500" : "border-2 border-red-300 hover:bg-red-500 hover:border-red-500";
-    if (index === middle) return isSelected ? "bg-gray-500  border-gray-500" : "border-2 border-gray-400 hover:bg-gray-500 hover:border-gray-500";
-    return isSelected ? "bg-green-500 border-green-500" : "border-2 border-green-300 hover:bg-green-500 hover:border-green-500";
+    if (index < middle)
+      return isSelected
+        ? "bg-red-500 border-red-500"
+        : "border-2 border-red-300 hover:bg-red-500 hover:border-red-500";
+    if (index === middle)
+      return isSelected
+        ? "bg-gray-500 border-gray-500"
+        : "border-2 border-gray-400 hover:bg-gray-500 hover:border-gray-500";
+    return isSelected
+      ? "bg-green-500 border-green-500"
+      : "border-2 border-green-300 hover:bg-green-500 hover:border-green-500";
   };
 
   const questionText = language === "ru" ? question.text_ru : question.text_kg;
@@ -76,37 +110,39 @@ export default function Question_Six({ questions }: Question_Six_Props) {
   const isError = !selectedOption && getValidError(question.id);
 
   return (
-    <section  id={`question-${question.id}`} className="p-10" data-question-answered={selectedOption ? "true" : "false"}>
+    <section
+      id={`question-${question.id}`}
+      className="p-10 Padding"
+      data-question-answered={selectedOption ? "true" : "false"}
+    >
       <div className="mb-6">
-        <h2 className="text-lg font-bold font-inter text-gray-900 mb-4">{questionText}</h2>
+        <h2 className="text-[0.950rem] font-bold font-inter text-gray-900 mb-4 ContainerQuestionEX">
+          {questionText}
+        </h2>
 
         <div className="flex items-start justify-between text-gray-700 mt-12">
-          {/* Первый span слева */}
-          <span className="text-xs font-bold text-red-600 font-inter uppercase">
+          <span className="text-xs font-bold text-red-600 font-inter uppercase TextRed">
             {optionText(question.options[0])}
           </span>
-
-          {/* Второй span справа */}
-          <span className="text-xs font-bold text-green-600 font-inter uppercase">
+          <span className="text-xs font-bold text-green-600 font-inter uppercase TextGreen">
             {optionText(question.options[question.options.length - 1])}
           </span>
         </div>
 
-        <div className="flex items-center justify-center gap-10 px-16 mt-4">
-          {" "}
+        <div className="flex items-center justify-center Gap px-16 mt-4">
           {question.options
-            .slice(1, question.options.length - 1) 
+            .slice(1, question.options.length - 1)
             .map((option: Option, index, filteredOptions) => {
               const isSelected = selectedOption === option.id.toString();
               return (
                 <label
                   key={option.id}
-                  htmlFor={`optionFive-${option.id}`}
-                  className={`flex flex-col items-center cursor-pointer transition-all duration-300 ease-in-out transform`}
+                  htmlFor={`optionSix-${option.id}`}
+                  className="flex flex-col items-center cursor-pointer transition-all duration-300 ease-in-out transform"
                 >
                   <input
-                    id={`optionFive-${option.id}`}
-                    name="question_6"
+                    id={`optionSix-${option.id}`}
+                    name={`question-${option.id}`}
                     type="radio"
                     className="hidden"
                     onChange={() => handleChange(question.id, option.id.toString())}
@@ -118,9 +154,9 @@ export default function Question_Six({ questions }: Question_Six_Props) {
                       filteredOptions.length,
                       isSelected
                     )} border-2 rounded-full flex items-center justify-center transition-all duration-300 ease-in-out`}
-                    style={getSizeStyle(index, filteredOptions.length)} 
+                    style={getSizeStyle(index, filteredOptions.length)}
                   >
-                    {isSelected || (
+                    {!isSelected && (
                       <IoIosCheckmark className="text-white w-16 h-16 opacity-0 hover:opacity-100 transition-opacity duration-300" />
                     )}
                     {isSelected && (

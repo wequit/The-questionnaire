@@ -120,6 +120,7 @@ export default function Question_One({ questions }: Question_One_Props) {
             onOptionChange={handleChange}
             customAnswer={customAnswer}
             setCustomAnswer={setCustomAnswer}
+            language={language}
           />
         )}
       </div>

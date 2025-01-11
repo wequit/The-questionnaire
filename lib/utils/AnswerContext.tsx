@@ -16,19 +16,24 @@ interface Question {
   options: Option[];
 }
 
+interface CourtName {
+  ru: string;
+  kg: string;
+}
+
 interface AnswerContextProps {
   getAnswer: (key: string) => string | null;
   setAnswer: (key: string, value: string) => void;
   getAllAnswers: () => Record<string, string | null>;
-  courtName: string | null;
-  setCourtName: (courtName: string) => void;
+  courtName: CourtName | null; // Изменение типа
+  setCourtName: (courtName: CourtName) => void;
   courtId: string | null;
   setCourtId: (courtId: string | null) => void;
   questions: Question[];
   setQuestions: (questions: Question[]) => void;
-  setValidError: (questionId: number, value: boolean) => void; // Добавлено
-  getValidError: (questionId: number) => boolean; 
- }
+  setValidError: (questionId: number, value: boolean) => void;
+  getValidError: (questionId: number) => boolean;
+}
 
 interface ValidErrors {
   [questionId: number]: boolean;
@@ -39,7 +44,7 @@ const AnswerContext = createContext<AnswerContextProps | undefined>(undefined);
 export const AnswerProvider = ({ children }: { children: ReactNode }) => {
   const [validErrors, setValidErrors] = useState<ValidErrors>({});
   const [questions, setQuestions] = useState<Question[]>([]);
-  const [courtName, setCourtName] = useState<string | null>(null);
+  const [courtName, setCourtName] = useState<CourtName | null>(null);
   const [courtId, setCourtId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -61,36 +66,28 @@ export const AnswerProvider = ({ children }: { children: ReactNode }) => {
     return answers;
   };
 
-  // Пример обновления в AnswerContext:
-useEffect(() => {
-  const courtIdFromUrl = window.location.pathname.split('/')[2];
-  if (courtIdFromUrl) {
-    setCourtId(courtIdFromUrl);
-  }
-
-  const fetchCourtData = async (courtId: string | null) => {
-    if (courtId) {
-      try {
-        const response = await fetch(`https://opros.pythonanywhere.com/api/v1/court/${courtId}/`);
-        const data = await response.json();
-        // Сохраняем названия для обоих языков
-        setCourtName({
-          ru: data.name_ru,
-          kg: data.name_kg,
-        });
-      } catch (error) {
-        console.error('Ошибка при загрузке данных о суде:', error);
-      } finally {
-        setLoading(false);
-      }
+  useEffect(() => {
+    const courtIdFromUrl = window.location.pathname.split('/')[2];
+    if (courtIdFromUrl) {
+      setCourtId(courtIdFromUrl);
     }
-  };
 
-  fetchCourtData(courtIdFromUrl);
-}, [courtId]);
+    const fetchCourtData = async (courtId: string | null) => {
+      if (courtId) {
+        try {
+          const response = await fetch(`https://opros.pythonanywhere.com/api/v1/court/${courtId}/`);
+          const data = await response.json();
+          setCourtName({ ru: data.name_ru, kg: data.name_kg }); 
+        } catch (error) {
+          console.error('Ошибка при загрузке данных о суде:', error);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
 
-
-  
+    fetchCourtData(courtIdFromUrl);
+  }, [courtId]);
 
   const setValidError = (questionId: number, value: boolean) => {
     setValidErrors((prev) => ({ ...prev, [questionId]: value }));
