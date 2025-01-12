@@ -1,6 +1,4 @@
-'use client';
-
-import React, { createContext, useContext, ReactNode, useState, useEffect } from "react";
+import React, { createContext, useContext, ReactNode, useState, useEffect, useCallback } from "react";
 
 interface Option {
   id: number;
@@ -25,7 +23,7 @@ interface AnswerContextProps {
   getAnswer: (key: string) => string | null;
   setAnswer: (key: string, value: string) => void;
   getAllAnswers: () => Record<string, string | null>;
-  courtName: CourtName | null; // Изменение типа
+  courtName: CourtName | null;
   setCourtName: (courtName: CourtName) => void;
   courtId: string | null;
   setCourtId: (courtId: string | null) => void;
@@ -77,7 +75,7 @@ export const AnswerProvider = ({ children }: { children: ReactNode }) => {
         try {
           const response = await fetch(`https://opros.pythonanywhere.com/api/v1/court/${courtId}/`);
           const data = await response.json();
-          setCourtName({ ru: data.name_ru, kg: data.name_kg }); 
+          setCourtName({ ru: data.name_ru, kg: data.name_kg });
         } catch (error) {
           console.error('Ошибка при загрузке данных о суде:', error);
         } finally {
@@ -89,9 +87,14 @@ export const AnswerProvider = ({ children }: { children: ReactNode }) => {
     fetchCourtData(courtIdFromUrl);
   }, [courtId]);
 
-  const setValidError = (questionId: number, value: boolean) => {
-    setValidErrors((prev) => ({ ...prev, [questionId]: value }));
-  };
+  // Мемоизация setValidError, чтобы избежать ненужных перерисовок
+  const setValidError = useCallback((questionId: number, value: boolean) => {
+    setValidErrors((prev) => {
+      // Использование предыдущего состояния и возврат нового объекта
+      const updatedErrors = { ...prev, [questionId]: value };
+      return updatedErrors;
+    });
+  }, []);
 
   const getValidError = (questionId: number): boolean => {
     return validErrors[questionId] || false;
@@ -129,3 +132,4 @@ export const useAnswerContext = (): AnswerContextProps => {
   }
   return context;
 };
+  

@@ -15,7 +15,7 @@ const FooterActions = () => {
     scrollToFirstUnansweredQuestion,
   } = useSubmitSurvey();
   const { setValidError, questions } = useAnswerContext();
-  const { language } = useLanguage(); // Получаем текущий язык
+  const { language } = useLanguage();
 
   const onSubmit = async () => {
     // Найти все неотвеченные вопросы
@@ -23,16 +23,14 @@ const FooterActions = () => {
       const questionElement = document.getElementById(`question-${question.id}`);
       return questionElement?.getAttribute("data-question-answered") !== "true";
     });
-
+  
     if (unansweredQuestions.length > 0) {
       // Прокрутить к первому неотвеченному вопросу
       scrollToFirstUnansweredQuestion();
-
+  
       // Установить ошибки для всех неотвеченных вопросов
       unansweredQuestions.forEach((unansweredQuestion) => {
-        requestAnimationFrame(() => {
-          setValidError(unansweredQuestion.id, true);
-        });
+        setValidError(unansweredQuestion.id, true);
       });
     } else {
       // Если все вопросы отвечены, выполняем дальнейшие действия
@@ -42,6 +40,7 @@ const FooterActions = () => {
       }
     }
   };
+  
 
   const fingerprint = getOrCreateFingerprint();
   const hasCompletedSurvey = fingerprint.status === "completed";
@@ -79,7 +78,7 @@ const FooterActions = () => {
             className={`text-green-700 p-4 font-inter text-md rounded-lg bg-white shadow-lg hover:bg-green-100 transition-all duration-300 transform  w-full max-w-[9rem] ContainerButtonSend`}
             disabled={loading}
           >
-            {loading ? (language === "ru" ? "Отправка..." : "Жөнөтүлүүдө...") : submitText} {/* Текст кнопки отправки */}
+            {loading ? (language === "ru" ? "Отправка..." : "Жөнөтүлүүдө...") : submitText}
           </button>
 
           {/* Успешное сообщение */}
@@ -102,3 +101,5 @@ const FooterActions = () => {
 };
 
 export default FooterActions;
+
+

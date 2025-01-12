@@ -28,9 +28,7 @@ export default function Question_TwentyThree({ questions }: Question_TwentyThree
   });
 
   const [customAnswer, setCustomAnswer] = useState<string>(
-    selectedOption === "custom"
-      ? localStorage.getItem(`${question.id}_custom`) || ""
-      : ""
+    selectedOption === "custom" ? localStorage.getItem(`${question.id}_custom`) || "" : ""
   );
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -66,7 +64,7 @@ export default function Question_TwentyThree({ questions }: Question_TwentyThree
           ref={textareaRef}
           value={customAnswer}
           onChange={(e) => handleInputChange(e.target.value)}
-          className="w-full Placeholder border-0 border-b-2 border-gray-300 px-3 pb-5 shadow-none outline-none focus:ring-0 focus:border-blue-500 transition duration-300 ease-in-out resize-none"
+          className="w-full Placeholder border-0  px-3 pb-5 shadow-none outline-none focus:ring-0  transition duration-300 ease-in-out resize-none overflow-hidden"
           placeholder="Введите ваш ответ"
           rows={1}
         />

@@ -26,7 +26,7 @@ interface Question_Two_Props {
 
 export default function Question_Two({ questions }: Question_Two_Props) {
   const { language } = useLanguage();
-  const { setValidError, getValidError  } = useAnswerContext();
+  const { setValidError, getValidError } = useAnswerContext();
   const question = questions.find((q) => q.id === 2);
 
   if (!question) {
@@ -43,11 +43,10 @@ export default function Question_Two({ questions }: Question_Two_Props) {
     updateAnsweredStatus(questionId, true); // Обновляем статус вопроса
     
     // Сбрасываем ошибку текущего вопроса асинхронно
-    requestAnimationFrame(() => {
+    if (!selectedOption && getValidError(questionId)) {
       setValidError(questionId, false);
-    });
+    }
   };
-  
 
   const questionText = language === "ru" ? question.text_ru : question.text_kg;
   const optionText = (option: Option) =>
@@ -55,7 +54,7 @@ export default function Question_Two({ questions }: Question_Two_Props) {
 
   const isError = !selectedOption && getValidError(question.id);
 
-  return (
+  return ( <article className="container responsive min-h-[300px]!important">
     <section
       id={`question-${question.id}`}
       className="p-10 P-420 Padding"
@@ -63,6 +62,9 @@ export default function Question_Two({ questions }: Question_Two_Props) {
     >
       <h2 className="text-lg font-bold font-inter text-gray-900 mb-6 ContainerQuestion">
         {questionText}
+        {question.id === 2 && question.is_required && (
+          <span className="text-red-500 ml-1">*</span>
+        )}
       </h2>
       <div className="text-gray-700 font-inter">
         {question.options.map((option: Option) => (
@@ -82,7 +84,8 @@ export default function Question_Two({ questions }: Question_Two_Props) {
                 checked={selectedOption === option.id.toString()}
               />
               {/* Кастомная радиокнопка */}
-              <div className="w-7 h-7 ContainerRadio border-2 border-gray-300 rounded-full flex items-center justify-center relative peer-checked:border-blue-200 peer-checked:bg-gradient-to-r peer-checked:from-sky-500 peer-checked:to-sky-700 transition-all duration-300 ease-in-out">
+              <div className="w-7 h-7 ContainerRadio border-2 border-gray-300 rounded-full flex items-center justify-center relative 
+              peer-checked:border-emerald-500   peer-checked:bg-emerald-500 transition-all duration-300 ease-in-out">
                 {/* Галочка появляется, если радиокнопка активна */}
                 {selectedOption === option.id.toString() && (
                   <IoIosCheckmark className="text-white w-6 h-6" />
@@ -99,9 +102,9 @@ export default function Question_Two({ questions }: Question_Two_Props) {
       {isError && (
         <div className="text-red-600 flex items-center">
           <CgDanger className="w-7 h-7" />
-          <h2 className="ml-3">Это обязательный вопрос.</h2>
+          <h2 className="ml-3"> {language === "ru" ? "Это обязательный вопрос." : "Бул милдеттүү суроо."}</h2>
         </div>
       )}
-    </section>
+    </section></article>
   );
 }

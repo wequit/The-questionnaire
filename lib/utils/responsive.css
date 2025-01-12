@@ -53,26 +53,29 @@ textarea::-webkit-scrollbar {
   .PaddingHeader {
     @apply p-3;
   }
-  
+
   .ContainerLogo {
     @apply w-28 h-28;
   }
-  
+
   .ContainerTittle {
-    @apply text-xl
+    @apply text-xl;
   }
   .ContainerCourt {
-    @apply text-2xl
+    @apply text-2xl;
   }
 
   .ContainerDescription {
-    @apply text-base mt-[2rem];
+    @apply text-base mt-[2rem] leading-8;
   }
 
   .Padding {
     @apply p-6;
   }
   .ContainerQuestion {
+    @apply text-base;
+  }
+  .ContainerQuestionEX {
     @apply text-base;
   }
   .ContainerOptionText {
@@ -86,8 +89,15 @@ textarea::-webkit-scrollbar {
   .Gap {
     @apply gap-7;
   }
-  
-/* .TextColor{
+
+  .TextRed {
+    @apply text-[0.66rem];
+  }
+  .TextGreen {
+    @apply text-[0.66rem];
+  }
+
+  /* .TextColor{
   @apply text-center
 } */
 
@@ -104,7 +114,6 @@ textarea::-webkit-scrollbar {
   .TextGreenWidth_19 {
     @apply w-20 text-[0.68rem] text-center;
   } */
-
 }
 
 @media (max-width: 455px) {
@@ -115,7 +124,7 @@ textarea::-webkit-scrollbar {
   .containerButtonFooter {
     @apply max-w-[24rem];
   }
-  
+
   .PaddingHeader {
     @apply p-1;
   }
@@ -125,11 +134,11 @@ textarea::-webkit-scrollbar {
   .ContainerTittle {
     @apply text-lg leading-6;
   }
-  .ContainerCourt{
-    @apply text-2xl 
+  .ContainerCourt {
+    @apply text-2xl;
   }
   .ContainerDescription {
-    @apply text-sm;
+    @apply text-sm leading-6;
   }
 
   .Padding {
@@ -160,14 +169,13 @@ textarea::-webkit-scrollbar {
   .TextGreen {
     @apply text-[0.61rem];
   }
-  .ContainerHeaderButton{
-    @apply text-[0.65rem] px-3 py-2
+  .ContainerHeaderButton {
+    @apply text-[0.75rem] px-3 py-2;
   }
 
-  .ContainerFlag{
-    @apply w-5 h-5  
+  .ContainerFlag {
+    @apply w-5 h-5;
   }
-
 }
 
 @media (max-width: 405px) {
@@ -182,9 +190,20 @@ textarea::-webkit-scrollbar {
   .ContainerTittle {
     @apply text-base leading-6;
   }
-  .ContainerCourt{
-    @apply text-xl
-  }  
+  .ContainerCourt {
+    @apply text-xl;
+  }
+
+  .ContainerOptionText {
+    @apply text-[0.912rem];
+  }
+
+  .TextRed {
+    @apply text-[0.56rem];
+  }
+  .TextGreen {
+    @apply text-[0.56rem];
+  }
 
   /* .TextRedWidthFIX{
     @apply text-[0.60rem]
@@ -209,6 +228,10 @@ textarea::-webkit-scrollbar {
   .containerButtonFooter {
     @apply max-w-[21rem];
   }
+
+  .ContainerHeaderButton {
+    @apply text-[0.70rem] px-3 py-2;
+  }
 }
 
 @media (max-width: 352px) {
@@ -223,9 +246,9 @@ textarea::-webkit-scrollbar {
   .ContainerTittle {
     @apply text-xs leading-6;
   }
-  .ContainerCourt{
-    @apply text-base 
-  }  
+  .ContainerCourt {
+    @apply text-base;
+  }
 
   .Gap {
     @apply gap-4;
@@ -236,5 +259,9 @@ textarea::-webkit-scrollbar {
   }
   .TextGreen {
     @apply text-[0.51rem];
+  }
+
+  .ContainerHeaderButton {
+    @apply text-[0.67rem] px-3 py-2;
   }
 }

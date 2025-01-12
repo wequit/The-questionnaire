@@ -51,7 +51,6 @@ export default function Question_One({ questions }: Question_One_Props) {
       : ""
   );
 
-  // Состояние для ошибки
   const [hasError, setHasError] = useState(false);
 
   // Обновление ответа
@@ -71,60 +70,63 @@ export default function Question_One({ questions }: Question_One_Props) {
   const optionText = (option: Option) =>
     language === "ru" ? option.text_ru : option.text_kg;
 
-
   return (
-    <section
-      className="p-10 Padding"
-      id={`question-${question.id}`}
-      data-question-answered='true'
-    >
-      <h2 className="text-lg font-semibold font-inter text-gray-900 mb-2 ContainerQuestion">
-        {questionText}
-      </h2>
-      {hasError && (
-        <p className="text-red-500 text-sm mb-4">
-          Пожалуйста, ответьте на этот вопрос.
-        </p>
-      )}
-      <div className="text-gray-700 mt-4 font-inter">
-        {filteredOptions.map((option: Option) => (
-          <div key={option.id} className="flex items-center mb-4">
-            <label
-              htmlFor={`option-${option.id}`}
-              className="flex items-center cursor-pointer"
-            >
-              <input
-                id={`option-${option.id}`}
-                name={`question-${question.id}`}
-                type="radio"
-                className="hidden peer"
-                onChange={() => handleChange(question.id, option.id.toString())}
-                checked={selectedOption === option.id.toString()}
-              />
-              <div className="w-7 h-7 ContainerRadio border-2 border-gray-300 rounded-full flex items-center justify-center relative peer-checked:border-blue-100 peer-checked:bg-gradient-to-r peer-checked:from-sky-500 peer-checked:to-sky-700 transition-all duration-300 ease-in-out">
-                {selectedOption === option.id.toString() && (
-                  <IoIosCheckmark className="text-white w-6 h-6" />
-                )}
-              </div>
-              <span className="ml-4 text-lg text-gray-900 ContainerOptionText">
-                {optionText(option)}
-              </span>
-            </label>
-          </div>
-        ))}
-
-        {otherOption && (
-          <OtherOption
-            questionId={question.id}
-            isSelected={selectedOption === "custom"}
-            onOptionChange={handleChange}
-            customAnswer={customAnswer}
-            setCustomAnswer={setCustomAnswer}
-            language={language}
-          />
+    <article className="container responsive min-h-[300px]!important">
+      <section
+        className="p-10 Padding"
+        id={`question-${question.id}`}
+        data-question-answered="true"
+      >
+        <h2 className="text-lg font-semibold font-inter text-gray-900 mb-2 ContainerQuestion">
+          {questionText}
+        </h2>
+        {hasError && (
+          <p className="text-red-500 text-sm mb-4">
+            Пожалуйста, ответьте на этот вопрос.
+          </p>
         )}
-      </div>
-      
-    </section>
+        <div className="text-gray-700 mt-4 font-inter">
+          {filteredOptions.map((option: Option) => (
+            <div key={option.id} className="flex items-center mb-4">
+              <label
+                htmlFor={`option-${option.id}`}
+                className="flex items-center cursor-pointer"
+              >
+                <input
+                  id={`option-${option.id}`}
+                  name={`question-${question.id}`}
+                  type="radio"
+                  className="hidden peer"
+                  onChange={() =>
+                    handleChange(question.id, option.id.toString())
+                  }
+                  checked={selectedOption === option.id.toString()}
+                />
+                <div className="w-7 h-7 ContainerRadio border-2 border-gray-300 rounded-full flex items-center justify-center relative
+                 peer-checked:border-emerald-500   peer-checked:bg-emerald-500 transition-all duration-300 ease-in-out">
+                  {selectedOption === option.id.toString() && (
+                    <IoIosCheckmark className="text-white w-6 h-6" />
+                  )}
+                </div>
+                <span className="ml-4 text-lg text-gray-900 ContainerOptionText">
+                  {optionText(option)}
+                </span>
+              </label>
+            </div>
+          ))}
+
+          {otherOption && (
+            <OtherOption
+              questionId={question.id}
+              isSelected={selectedOption === "custom"}
+              onOptionChange={handleChange}
+              customAnswer={customAnswer}
+              setCustomAnswer={setCustomAnswer}
+              language={language}
+            />
+          )}
+        </div>
+      </section>
+    </article>
   );
 }

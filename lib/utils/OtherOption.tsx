@@ -76,7 +76,8 @@ export default function OtherOption({
         />
         {/* Кастомная радиокнопка */}
         <div
-          className="w-7 h-7 ContainerRadio border-2 border-gray-300 rounded-full flex items-center justify-center relative peer-checked:border-blue-100 peer-checked:bg-gradient-to-r peer-checked:from-sky-500 peer-checked:to-sky-700 transition-all duration-300 ease-in-out"
+          className="w-7 h-7 ContainerRadio border-2 border-gray-300 rounded-full flex items-center justify-center relative 
+          peer-checked:border-emerald-500   peer-checked:bg-emerald-500 transition-all duration-300 ease-in-out"
           onClick={handleOptionChangeWithFocus}  // Добавлено для активации радиокнопки
         >
           {isSelected && <IoIosCheckmark className="text-white w-6 h-6" />}
@@ -92,7 +93,7 @@ export default function OtherOption({
           type="text"
           value={localAnswer}
           onChange={(e) => handleCustomAnswerChange(e.target.value)}
-          className="w-full border-0 Placeholder border-b-2 border-gray-300 px-3 py-1 shadow-none outline-none focus:ring-0 focus:border-blue-500 transition duration-300 ease-in-out pr-8"
+          className="w-full border-0 Placeholder appearance-none border-b-2 border-gray-300 px-3 py-1 shadow-none outline-none focus:ring-0 focus:border-blue-500 transition duration-300 ease-in-out pr-8"
           placeholder={
             language === "ru" ? "Введите ваш ответ" : "Жообуңузду киргизиңиз"
           }

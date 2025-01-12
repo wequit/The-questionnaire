@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useState, useEffect, useRef } from "react";
 
 interface Option {
@@ -14,7 +14,7 @@ interface Question {
   is_required: boolean;
   options: Option[];
   selected_option: number | null;
-  custom_answer?: string; 
+  custom_answer?: string;
 }
 
 interface Survey {
@@ -31,22 +31,24 @@ interface QuestionsFetcherProps {
 
 export default function QuestionsFetcher({ onFetch }: QuestionsFetcherProps) {
   const [error, setError] = useState<string | null>(null);
-  const hasFetched = useRef(false); 
+  const hasFetched = useRef(false);
 
   useEffect(() => {
     const fetchSurvey = async () => {
-      if (hasFetched.current) return; 
-      hasFetched.current = true; 
+      if (hasFetched.current) return;
+      hasFetched.current = true;
 
       try {
         // Простой запрос без авторизации
-        const response = await fetch("https://opros.pythonanywhere.com/api/v1/surveys/1/");
-        
+        const response = await fetch(
+          "https://opros.pythonanywhere.com/api/v1/surveys/1/"
+        );
+
         if (!response.ok) {
           throw new Error("Ошибка загрузки данных опроса");
         }
 
-        const data = await response.json(); 
+        const data = await response.json();
 
         const survey: Survey = {
           title_ru: data.title_ru,
@@ -63,20 +65,20 @@ export default function QuestionsFetcher({ onFetch }: QuestionsFetcherProps) {
               text_ru: option.text_ru,
               text_kg: option.text_kg,
             })),
-            selected_option: null, 
-            custom_answer: null, 
+            selected_option: null,
+            custom_answer: null,
           })),
         };
 
-        onFetch(survey); 
+        onFetch(survey);
       } catch (err) {
         setError("Ошибка загрузки данных опроса");
         console.error("Error fetching survey:", err);
       }
     };
 
-    fetchSurvey(); 
-  }, []); 
+    fetchSurvey();
+  }, []);
 
   if (error) {
     return <div>{error}</div>;

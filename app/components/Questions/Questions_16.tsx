@@ -98,7 +98,8 @@ export default function Question_Sixteen({
                 checked={selectedOptions.includes(option.id.toString())}
               />
               {/* Кастомная чекбокс-кнопка */}
-              <div className="w-7 h-7 ContainerRadio border-2 border-gray-300 rounded flex items-center justify-center relative peer-checked:border-blue-100 peer-checked:bg-gradient-to-r peer-checked:from-sky-500 peer-checked:to-sky-700 transition-all duration-300 ease-in-out">
+              <div className="w-7 h-7 ContainerRadio border-2 border-gray-300 rounded flex items-center justify-center relative 
+              peer-checked:border-emerald-500   peer-checked:bg-emerald-500 transition-all duration-300 ease-in-out">
                 {/* Галочка появляется, если чекбокс активен */}
                 {selectedOptions.includes(option.id.toString()) && (
                   <IoIosCheckmark className="text-white w-6 h-6" />

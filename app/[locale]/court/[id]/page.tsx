@@ -1,108 +1,147 @@
 "use client";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { getOrCreateFingerprint } from "@/lib/utils/fingerprint";
 import QuestionsFetcher from "@/lib/api/QuestionsFetcher";
 import Question_One from "@/app/components/Questions/Question_1";
-import "@/lib/utils/responsive.css";
 import Question_Two from "@/app/components/Questions/Question_2";
-import Question_Two_Three from "@/app/components/Questions/Question_3";
-import Question_Fourr from "@/app/components/Questions/Question_4";
-import Question_Five from "../../../components/Questions/Question_5";
-import Question_Six from "@/app/components/Questions/Question_6";
-import Question_Seven from "@/app/components/Questions/Question_7";
-import Question_Eight from "@/app/components/Questions/Question_8";
-import Question_Nine from "@/app/components/Questions/Question_9";
-import Question_Ten from "@/app/components/Questions/Question_10";
-import Question_Eleven from "@/app/components/Questions/Questions_11";
-import Question_Twelve from "@/app/components/Questions/Questions_12";
-import Question_Thirteen from "@/app/components/Questions/Questions_13";
-import Question_Fourteen from "@/app/components/Questions/Questions_14";
-import Question_Fiveteen from "@/app/components/Questions/Questions_15";
-import Question_Sixteen from "@/app/components/Questions/Questions_16";
-import Question_Seventeen from "@/app/components/Questions/Questions_17";
-import Question_Eighteen from "@/app/components/Questions/Questions_18";
-import Question_Nineteen from "@/app/components/Questions/Questions_19";
-import Question_Twenty from "@/app/components/Questions/Questions_20";
-import Question_TwentyOne from "@/app/components/Questions/Questions_21";
-import Question_TwentyTwo from "@/app/components/Questions/Questions_22";
-import Question_TwentyThree from "@/app/components/Questions/Questions_23";
-import { useAnswerContext } from "@/lib/utils/AnswerContext";
+import Question_Three from "@/app/components/Questions/Question_3";
 import Question_Four from "@/app/components/Questions/Question_4";
+import Questions_Five_Twelve from "@/app/components/Questions/Questions_Five_Twelve";
+import Question_Thirteen from "@/app/components/Questions/Questions_13"; // Новый компонент
+import Questions_Fourteen_TwentyTwo from "@/app/components/Questions/Questions_Fourteen_TwentyTwo";
+import Question_Sixteen from "@/app/components/Questions/Questions_16"; // Импортируем компонент 16 вопроса
+import { useAnswerContext } from "@/lib/utils/AnswerContext";
+import "@/lib/utils/responsive.css";
+import Question_TwentyThree from "@/app/components/Questions/Questions_23";
 
-interface Option {
-  id: number;
-  text_ru: string;
-  text_kg: string;
-}
-
+// Интерфейсы для данных
 interface Question {
   id: number;
   text_ru: string;
   text_kg: string;
   is_required: boolean;
-  options: Option[];
+  options: {
+    id: number;
+    text_ru: string;
+    text_kg: string;
+  }[];
 }
 
 interface Survey {
-  title_ru: string;
-  title_kg: string;
-  description_ru: string;
-  description_kg: string;
   questions: Question[];
 }
 
 export default function BlankOne() {
   const { questions, setQuestions } = useAnswerContext();
 
-  const handleFetchSurvey = useCallback((survey: { questions: Question[] }) => {
-    setQuestions(survey.questions); // Сохраняем вопросы в контекст
-  }, [setQuestions]);
+  const handleFetchSurvey = useCallback(
+    (survey: Survey) => setQuestions(survey.questions),
+    [setQuestions]
+  );
 
   const fingerprint = getOrCreateFingerprint();
   const hasCompletedSurvey = fingerprint.status === "completed";
 
+  // Разделение вопросов по группам
+  const questions_1_4 = questions.filter(
+    (question) => question.id >= 1 && question.id <= 4
+  );
+  const questions_5_12 = questions.filter(
+    (question) => question.id >= 5 && question.id <= 12
+  );
+  const question_13 = questions.find((question) => question.id === 13);
+  const question_16 = questions.find((question) => question.id === 16);
+  const questions_14_15 = questions.filter(
+    (question) => question.id === 14 || question.id === 15
+  );
+  const questions_17_22 = questions.filter(
+    (question) => question.id >= 17 && question.id <= 22
+  );
+
+  const question_23 = questions.find((question) => question.id === 23);
+
   return (
     <div>
-      {/* Фетчинг данных */}
       <QuestionsFetcher onFetch={handleFetchSurvey} />
 
       {hasCompletedSurvey ? (
-        ''
+        <p>Опрос завершен. Благодарим за участие!</p>
       ) : (
         <div className="flex justify-center items-center flex-col w-full col-span-2">
           {questions.length === 0 ? (
             <p>Вопросы загружаются...</p>
           ) : (
-            questions.map((question, index) => (
-              <article
-                key={question.id}
-                className="container responsive min-h-[300px]!important"
-              >
-                {index === 0 && <Question_One questions={questions} />}
-                {index === 1 && <Question_Two questions={questions} />}
-                {index === 2 && <Question_Two_Three questions={questions} />}
-                {index === 3 && <Question_Fourr questions={questions} />}
-                {index === 4 && <Question_Five questions={questions} />}
-                {index === 5 && <Question_Six questions={questions} />}
-                {index === 6 && <Question_Seven questions={questions} />}
-                {index === 7 && <Question_Eight questions={questions} />}
-                {index === 8 && <Question_Nine questions={questions} />}
-                {index === 9 && <Question_Ten questions={questions} />}
-                {index === 10 && <Question_Eleven questions={questions} />}
-                {index === 11 && <Question_Twelve questions={questions} />}
-                {index === 12 && <Question_Thirteen questions={questions} />}
-                 {index === 13 && <Question_Fourteen questions={questions} />} 
-                {index === 14 && <Question_Fiveteen questions={questions} />} 
-                {index === 15 && <Question_Sixteen questions={questions} />}
-                {index === 16 && <Question_Seventeen questions={questions} />}
-                 {index === 17 && <Question_Eighteen questions={questions} />}
-                {index === 18 && <Question_Nineteen questions={questions} />}
-                {index === 19 && <Question_Twenty questions={questions} />}
-                {index === 20 && <Question_TwentyOne questions={questions} />}
-                {index === 21 && <Question_TwentyTwo questions={questions} />} 
-                {index === 22 && <Question_TwentyThree questions={questions} />}
-              </article>
-            ))
+            <>
+              {/* Вопросы 1–4 */}
+              {questions_1_4.map((question, index) => {
+                if (index === 0)
+                  return (
+                    <Question_One questions={questions_1_4} key={question.id} />
+                  );
+                if (index === 1)
+                  return (
+                    <Question_Two questions={questions_1_4} key={question.id} />
+                  );
+                if (index === 2)
+                  return (
+                    <Question_Three
+                      questions={questions_1_4}
+                      key={question.id}
+                    />
+                  );
+                if (index === 3)
+                  return (
+                    <Question_Four
+                      questions={questions_1_4}
+                      key={question.id}
+                    />
+                  );
+                return null;
+              })}
+
+              {/* Вопросы 5–12 */}
+              {questions_5_12.length > 0 && (
+                <Questions_Five_Twelve questions={questions_5_12} />
+              )}
+
+              {/* Вопрос 13 */}
+              {question_13 && (
+                <article
+                  className="container responsive min-h-[300px]!important"
+                  key="question_13"
+                >
+                  <Question_Thirteen questions={[question_13]} />
+                </article>
+              )}
+
+              {/* Вопросы 14-15 */}
+              {questions_14_15.length > 0 && (
+                <Questions_Fourteen_TwentyTwo questions={questions_14_15} />
+              )}
+
+              {/* Вопрос 16 */}
+              {question_16 && (
+                <article
+                  className="container responsive min-h-[300px]!important"
+                  key="question_16"
+                >
+                  <Question_Sixteen questions={[question_16]} />
+                </article>
+              )}
+
+              {/* Вопросы 17-22 */}
+              {questions_17_22.length > 0 && (
+                <Questions_Fourteen_TwentyTwo questions={questions_17_22} />
+              )}
+              {question_23 && (
+                <article
+                  className="container responsive min-h-[300px]!important"
+                  key="question_23"
+                >
+                  <Question_TwentyThree questions={[question_23]} />
+                </article>
+              )}
+            </>
           )}
         </div>
       )}
