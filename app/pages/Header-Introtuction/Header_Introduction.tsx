@@ -42,8 +42,6 @@ export default function Introduction({
     router.push(newPath); // Переход на новый маршрут с обновленным языком
   };
 
-  const descriptionParts = description.split("\r\n");
-
   return (
     <div className="p-6 PaddingHeader">
       <div className="flex items-center mb-6 flex-col">

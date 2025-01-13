@@ -71,7 +71,7 @@ export default function OtherOptionCheckBox({
           checked={isSelected}
         />
         {/* Кастомный стиль чекбокса */}
-        <div className="w-7 h-7 border-2 ContainerRadio border-gray-300 rounded flex items-center justify-center relative 
+        <div className="w-9 h-9 border-2 ContainerRadio border-gray-300 rounded flex items-center justify-center relative 
         peer-checked:border-emerald-500   peer-checked:bg-emerald-500 transition-all duration-300 ease-in-out">
           {isSelected && <IoIosCheckmark className="text-white w-6 h-6" />}
         </div>

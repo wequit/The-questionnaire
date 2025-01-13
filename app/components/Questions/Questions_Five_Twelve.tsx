@@ -107,6 +107,7 @@ export default function Questions_Five_Twelve({
         );
 
         const isError = !selectedOption && getValidError(question.id);
+        const isAnswered = question.id === 8 || question.id === 10 || selectedOption === "true";
 
         return (
           <article
@@ -116,13 +117,27 @@ export default function Questions_Five_Twelve({
             <section
               id={`question-${question.id}`}
               className=" p-10 Padding"
-              data-question-answered={question.id === 8 || question.id === 10 ? "true" : selectedOption ? "true" : "false"}
+              data-question-answered={
+                question.id === 8 || question.id === 10
+                  ? "true"
+                  : selectedOption
+                    ? "true"
+                    : "false"
+              }
             >
               <div className="mb-6">
-                <h2 className="text-lg font-bold font-inter text-gray-900 mb-4 ContainerQuestionEX">
-                  {questionText}
-                </h2>
-                <div className={`flex items-start justify-between text-gray-700 mt-12 text-center`} >
+                <div className="flex justify-between items-start">
+                  <h2 className="text-lg font-bold font-inter text-gray-900 mb-4 ContainerQuestionEX">
+                    {questionText}
+                  </h2>
+                  {!isAnswered && (
+                    <span className="text-red-500 text-2xl font-bold">*</span>
+                  )}
+                </div>
+
+                <div
+                  className={`flex items-start justify-between text-gray-700 mt-8 text-center`}
+                >
                   <span
                     className={`text-xs  text-start font-bold text-red-600 font-inter uppercase TextRed `}
                   >
@@ -179,7 +194,11 @@ export default function Questions_Five_Twelve({
               {isError && (
                 <div className="text-red-600 flex items-center">
                   <CgDanger className="w-7 h-7" />
-                  <h2 className="ml-3">{language === "ru" ? "Это обязательный вопрос." : "Бул милдеттүү суроо."}</h2>
+                  <h2 className="ml-3 Necessarily">
+                    {language === "ru"
+                      ? "Это обязательный вопрос."
+                      : "Бул милдеттүү суроо."}
+                  </h2>
                 </div>
               )}
             </section>

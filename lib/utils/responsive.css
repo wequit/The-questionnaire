@@ -37,6 +37,10 @@ textarea::-webkit-scrollbar {
   .Gap {
     @apply gap-10;
   }
+
+  .ContainerCourtSkeleton {
+    @apply w-[400px] !important;
+  }
 }
 
 @media (max-width: 600px) {
@@ -97,23 +101,13 @@ textarea::-webkit-scrollbar {
     @apply text-[0.66rem];
   }
 
-  /* .TextColor{
-  @apply text-center
-} */
-
-  /* .TextRedWidth {
-    @apply w-24 text-[0.68rem] text-center;
-  }
-  .TextGreenWidth {
-    @apply w-20 text-[0.68rem] text-center;
+  .ContainerCourtSkeleton {
+    @apply w-[350px] !important;
   }
 
-  .TextRedWidth_19{
-    @apply w-28 text-[0.68rem] text-center;
+  .ContainerCourt_SkeletonDescription {
+    @apply w-[360px] !important;
   }
-  .TextGreenWidth_19 {
-    @apply w-20 text-[0.68rem] text-center;
-  } */
 }
 
 @media (max-width: 455px) {
@@ -151,11 +145,12 @@ textarea::-webkit-scrollbar {
     @apply text-base;
   }
   .ContainerRadio {
-    @apply flex-shrink-0 w-6 h-6;
+    @apply flex-shrink-0 w-8 h-8;
   }
   .Placeholder {
     @apply placeholder:text-xs text-xs;
   }
+
   .Gap {
     @apply gap-6;
   }
@@ -175,6 +170,30 @@ textarea::-webkit-scrollbar {
 
   .ContainerFlag {
     @apply w-5 h-5;
+  }
+
+  .NecessarilyText {
+    @apply text-sm;
+  }
+
+  .NecessarilySvg {
+    @apply h-5 w-5;
+  }
+
+  .ContainerCourtLogo {
+    @apply w-[100px] h-[100px] !important;
+  }
+
+  .ContainerTittleSkeleton {
+    @apply w-[200px] !important;
+  }
+
+  .ContainerCourtSkeleton {
+    @apply w-[290px] !important;
+  }
+  
+  .ContainerCourt_SkeletonDescription {
+    @apply w-[330px] !important;
   }
 }
 
@@ -205,12 +224,17 @@ textarea::-webkit-scrollbar {
     @apply text-[0.56rem];
   }
 
-  /* .TextRedWidthFIX{
-    @apply text-[0.60rem]
+  .ContainerCourtLogo {
+    @apply w-[100px] h-[100px] !important;
   }
-  .TextGreenWidthFIX{
-    @apply text-[0.60rem]
-  } */
+
+  .ContainerCourtSkeleton {
+    @apply w-[320px] !important;
+  }
+
+  .ContainerCourt_SkeletonDescription {
+    @apply w-[300px] !important;
+  }
 }
 
 @media (max-width: 374px) {
@@ -263,5 +287,21 @@ textarea::-webkit-scrollbar {
 
   .ContainerHeaderButton {
     @apply text-[0.67rem] px-3 py-2;
+  }
+
+  .ContainerCourtLogo {
+    @apply w-[100px] h-[100px] !important;
+  }
+
+  .ContainerCourtSkeleton {
+    @apply w-[250px] !important;
+  }
+
+  .ContainerTittleSkeleton {
+    @apply w-[150px] !important;
+  }
+
+  .ContainerCourt_SkeletonDescription {
+    @apply w-[250px] !important;
   }
 }

@@ -10,6 +10,7 @@ import FooterActions from "../../../pages/FooterActions/FooterActions";
 import { useState } from 'react';
 import { AnswerProvider } from '@/lib/utils/AnswerContext';
 import Head from 'next/head';  // Для управления мета-данными
+import SkeletonIntroduction from '@/lib/utils/SkeletonIntroduction'; // Импортируем скелетон
 
 interface Survey {
   title_ru: string;
@@ -41,8 +42,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="bg-gray-100 bg-gradient-to-b from-slate-900 to-slate-500">
               <header className="flex justify-center items-center text-black">
                 <div className="bg-white p-6 rounded-lg shadow-md w-full container mt-4 responsive">
-                  {/* Передаем данные в Introduction, если они есть */}
-                  {survey && (
+                  {/* Если данные не загружены, показываем скелетон */}
+                  {!survey ? (
+                    <SkeletonIntroduction />
+                  ) : (
                     <Introduction
                       title_ru={survey.title_ru}
                       title_kg={survey.title_kg}

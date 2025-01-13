@@ -1,4 +1,12 @@
-import React, { createContext, useContext, ReactNode, useState, useEffect, useCallback } from "react";
+import React, {
+  createContext,
+  useContext,
+  ReactNode,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
+import Loading from "./Loading";
 
 interface Option {
   id: number;
@@ -65,7 +73,7 @@ export const AnswerProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    const courtIdFromUrl = window.location.pathname.split('/')[3];
+    const courtIdFromUrl = window.location.pathname.split("/")[3];
     if (courtIdFromUrl) {
       setCourtId(courtIdFromUrl);
     }
@@ -73,11 +81,13 @@ export const AnswerProvider = ({ children }: { children: ReactNode }) => {
     const fetchCourtData = async (courtId: string | null) => {
       if (courtId) {
         try {
-          const response = await fetch(`https://opros.pythonanywhere.com/api/v1/court/${courtId}/`);
+          const response = await fetch(
+            `https://opros.pythonanywhere.com/api/v1/court/${courtId}/`
+          );
           const data = await response.json();
           setCourtName({ ru: data.name_ru, kg: data.name_kg });
         } catch (error) {
-          console.error('Ошибка при загрузке данных о суде:', error);
+          console.error("Ошибка при загрузке данных о суде:", error);
         } finally {
           setLoading(false);
         }
@@ -101,7 +111,11 @@ export const AnswerProvider = ({ children }: { children: ReactNode }) => {
   };
 
   if (loading) {
-    return <div>Загрузка...</div>;
+    return (
+      <div className="loading-container">
+       <Loading/>
+      </div>
+    );
   }
 
   return (
@@ -132,4 +146,3 @@ export const useAnswerContext = (): AnswerContextProps => {
   }
   return context;
 };
-  

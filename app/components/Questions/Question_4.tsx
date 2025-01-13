@@ -76,64 +76,84 @@ export default function Question_Fourr({ questions }: Question_Four_Props) {
 
   const isError = !selectedOption && getValidError(question.id);
 
-  return (<article className="container responsive min-h-[300px]!important">
-    <section
-      id={`question-${question.id}`}
-      className="p-10 Padding"
-      data-question-answered={selectedOption ? "true" : "false"}
-    >
-      <h2 className="text-lg font-bold font-inter text-gray-900 mb-6 ContainerQuestion">
-        {questionText}
-      </h2>
-      <div className="text-gray-700 font-inter">
-        {/* Отображаем только фильтрованные опции */}
-        {filteredOptions.map((option: Option) => (
-          <div key={option.id} className="flex items-center mb-4">
-            <label
-              htmlFor={`option-${option.id}`}
-              className="flex items-center cursor-pointer"
-            >
-              <input
-                id={`option-${option.id}`}
-                name={`question-${question.id}`}
-                type="radio"
-                className="hidden peer"
-                onChange={() => handleChange(question.id, option.id.toString())}
-                checked={selectedOption === option.id.toString()}
-              />
-              {/* Кастомная радиокнопка */}
-              <div className="w-7 h-7 ContainerRadio border-2 border-gray-300 rounded-full flex items-center justify-center relative 
-              peer-checked:border-emerald-500   peer-checked:bg-emerald-500 transition-all duration-300 ease-in-out">
-                {/* Галочка появляется, если радиокнопка активна */}
-                {selectedOption === option.id.toString() && (
-                  <IoIosCheckmark className="text-white w-6 h-6" />
-                )}
-              </div>
-              <span className="ml-4 text-lg text-gray-900 ContainerOptionText">
-                {optionText(option)}
-              </span>
-            </label>
-          </div>
-        ))}
-
-        {/* Добавляем компонент для "Другое:" */}
-        {otherOption && (
-          <OtherOption
-            questionId={question.id}
-            isSelected={selectedOption === "custom"}
-            onOptionChange={handleChange}
-            customAnswer={customAnswer}
-            setCustomAnswer={setCustomAnswer}
-            language={language}
-          />
-        )}
-      </div>
-      {isError && (
-        <div className="text-red-600 flex items-center">
-          <CgDanger className="w-7 h-7" />
-          <h2 className="ml-3">{language === "ru" ? "Это обязательный вопрос." : "Бул милдеттүү суроо."}</h2>
+  return (
+    <article className="container responsive min-h-[300px]!important">
+      <section
+        id={`question-${question.id}`}
+        className="p-10 Padding"
+        data-question-answered={selectedOption ? "true" : "false"}
+      >
+        <div className="flex justify-between items-start">
+          <h2 className="text-lg font-bold font-inter text-gray-900 mb-4 ContainerQuestionEX">
+            {questionText}
+          </h2>
+          <span
+            className={`text-red-500 text-2xl font-bold ${
+              selectedOption ? "visible" : "invisible"
+            }`}
+          >
+            *
+          </span>
         </div>
-      )}
-    </section></article>
+
+        <div className="text-gray-700 font-inter">
+          {/* Отображаем только фильтрованные опции */}
+          {filteredOptions.map((option: Option) => (
+            <div key={option.id} className="flex items-center mb-4">
+              <label
+                htmlFor={`option-${option.id}`}
+                className="flex items-center cursor-pointer"
+              >
+                <input
+                  id={`option-${option.id}`}
+                  name={`question-${question.id}`}
+                  type="radio"
+                  className="hidden peer"
+                  onChange={() =>
+                    handleChange(question.id, option.id.toString())
+                  }
+                  checked={selectedOption === option.id.toString()}
+                />
+                {/* Кастомная радиокнопка */}
+                <div
+                  className="w-9 h-9 ContainerRadio border-2 border-gray-300 rounded-full flex items-center justify-center relative 
+              peer-checked:border-emerald-500   peer-checked:bg-emerald-500 transition-all duration-300 ease-in-out"
+                >
+                  {/* Галочка появляется, если радиокнопка активна */}
+                  {selectedOption === option.id.toString() && (
+                    <IoIosCheckmark className="text-white w-6 h-6" />
+                  )}
+                </div>
+                <span className="ml-4 text-lg text-gray-900 ContainerOptionText">
+                  {optionText(option)}
+                </span>
+              </label>
+            </div>
+          ))}
+
+          {/* Добавляем компонент для "Другое:" */}
+          {otherOption && (
+            <OtherOption
+              questionId={question.id}
+              isSelected={selectedOption === "custom"}
+              onOptionChange={handleChange}
+              customAnswer={customAnswer}
+              setCustomAnswer={setCustomAnswer}
+              language={language}
+            />
+          )}
+        </div>
+        {isError && (
+          <div className="text-red-600 flex items-center">
+            <CgDanger className="w-7 h-7" />
+            <h2 className="ml-3 Necessarily">
+              {language === "ru"
+                ? "Это обязательный вопрос."
+                : "Бул милдеттүү суроо."}
+            </h2>
+          </div>
+        )}
+      </section>
+    </article>
   );
 }

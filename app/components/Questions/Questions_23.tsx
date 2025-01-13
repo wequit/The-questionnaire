@@ -65,7 +65,7 @@ export default function Question_TwentyThree({ questions }: Question_TwentyThree
           value={customAnswer}
           onChange={(e) => handleInputChange(e.target.value)}
           className="w-full Placeholder border-0  px-3 pb-5 shadow-none outline-none focus:ring-0  transition duration-300 ease-in-out resize-none overflow-hidden"
-          placeholder="Введите ваш ответ"
+          placeholder={`${language === "ru" ? "Введите ваш текст" : "Жообуңузду киргизиңиз" }`}
           rows={1}
         />
       </div>
