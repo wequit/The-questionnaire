@@ -24,6 +24,10 @@
   @apply gap-12;
 }
 
+.custom-input {
+  border-bottom: 2px solid #d1d5db; /* Эквивалент border-gray-300 */
+}
+
 /* Стили для ползунка */
 textarea::-webkit-scrollbar {
   display: none; /* Устанавливаем ширину ползунка */
@@ -107,6 +111,20 @@ textarea::-webkit-scrollbar {
 
   .ContainerCourt_SkeletonDescription {
     @apply w-[360px] !important;
+  }
+
+  .CompletedTextOne{
+    @apply text-2xl
+  }
+
+  .CompletedTextTwo{
+    @apply text-lg
+  }
+  .CompletedTextThree{
+    @apply text-base
+  }
+  .CompletedTextFour{
+    @apply text-base
   }
 }
 
@@ -234,6 +252,20 @@ textarea::-webkit-scrollbar {
 
   .ContainerCourt_SkeletonDescription {
     @apply w-[300px] !important;
+  }
+
+  .CompletedTextOne{
+    @apply text-xl
+  }
+
+  .CompletedTextTwo{
+    @apply text-base
+  }
+  .CompletedTextThree{
+    @apply text-sm
+  }
+  .CompletedTextFour{
+    @apply text-sm
   }
 }
 

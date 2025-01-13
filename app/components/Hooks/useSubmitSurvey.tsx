@@ -120,7 +120,7 @@ export const useSubmitSurvey = () => {
       setError(err instanceof Error ? err.message : "Неизвестная ошибка.");
     } finally {
       setLoading(false);
-      location.reload();
+      // location.reload();
     }
   };
   

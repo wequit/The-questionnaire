@@ -193,8 +193,8 @@ export default function Questions_Five_Twelve({
               </div>
               {isError && (
                 <div className="text-red-600 flex items-center">
-                  <CgDanger className="w-7 h-7" />
-                  <h2 className="ml-3 Necessarily">
+                  <CgDanger className="w-7 h-7 NecessarilySvg" />
+                  <h2 className="ml-3 NecessarilyText">
                     {language === "ru"
                       ? "Это обязательный вопрос."
                       : "Бул милдеттүү суроо."}

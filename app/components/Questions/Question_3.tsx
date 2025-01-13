@@ -60,19 +60,18 @@ export default function Question_Three({ questions }: Question_Three_Props) {
         className="p-10 P-420 Padding"
         data-question-answered={selectedOption ? "true" : "false"}
       >
-      <div className="flex justify-between items-start">
-  <h2 className="text-lg font-bold font-inter text-gray-900 mb-4 ContainerQuestionEX">
-    {questionText}
-  </h2>
-  <span
-    className={`text-red-500 text-2xl font-bold ${
-      selectedOption ? "visible" : "invisible"
-    }`}
-  >
-    *
-  </span>
-</div>
-
+        <div className="flex justify-between items-start">
+          <h2 className="text-lg font-bold font-inter text-gray-900 mb-4 ContainerQuestionEX">
+            {questionText}
+          </h2>
+          <span
+            className={`text-red-500 text-2xl font-bold ${
+              selectedOption ? "true": "false" ? "visible" : "invisible"
+            }`}
+          >
+            *
+          </span>
+        </div>
 
         <div className="text-gray-700 font-inter">
           {question.options.map((option: Option) => (
@@ -93,8 +92,10 @@ export default function Question_Three({ questions }: Question_Three_Props) {
                 />
 
                 {/* Кастомная радиокнопка */}
-                <div className="w-9 h-9 ContainerRadio border-2 border-gray-300 rounded-full flex items-center justify-center relative 
-                peer-checked:border-emerald-500   peer-checked:bg-emerald-500 transition-all duration-300 ease-in-out">
+                <div
+                  className="w-9 h-9 ContainerRadio border-2 border-gray-300 rounded-full flex items-center justify-center relative 
+                peer-checked:border-emerald-500   peer-checked:bg-emerald-500 transition-all duration-300 ease-in-out"
+                >
                   {/* Галочка появляется, если радиокнопка активна */}
                   {selectedOption === option.id.toString() && (
                     <IoIosCheckmark className="text-white w-6 h-6" />
@@ -111,8 +112,12 @@ export default function Question_Three({ questions }: Question_Three_Props) {
 
         {isError && (
           <div className="text-red-600 flex items-center">
-            <CgDanger className="w-7 h-7" />
-            <h2 className="ml-3 Necessarily">{language === "ru" ? "Это обязательный вопрос." : "Бул милдеттүү суроо."}</h2>
+            <CgDanger className="w-7 h-7 NecessarilySvg" />
+            <h2 className="ml-3 NecessarilyText">
+              {language === "ru"
+                ? "Это обязательный вопрос."
+                : "Бул милдеттүү суроо."}
+            </h2>
           </div>
         )}
       </section>

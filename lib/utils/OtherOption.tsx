@@ -93,7 +93,7 @@ export default function OtherOption({
           type="text"
           value={localAnswer}
           onChange={(e) => handleCustomAnswerChange(e.target.value)}
-         className="w-full Placeholder border-0 border-b-2 border-gray-300 px-3 py-1 shadow-none outline-none focus:ring-0 focus:border-blue-500 transition duration-300 ease-in-out pr-8"
+         className="w-full custom-input Placeholder border-0 border-b-2 border-gray-300 px-3 py-1 shadow-none outline-none focus:ring-0 focus:border-blue-500 transition duration-300 ease-in-out pr-8"
           placeholder={
             language === "ru" ? "Введите ваш ответ" : "Жообуңузду киргизиңиз"
           }

@@ -65,36 +65,23 @@ const FooterActions = () => {
       {hasCompletedSurvey ? (
         ""
       ) : (
-        <div className="flex justify-between items-center containerButtonFooter my-4 gap-4">
-          <button
-            onClick={handleClearAnswers}
-            className="text-red-500 font-inter text-md p-4 rounded-lg bg-white shadow-lg hover:bg-red-100 transition-all duration-300 transform  w-full max-w-[12rem] ContainerButtonClear"
-          >
-            {clearText}
-          </button>
-
-          <button
-            onClick={onSubmit}
-            className={`text-green-700 p-4 font-inter text-md rounded-lg bg-white shadow-lg hover:bg-green-100 transition-all duration-300 transform  w-full max-w-[9rem] ContainerButtonSend`}
-            disabled={loading}
-          >
-            {loading ? (language === "ru" ? "Отправка..." : "Жөнөтүлүүдө...") : submitText}
-          </button>
-
-          {/* Успешное сообщение */}
-          {submitSuccess && (
-            <div className="mt-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-md">
-              <p>{submitSuccess}</p>
-            </div>
-          )}
-
-          {/* Ошибка от сервера */}
-          {errorMessage && (
-            <div className="mt-4 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md">
-              <p>{errorMessage}</p>
-            </div>
-          )}
-        </div>
+        <div className="flex justify-between items-center containerButtonFooter my-6 gap-6">
+        <button
+          onClick={handleClearAnswers}
+          className="text-red-600 font-inter text-md p-4 rounded-lg bg-white shadow-lg touch-manipulation hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-300 transform w-full max-w-[12rem] ContainerButtonClear"
+        >
+          {clearText}
+        </button>
+      
+        <button
+          onClick={onSubmit}
+          className={`text-green-800 p-4 font-inter text-md rounded-lg bg-white shadow-lg  touch-manipulation focus:outline-none focus:ring-2  transition-all duration-300 transform w-full max-w-[9rem] ContainerButtonSend`}
+          disabled={loading} 
+        >
+          {loading ? (language === "ru" ? "Отправка..." : "Жөнөтүлүүдө...") : submitText}
+        </button>
+      </div>
+      
       )}
     </>
   );

@@ -67,7 +67,7 @@ export default function Question_Two({ questions }: Question_Two_Props) {
           </h2>
           <span
             className={`text-red-500 text-2xl font-bold ${
-              selectedOption ? "visible" : "invisible"
+              selectedOption ? "true": "false" ? "visible" : "invisible"
             }`}
           >
             *

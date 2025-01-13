@@ -1,7 +1,7 @@
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import React from "react";
-import '@/lib/utils/responsive.css'
+import '@/lib/utils/skeleton-animation.css'
 
 const SkeletonIntroduction = () => {
   return (
@@ -12,14 +12,14 @@ const SkeletonIntroduction = () => {
           containerClassName="avatar-skeleton"
           width={150}
           height={150}
-          className=" ContainerCourtLogo mb-4"
+          className=" ContainerCourtLogo mb-4  skeleton-animation"
         />
         <h3 className="font-medium text-center text-gray-900 my-6 uppercase">
           <span className="block text-2xl text-gray-700 ContainerTittle">
-            <Skeleton width={300} className="ContainerTittleSkeleton"/>
+            <Skeleton width={300} className="ContainerTittleSkeleton skeleton-animation"/>
           </span>
           <span className="block text-3xl font-semibold text-gray-900 mt-2 ContainerCourt  ">
-            <Skeleton width={550} height={40} className="ContainerCourtSkeleton"/>
+            <Skeleton width={550} height={40} className="ContainerCourtSkeleton skeleton-animation"/>
           </span>
         </h3>
 
@@ -28,20 +28,20 @@ const SkeletonIntroduction = () => {
 
       <div>
         <p className="text-gray-800 mt-[3rem] font-inter leading-8 tracking-wide whitespace-pre-line break-words ContainerDescription">
-          <Skeleton width={100}  />
+          <Skeleton width={100} className=" skeleton-animation"  />
           <br />
-          <Skeleton width={500} height={100} className="ContainerCourt_SkeletonDescription"/>
+          <Skeleton width={500} height={100} className="ContainerCourt_SkeletonDescription  skeleton-animation"/>
           <br />
-          <Skeleton width={500} height={80} className="ContainerCourt_SkeletonDescription"/>
+          <Skeleton width={500} height={80} className="ContainerCourt_SkeletonDescription  skeleton-animation"/>
           <br />
-          <Skeleton width={500} height={30} className="ContainerCourt_SkeletonDescription"/>
+          <Skeleton width={500} height={30} className="ContainerCourt_SkeletonDescription  skeleton-animation"/>
           <br />
-          <Skeleton width={500} height={50} className="ContainerCourt_SkeletonDescription"/>
+          <Skeleton width={500} height={50} className="ContainerCourt_SkeletonDescription  skeleton-animation"/>
         </p>
 
         <div className="flex justify-center mt-6">
           <button className="ContainerHeaderButton my-2 px-4 py-3  text-white font-medium text-sm rounded-md shadow-lg flex items-center space-x-3 ease-in-out hover:from-sky-600 hover:to-sky-900 transition-transform duration-300">
-            <Skeleton width={150} height={40} />
+            <Skeleton width={150} height={40}  className=" skeleton-animation"/>
           </button>
         </div>
       </div>

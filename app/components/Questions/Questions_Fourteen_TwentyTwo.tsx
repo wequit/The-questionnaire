@@ -165,8 +165,8 @@ export default function Questions_Fourteen_TwentyTwo({
               </div>
               {isError && (
                 <div className="text-red-600 flex items-center">
-                  <CgDanger className="w-7 h-7" />
-                  <h2 className="ml-3 Necessarily">{language === "ru" ? "Это обязательный вопрос." : "Бул милдеттүү суроо."}</h2>
+                  <CgDanger className="w-7 h-7 NecessarilySvg" />
+                  <h2 className="ml-3 NecessarilyText">{language === "ru" ? "Это обязательный вопрос." : "Бул милдеттүү суроо."}</h2>
                 </div>
               )}
             </section>

@@ -58,14 +58,14 @@ export default function BlankOne() {
     (question) => question.id >= 17 && question.id <= 22
   );
 
-  const question_23 = questions.find((question) => question.id === 23);
+  // const question_23 = questions.find((question) => question.id === 23);
 
   return (
     <div>
       <QuestionsFetcher onFetch={handleFetchSurvey} />
 
       {hasCompletedSurvey ? (
-        <p>Опрос завершен. Благодарим за участие!</p>
+        ''
       ) : (
         <div className="flex justify-center items-center flex-col w-full col-span-2">
           {questions.length === 0 ? (
@@ -133,14 +133,14 @@ export default function BlankOne() {
               {questions_17_22.length > 0 && (
                 <Questions_Fourteen_TwentyTwo questions={questions_17_22} />
               )}
-              {question_23 && (
+              {/* {question_23 && (
                 <article
                   className="container responsive min-h-[300px]!important"
                   key="question_23"
                 >
                   <Question_TwentyThree questions={[question_23]} />
                 </article>
-              )}
+              )} */}
             </>
           )}
         </div>

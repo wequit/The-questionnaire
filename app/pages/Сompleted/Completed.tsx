@@ -1,31 +1,22 @@
-"use client"; // Для работы в клиентском компоненте Next.js 13+
-
+"use client";
 
 export default function Completed() {
-
-  const handleGoBack = () => {
-    // Очищаем фингерпринт из localStorage
-    localStorage.removeItem('survey_fingerprint');
-  
-    // Перезагружаем страницу
-    window.location.reload();
-  };
-  
-
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <div className="bg-white p-6 rounded-lg shadow-md text-center">
-        <h1 className="text-2xl font-bold mb-4">Спасибо за участие!</h1>
-        <p className="text-gray-700 mb-4">
-          Вы уже прошли опрос. Благодарим за ваше время и участие.
-        </p>
-        <button
-          onClick={handleGoBack}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300"
-        >
-          Вернуться обратно
-        </button>
-      </div>
+    <div className="p-8 mt-8 font-inter rounded-xl text-center max-w-xl mx-auto">
+      <h1 className="text-3xl text-gray-900 font-bold mb-6 CompletedTextOne">
+        Вы завершили опрос!
+      </h1>
+      <p className="text-xl text-gray-800 mb-6 CompletedTextTwo">
+        Спасибо за участие! Ваши ответы помогут улучшить судебную систему
+        Кыргызстана, сделав её более прозрачной и доступной.
+      </p>
+      <p className="text-lg text-gray-600 mb-6 CompletedTextThree">
+        Обратите внимание, что вы не можете пройти опрос повторно в течение 30
+        дней, чтобы обеспечить точность и честность результатов.
+      </p>
+      <p className="text-lg text-gray-700 italic CompletedTextFour ">
+        Ваш вклад имеет большое значение для нас!
+      </p>
     </div>
   );
 }
