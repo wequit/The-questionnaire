@@ -53,7 +53,7 @@ export const useSubmitSurvey = () => {
         responses.push({
           question: questionId,
           custom_answer:
-            customAnswer && customAnswer.trim() ? customAnswer : "",
+            customAnswer && customAnswer.trim() ? customAnswer : "Необязательный вопрос",
         });
       } else if (questionId === 13) {
         if (storedOption) {
