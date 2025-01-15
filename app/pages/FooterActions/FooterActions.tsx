@@ -22,6 +22,7 @@ const FooterActions = () => {
       if (!isAnswered) {
         console.warn(`Неотвеченный вопрос: ${question.id}, текст: ${question.text_ru || question.text_kg}`);
       }
+      window.location.reload();
       return !isAnswered;
     });
     
@@ -74,7 +75,7 @@ const FooterActions = () => {
           className={`text-green-800 p-4 font-sans text-md rounded-lg bg-white shadow-lg  touch-manipulation focus:outline-none focus:ring-2  transition-all duration-300 transform w-full max-w-[9rem] ContainerButtonSend`}
           disabled={loading} 
         >
-          {loading ? (language === "ru" ? "Отправка" : "Жөнөтүлүүдө") : submitText}
+          {loading ? (language === "ru" ? "Отправка..." : "Жөнөтүлүүдө") : submitText}
         </button>
       </div>
     </>

@@ -61,8 +61,7 @@ export default function BlankOne() {
   ), [questions]);
 
   const question_23 = questions.find((question) => question.id === 23);
-  console.log("BlankOne rerendered");
-  console.log("QuestionsFetcher fetched data");
+
   
   return (
     <div>

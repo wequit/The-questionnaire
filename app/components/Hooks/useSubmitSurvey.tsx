@@ -28,9 +28,6 @@ export const useSubmitSurvey = () => {
       const storedOption = localStorage.getItem(questionId.toString());
       const customAnswer = localStorage.getItem(`${questionId}_custom`);
   
-      console.log(`Проверка для вопроса ${questionId}:`);
-      console.log(`storedOption: ${storedOption}, customAnswer: ${customAnswer}`);
-  
       const hasOtherOption = question.options.some(
         (option) => option.text_ru === "Другое:" || option.text_kg === "Другое:"
       );
@@ -84,10 +81,7 @@ export const useSubmitSurvey = () => {
             hasOtherOption && customAnswer ? customAnswer : undefined,
         });
   
-        console.log(
-          `Добавлен ответ для вопроса ${questionId}:`,
-          responses[responses.length - 1]
-        );
+     
       } else {
         if (questionId === 1) {
           const selectedOption = storedOption
@@ -101,10 +95,6 @@ export const useSubmitSurvey = () => {
               : { custom_answer: "Необязательный вопрос" }), 
           });
   
-          console.log(
-            `Ответ для первого вопроса ${questionId}:`,
-            responses[responses.length - 1]
-          );
         }
   
         if (!question.is_required && questionId !== 1) {
@@ -122,17 +112,13 @@ export const useSubmitSurvey = () => {
               : "Необязательный вопрос",
           });
   
-          console.log(
-            `Ответ для необязательного вопроса ${questionId}:`,
-            responses[responses.length - 1]
-          );
+         
         }
       }
     });
   
     responses.sort((a, b) => a.question - b.question);
   
-    console.log("Окончательные ответы:", responses);
     return responses;
   };
   
