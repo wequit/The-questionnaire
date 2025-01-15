@@ -10,30 +10,29 @@ const FooterActions = () => {
   const {
     handleSubmit,
     loading,
-    errorMessage,
-    submitSuccess,
     scrollToFirstUnansweredQuestion,
   } = useSubmitSurvey();
   const { setValidError, questions } = useAnswerContext();
   const { language } = useLanguage();
 
   const onSubmit = async () => {
-    // Найти все неотвеченные вопросы
     const unansweredQuestions = questions.filter((question) => {
       const questionElement = document.getElementById(`question-${question.id}`);
-      return questionElement?.getAttribute("data-question-answered") !== "true";
+      const isAnswered = questionElement?.getAttribute("data-question-answered") === "true";
+      if (!isAnswered) {
+        console.warn(`Неотвеченный вопрос: ${question.id}, текст: ${question.text_ru || question.text_kg}`);
+      }
+      return !isAnswered;
     });
+    
   
     if (unansweredQuestions.length > 0) {
-      // Прокрутить к первому неотвеченному вопросу
       scrollToFirstUnansweredQuestion();
   
-      // Установить ошибки для всех неотвеченных вопросов
       unansweredQuestions.forEach((unansweredQuestion) => {
         setValidError(unansweredQuestion.id, true);
       });
     } else {
-      // Если все вопросы отвечены, выполняем дальнейшие действия
       const isValid = await handleNext();
       if (isValid) {
         handleSubmit();
@@ -56,15 +55,12 @@ const FooterActions = () => {
     window.location.reload();
   };
 
-  // Тексты для кнопок в зависимости от языка
   const submitText = language === "ru" ? "Отправить" : "Жөнөтүү";
   const clearText = language === "ru" ? "Очистить ответы" : "Жоопторду тазалоо";
 
   return (
     <>
-      {hasCompletedSurvey ? (
-        ""
-      ) : (
+      
         <div className="flex justify-between items-center containerButtonFooter my-6 gap-6">
         <button
           onClick={handleClearAnswers}
@@ -75,14 +71,12 @@ const FooterActions = () => {
       
         <button
           onClick={onSubmit}
-          className={`text-green-800 p-4 font-inter text-md rounded-lg bg-white shadow-lg  touch-manipulation focus:outline-none focus:ring-2  transition-all duration-300 transform w-full max-w-[9rem] ContainerButtonSend`}
+          className={`text-green-800 p-4 font-sans text-md rounded-lg bg-white shadow-lg  touch-manipulation focus:outline-none focus:ring-2  transition-all duration-300 transform w-full max-w-[9rem] ContainerButtonSend`}
           disabled={loading} 
         >
-          {loading ? (language === "ru" ? "Отправка..." : "Жөнөтүлүүдө...") : submitText}
+          {loading ? (language === "ru" ? "Отправка" : "Жөнөтүлүүдө") : submitText}
         </button>
       </div>
-      
-      )}
     </>
   );
 };

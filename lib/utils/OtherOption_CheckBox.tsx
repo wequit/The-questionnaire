@@ -21,37 +21,33 @@ export default function OtherOptionCheckBox({
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [localAnswer, setLocalAnswer] = useState(customAnswer);
 
-  // Обработка изменений в поле ввода
   const handleCustomAnswerChange = (value: string) => {
     setLocalAnswer(value);
 
-    // Сохраняем кастомный ответ в состоянии и localStorage
     setTimeout(() => {
       setCustomAnswer(value);
       localStorage.setItem(`${questionId}_custom`, value);
     }, 0);
 
     if (!isSelected) {
-      onOptionChange("custom", true); // Выбираем кастомный ответ
+      onOptionChange("custom", true); 
     }
   };
 
-  // Очистка кастомного ответа
   const handleClearInput = () => {
     setLocalAnswer("");
     setCustomAnswer("");
     localStorage.removeItem(`${questionId}_custom`);
-    onOptionChange("custom", false); // Снимаем выбор с кастомного ответа
+    onOptionChange("custom", false); 
   };
 
-  // Обработка изменения состояния чекбокса
   const handleCheckboxChange = (isChecked: boolean) => {
     onOptionChange("custom", isChecked);
 
     if (!isChecked) {
       handleClearInput();
     } else {
-      inputRef.current?.focus(); // Фокус на поле ввода при выборе чекбокса
+      inputRef.current?.focus();
     }
   };
 

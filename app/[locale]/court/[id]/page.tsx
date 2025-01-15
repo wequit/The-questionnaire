@@ -1,5 +1,5 @@
-"use client";
-import { useCallback } from "react";
+'use client';
+import { useCallback, useMemo } from "react";
 import { getOrCreateFingerprint } from "@/lib/utils/fingerprint";
 import QuestionsFetcher from "@/lib/api/QuestionsFetcher";
 import Question_One from "@/app/components/Questions/Question_1";
@@ -7,14 +7,13 @@ import Question_Two from "@/app/components/Questions/Question_2";
 import Question_Three from "@/app/components/Questions/Question_3";
 import Question_Four from "@/app/components/Questions/Question_4";
 import Questions_Five_Twelve from "@/app/components/Questions/Questions_Five_Twelve";
-import Question_Thirteen from "@/app/components/Questions/Questions_13"; // Новый компонент
+import Question_Thirteen from "@/app/components/Questions/Questions_13"; 
 import Questions_Fourteen_TwentyTwo from "@/app/components/Questions/Questions_Fourteen_TwentyTwo";
-import Question_Sixteen from "@/app/components/Questions/Questions_16"; // Импортируем компонент 16 вопроса
+import Question_Sixteen from "@/app/components/Questions/Questions_16"; 
 import { useAnswerContext } from "@/lib/utils/AnswerContext";
 import "@/lib/utils/responsive.css";
 import Question_TwentyThree from "@/app/components/Questions/Questions_23";
 
-// Интерфейсы для данных
 interface Question {
   id: number;
   text_ru: string;
@@ -39,30 +38,35 @@ export default function BlankOne() {
     [setQuestions]
   );
 
-  const fingerprint = getOrCreateFingerprint();
+  const fingerprint = useMemo(() => getOrCreateFingerprint(), []);
   const hasCompletedSurvey = fingerprint.status === "completed";
 
-  // Разделение вопросов по группам
-  const questions_1_4 = questions.filter(
+  const questions_1_4 = useMemo(() => questions.filter(
     (question) => question.id >= 1 && question.id <= 4
-  );
-  const questions_5_12 = questions.filter(
+  ), [questions]);
+  const questions_5_12 = useMemo(() => questions.filter(
     (question) => question.id >= 5 && question.id <= 12
-  );
-  const question_13 = questions.find((question) => question.id === 13);
-  const question_16 = questions.find((question) => question.id === 16);
-  const questions_14_15 = questions.filter(
+  ), [questions]);
+  const question_13 =  useMemo(() => questions.find(
+    (question) => question.id === 13
+  ), [questions]);
+  const question_16 =  useMemo(() => questions.find(
+    (question) => question.id === 16
+  ), [questions]);
+  const questions_14_15 = useMemo(() => questions.filter(
     (question) => question.id === 14 || question.id === 15
-  );
-  const questions_17_22 = questions.filter(
+  ), [questions]);
+  const questions_17_22 =  useMemo(() => questions.filter(
     (question) => question.id >= 17 && question.id <= 22
-  );
+  ), [questions]);
 
-  // const question_23 = questions.find((question) => question.id === 23);
-
+  const question_23 = questions.find((question) => question.id === 23);
+  console.log("BlankOne rerendered");
+  console.log("QuestionsFetcher fetched data");
+  
   return (
     <div>
-      <QuestionsFetcher onFetch={handleFetchSurvey} />
+      <QuestionsFetcher onFetch={handleFetchSurvey} /> {/* Загрузка вопросов */}
 
       {hasCompletedSurvey ? (
         ''
@@ -133,14 +137,14 @@ export default function BlankOne() {
               {questions_17_22.length > 0 && (
                 <Questions_Fourteen_TwentyTwo questions={questions_17_22} />
               )}
-              {/* {question_23 && (
+              {question_23 && (
                 <article
                   className="container responsive min-h-[300px]!important"
                   key="question_23"
                 >
                   <Question_TwentyThree questions={[question_23]} />
                 </article>
-              )} */}
+              )}
             </>
           )}
         </div>

@@ -52,10 +52,10 @@ textarea::-webkit-scrollbar {
     @apply max-w-[26rem];
   }
   .ContainerButtonSend {
-    @apply text-xs max-w-[7rem];
+    @apply text-sm font-extrabold max-w-[7rem];
   }
   .ContainerButtonClear {
-    @apply text-xs max-w-[10rem];
+    @apply text-sm  max-w-[11rem];
   }
 
   .PaddingHeader {

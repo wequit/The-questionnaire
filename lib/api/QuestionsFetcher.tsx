@@ -39,9 +39,8 @@ export default function QuestionsFetcher({ onFetch }: QuestionsFetcherProps) {
       hasFetched.current = true;
 
       try {
-        // Простой запрос без авторизации
         const response = await fetch(
-          "https://opros.pythonanywhere.com/api/v1/surveys/1/"
+          "https://opros.sot.kg/api/v1/surveys/1/"
         );
 
         if (!response.ok) {

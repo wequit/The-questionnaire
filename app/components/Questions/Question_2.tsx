@@ -39,10 +39,9 @@ export default function Question_Two({ questions }: Question_Two_Props) {
   });
 
   const handleChange = (questionId: number, optionId: string) => {
-    handleOptionChange(optionId); // Обновляем состояние выбора
-    updateAnsweredStatus(questionId, true); // Обновляем статус вопроса
+    handleOptionChange(optionId);
+    updateAnsweredStatus(questionId, true);
 
-    // Сбрасываем ошибку текущего вопроса асинхронно
     if (!selectedOption && getValidError(questionId)) {
       setValidError(questionId, false);
     }
@@ -67,7 +66,7 @@ export default function Question_Two({ questions }: Question_Two_Props) {
           </h2>
           <span
             className={`text-red-500 text-2xl font-bold ${
-              selectedOption ? "true": "false" ? "visible" : "invisible"
+              selectedOption ? "true" : "false" ? "visible" : "invisible"
             }`}
           >
             *

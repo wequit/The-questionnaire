@@ -114,12 +114,10 @@ export default function Question_Fourr({ questions }: Question_Four_Props) {
                   }
                   checked={selectedOption === option.id.toString()}
                 />
-                {/* Кастомная радиокнопка */}
                 <div
-                  className="w-9 h-9 ContainerRadio border-2 border-gray-300 rounded-full flex items-center justify-center relative 
+                  className="w-9 h-9  ContainerRadio border-2 border-gray-300 rounded-full flex items-center justify-center relative 
               peer-checked:border-emerald-500   peer-checked:bg-emerald-500 transition-all duration-300 ease-in-out"
                 >
-                  {/* Галочка появляется, если радиокнопка активна */}
                   {selectedOption === option.id.toString() && (
                     <IoIosCheckmark className="text-white w-6 h-6" />
                   )}

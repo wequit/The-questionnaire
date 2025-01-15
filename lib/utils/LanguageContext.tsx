@@ -24,8 +24,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const router = useRouter();
   const pathname = usePathname();
 
-  // Извлекаем текущий язык из URL
-  const [language, setLanguage] = useState<Language>(pathname.split("/")[1] as Language || "kg");  // По умолчанию "kg"
+  const [language, setLanguage] = useState<Language>(pathname.split("/")[1] as Language || "kg"); 
 
   useEffect(() => {
     const currentLanguage = pathname.split("/")[1] as Language;
@@ -33,9 +32,8 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   }, [pathname]);
 
   const toggleLanguage = () => {
-    const newLanguage = language === "ru" ? "kg" : "ru";  // Переключаем между "ru" и "kg"
+    const newLanguage = language === "ru" ? "kg" : "ru"; 
 
-    // Меняем язык в URL
     const newPath = pathname.replace(`/${language}`, `/${newLanguage}`);
     router.push(newPath);
     setLanguage(newLanguage);

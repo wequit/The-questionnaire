@@ -1,18 +1,27 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  reactStrictMode: true, // Оставляем строгий режим React
+  reactStrictMode: true, 
   eslint: {
-    ignoreDuringBuilds: true, // Игнорировать ошибки ESLint при сборке
+    ignoreDuringBuilds: true, 
   },
   typescript: {
-    ignoreBuildErrors: true, // Игнорировать ошибки TypeScript при сборке
+    ignoreBuildErrors: true, 
   },
   async rewrites() {
     return [
       {
         source: '/api/:path*',
         destination: 'http://127.0.0.1:8000/api/:path*',
+      },
+    ];
+  },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/ky/court/1',
+        permanent: true,  
       },
     ];
   },

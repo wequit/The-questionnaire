@@ -82,7 +82,7 @@ export const AnswerProvider = ({ children }: { children: ReactNode }) => {
       if (courtId) {
         try {
           const response = await fetch(
-            `https://opros.pythonanywhere.com/api/v1/court/${courtId}/`
+            `https://opros.sot.kg/api/v1/court/${courtId}/`
           );
           const data = await response.json();
           setCourtName({ ru: data.name_ru, kg: data.name_kg });
@@ -97,10 +97,8 @@ export const AnswerProvider = ({ children }: { children: ReactNode }) => {
     fetchCourtData(courtIdFromUrl);
   }, [courtId]);
 
-  // Мемоизация setValidError, чтобы избежать ненужных перерисовок
   const setValidError = useCallback((questionId: number, value: boolean) => {
     setValidErrors((prev) => {
-      // Использование предыдущего состояния и возврат нового объекта
       const updatedErrors = { ...prev, [questionId]: value };
       return updatedErrors;
     });

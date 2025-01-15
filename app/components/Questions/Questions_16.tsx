@@ -4,7 +4,7 @@ import OtherOption from "@/lib/utils/OtherOption";
 import { useLanguage } from "@/lib/utils/LanguageContext";
 import { IoIosCheckmark } from "react-icons/io";
 import OtherOptionCheckBox from "@/lib/utils/OtherOption_CheckBox";
-import { useValidate } from "../Hooks/useValidate"; // Импортируем хук для валидации
+import { useValidate } from "../Hooks/useValidate";
 
 interface Option {
   id: number;
@@ -34,15 +34,13 @@ export default function Question_Sixteen({
     return <div>Loading...</div>;
   }
 
-  const { updateAnsweredStatus } = useValidate(); // Используем хук для обновления статуса
+  const { updateAnsweredStatus } = useValidate(); 
   const { handleOptionChange, selectedOption } = useQuestionStorage({
-    localStorageKey:  question.id.toString(),
+    localStorageKey: question.id.toString(),
   });
 
   const [customAnswer, setCustomAnswer] = useState<string>(
-    selectedOption === "custom"
-      ? localStorage.getItem(`${question?.id}_custom`) || ""
-      : ""
+    selectedOption === "custom" ? localStorage.getItem(`${question?.id}_custom`) || "" : ""
   );
 
   const [selectedOptions, setSelectedOptions] = useState<string[]>(
@@ -65,7 +63,7 @@ export default function Question_Sixteen({
 
     setSelectedOptions(updatedOptions);
     handleOptionChange(updatedOptions.join(","));
-    updateAnsweredStatus(questionId, true)
+    updateAnsweredStatus(questionId, true);
   };
 
   const questionText = language === "ru" ? question.text_ru : question.text_kg;
@@ -73,16 +71,11 @@ export default function Question_Sixteen({
     language === "ru" ? option.text_ru : option.text_kg;
 
   return (
-    <section
-    id={`question-${question.id}`}
-      className="p-10 Padding"
-      data-question-answered="true"
-    >
+    <section id={`question-${question.id}`} className="p-10 Padding" data-question-answered="true">
       <h2 className="text-lg font-semibold font-inter text-gray-900 mb-6 ContainerQuestion">
         {questionText}
       </h2>
       <div className="text-gray-700 font-inter">
-        {/* Отображаем только фильтрованные опции */}
         {filteredOptions.map((option: Option) => (
           <div key={option.id} className="flex items-center mb-4">
             <label
@@ -94,13 +87,12 @@ export default function Question_Sixteen({
                 name={`question-${question.id}`}
                 type="checkbox"
                 className="hidden peer"
-                onChange={() => handleCheckboxChange(option.id.toString(), question.id )}
+                onChange={() => handleCheckboxChange(option.id.toString(), question.id)}
                 checked={selectedOptions.includes(option.id.toString())}
               />
               {/* Кастомная чекбокс-кнопка */}
               <div className="w-9 h-9 ContainerRadio border-2 border-gray-300 rounded flex items-center justify-center relative 
-              peer-checked:border-emerald-500   peer-checked:bg-emerald-500 transition-all duration-300 ease-in-out">
-                {/* Галочка появляется, если чекбокс активен */}
+              peer-checked:border-emerald-500 peer-checked:bg-emerald-500 transition-all duration-300 ease-in-out">
                 {selectedOptions.includes(option.id.toString()) && (
                   <IoIosCheckmark className="text-white w-6 h-6" />
                 )}
@@ -112,7 +104,6 @@ export default function Question_Sixteen({
           </div>
         ))}
 
-        {/* Добавляем компонент для "Другое:" */}
         {otherOption && (
           <OtherOptionCheckBox
             questionId={question.id}

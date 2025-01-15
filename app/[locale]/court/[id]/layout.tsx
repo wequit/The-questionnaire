@@ -9,8 +9,8 @@ import Introduction from "../../../pages/Header-Introtuction/Header_Introduction
 import FooterActions from "../../../pages/FooterActions/FooterActions";
 import { useState } from 'react';
 import { AnswerProvider } from '@/lib/utils/AnswerContext';
-import Head from 'next/head';  // Для управления мета-данными
-import SkeletonIntroduction from '@/lib/utils/SkeletonIntroduction'; // Импортируем скелетон
+import Head from 'next/head';  
+import SkeletonIntroduction from '@/lib/utils/SkeletonIntroduction';
 
 interface Survey {
   title_ru: string;

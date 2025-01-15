@@ -78,7 +78,7 @@ export default function OtherOption({
         <div
           className="w-9 h-9 ContainerRadio border-2 border-gray-300 rounded-full flex items-center justify-center relative 
           peer-checked:border-emerald-500   peer-checked:bg-emerald-500 transition-all duration-300 ease-in-out"
-          onClick={handleOptionChangeWithFocus}  // Добавлено для активации радиокнопки
+          onClick={handleOptionChangeWithFocus}
         >
           {isSelected && <IoIosCheckmark className="text-white w-6 h-6" />}
         </div>
@@ -97,7 +97,7 @@ export default function OtherOption({
           placeholder={
             language === "ru" ? "Введите ваш ответ" : "Жообуңузду киргизиңиз"
           }
-          onClick={handleOptionChangeWithFocus}  // Добавлено для активации радиокнопки
+          onClick={handleOptionChangeWithFocus} 
         />
         {localAnswer && (
           <button

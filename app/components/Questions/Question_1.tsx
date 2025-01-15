@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useQuestionStorage } from "@/app/components/Hooks/useQuestionStorage";
 import OtherOption from "@/lib/utils/OtherOption";
 import { useLanguage } from "@/lib/utils/LanguageContext";
 import { IoIosCheckmark } from "react-icons/io";
 import { useValidate } from "../Hooks/useValidate";
+import { useAnswerContext } from "@/lib/utils/AnswerContext";
 
 interface Option {
   id: number;
@@ -23,8 +24,9 @@ interface Question_One_Props {
   questions: Question[];
 }
 
-export default function Question_One({ questions }: Question_One_Props) {
+export default function Question_One({  }: Question_One_Props) {
   const { language } = useLanguage();
+  const { questions } = useAnswerContext();
   const question = questions.find((q) => q.id === 1);
 
   if (!question) {
@@ -53,7 +55,6 @@ export default function Question_One({ questions }: Question_One_Props) {
 
   const [hasError, setHasError] = useState(false);
 
-  // Обновление ответа
   const handleChange = (questionId: number, optionId: string) => {
     if (optionId === "custom") {
       handleOptionChange(optionId);

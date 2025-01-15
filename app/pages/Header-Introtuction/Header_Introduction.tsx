@@ -1,5 +1,5 @@
 import React from "react";
-import { useRouter, usePathname } from "next/navigation"; // Для изменения URL
+import { useRouter, usePathname } from "next/navigation"; 
 import { useLanguage } from "@/lib/utils/LanguageContext";
 import { useAnswerContext } from "@/lib/utils/AnswerContext";
 import Flag from "react-world-flags";
@@ -23,8 +23,8 @@ export default function Introduction({
 }: IntroductionProps) {
   const { language, toggleLanguage } = useLanguage();
   const { courtName } = useAnswerContext();
-  const router = useRouter(); // Для управления маршрутом
-  const pathname = usePathname(); // Текущий путь
+  const router = useRouter(); 
+  const pathname = usePathname(); 
 
   const fingerprint = getOrCreateFingerprint();
   const hasCompletedSurvey = fingerprint.status === "completed";
@@ -34,12 +34,11 @@ export default function Introduction({
   const court = language === "ru" ? courtName?.ru : courtName?.kg;
 
   const handleLanguageChange = () => {
-    toggleLanguage(); // Меняем язык в контексте
+    toggleLanguage(); 
 
-    // Обновляем путь, чтобы отразить изменение языка в URL
-    const newLanguage = language === "ru" ? "ky" : "ru"; // Новый язык
+    const newLanguage = language === "ru" ? "ky" : "ru"; 
     const newPath = pathname.replace(/^\/(ru|ky)/, `/${newLanguage}`);
-    router.push(newPath); // Переход на новый маршрут с обновленным языком
+    router.push(newPath); 
   };
 
   return (

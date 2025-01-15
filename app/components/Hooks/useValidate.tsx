@@ -6,9 +6,7 @@ export const useValidate = () => {
 
   const questionNumbers = Array.from({ length: 23 }, (_, i) => i + 1);
 
-  // Массив валидаторов, которые проверяют наличие ответа для каждого вопроса
   const validators = questionNumbers.map((questionId) => {
-    // Возвращаем функцию для проверки, был ли выбран ответ (смотрим на атрибут data-question-answered)
     return () => {
       const questionElement = document.getElementById(`question-${questionId}`);
       return questionElement?.getAttribute("data-question-answered") === "true";
@@ -16,33 +14,30 @@ export const useValidate = () => {
   });
 
   const handleNext = () => {
-    console.time("handleNext"); // Замеряем время на валидацию
+    console.time("handleNext");
   
     const results = validators.map((validate) => validate());
-    const allValid = results.every((isValid) => isValid); // Все ли ответы правильные (true)?
+    const allValid = results.every((isValid) => isValid); 
   
-    setError(!allValid); // Если есть ошибочные, то выставляем error в true
+    setError(!allValid); 
   
-    console.timeEnd("handleNext"); // Заканчиваем замер времени
+    console.timeEnd("handleNext"); 
   
     return allValid;
   };
   
 
-  // Функция для обновления атрибута data-question-answered
   const updateAnsweredStatus = (questionId: number, isAnswered: boolean) => {
     const questionElement = document.getElementById(`question-${questionId}`);
     if (questionElement) {
-      questionElement.setAttribute(
-        "data-question-answered",
-        isAnswered ? "true" : "false"
-      );
+      questionElement.setAttribute("data-question-answered", isAnswered ? "true" : "false");
     }
   };
+  
 
   return {
     error,
     handleNext,
-    updateAnsweredStatus, // Возвращаем функцию для обновления статуса
+    updateAnsweredStatus,
   };
 };
