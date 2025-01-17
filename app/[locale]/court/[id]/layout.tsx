@@ -31,10 +31,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="h-screen">
         <AnswerProvider>
           <LanguageProvider>
-            {/* Компонент для получения данных опроса */}
             <QuestionsFetcher onFetch={handleFetchSurvey} />
             
-            {/* Мета-теги для управления масштабированием на мобильных устройствах */}
             <Head>
               <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
             </Head>

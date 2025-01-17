@@ -28,22 +28,26 @@ export const useSubmitSurvey = () => {
       const storedOption = localStorage.getItem(questionId.toString());
       const customAnswer = localStorage.getItem(`${questionId}_custom`);
   
-      const hasOtherOption = question.options.some(
-        (option) => option.text_ru === "Другое:" || option.text_kg === "Другое:"
-      );
-  
       if (questionId === 16) {
         if (storedOption) {
+          const options = storedOption.split(",").map((item) => item.trim());
+  
+          const filteredOptions = options.filter((opt) => opt !== "custom");
+  
           responses.push({
             question: questionId,
-            multiple_selected_options: storedOption
-              .split(",")
-              .map((item) => item.trim().toString()), 
+            multiple_selected_options: filteredOptions.length
+              ? filteredOptions
+              : null,
+            ...(customAnswer && customAnswer.trim()
+              ? { custom_answer: customAnswer.trim() }
+              : {}), 
           });
         } else {
+          // Если ответ не выбран
           responses.push({
             question: questionId,
-            multiple_selected_options: null, 
+            multiple_selected_options: null,
           });
         }
       } else if (questionId === 23) {
@@ -54,15 +58,27 @@ export const useSubmitSurvey = () => {
         });
       } else if (questionId === 13) {
         if (storedOption) {
-          const selectedOption = parseInt(storedOption, 10);
-  
-          responses.push({
-            question: questionId,
-            selected_option: selectedOption,
-          });
+          if (storedOption === "custom") {
+            // Пользователь выбрал "Другое:" и ввел текст
+            responses.push({
+              question: questionId,
+              selected_option: null, // Для "Другое:" опция null
+              custom_answer: customAnswer || "Необязательный вопрос", // Если ничего не ввел, ставим значение по умолчанию
+            });
+          } else {
+            // Пользователь выбрал один из вариантов
+            const selectedOption = parseInt(storedOption, 10);
+            responses.push({
+              question: questionId,
+              selected_option: selectedOption,
+              custom_answer: undefined, // Нет текста для "Другое:"
+            });
+          }
         } else {
+          // Пользователь ничего не выбрал
           responses.push({
             question: questionId,
+            selected_option: undefined,
             custom_answer: "Необязательный вопрос",
           });
         }
@@ -77,11 +93,8 @@ export const useSubmitSurvey = () => {
         responses.push({
           question: questionId,
           selected_option: selectedOption,
-          custom_answer:
-            hasOtherOption && customAnswer ? customAnswer : undefined,
+          custom_answer: customAnswer || undefined,
         });
-  
-     
       } else {
         if (questionId === 1) {
           const selectedOption = storedOption
@@ -92,9 +105,8 @@ export const useSubmitSurvey = () => {
             question: questionId,
             ...(selectedOption !== undefined
               ? { selected_option: selectedOption }
-              : { custom_answer: "Необязательный вопрос" }), 
+              : { custom_answer: "Необязательный вопрос" }),
           });
-  
         }
   
         if (!question.is_required && questionId !== 1) {
@@ -107,12 +119,8 @@ export const useSubmitSurvey = () => {
             ...(selectedOption !== undefined && {
               selected_option: selectedOption,
             }),
-            custom_answer: customAnswer
-              ? customAnswer
-              : "Необязательный вопрос",
+            custom_answer: customAnswer || "Необязательный вопрос",
           });
-  
-         
         }
       }
     });
@@ -122,8 +130,6 @@ export const useSubmitSurvey = () => {
     return responses;
   };
   
-  
-
   const scrollToFirstUnansweredQuestion = () => {
     const unansweredElements = document.querySelectorAll(
       '[data-question-answered="false"]'
@@ -205,6 +211,7 @@ export const useSubmitSurvey = () => {
     }
   };
 
+  
   return {
     handleSubmit,
     loading,

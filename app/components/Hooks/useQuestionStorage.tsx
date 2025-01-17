@@ -7,7 +7,6 @@ interface UseQuestionStorageProps {
 
 export const useQuestionStorage = ({ localStorageKey }: UseQuestionStorageProps) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [otherText, setOtherText] = useState<string>("");
 
   useEffect(() => {
     const storedOption = localStorage.getItem(localStorageKey);

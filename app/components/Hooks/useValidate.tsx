@@ -14,24 +14,18 @@ export const useValidate = () => {
   });
 
   const handleNext = () => {
-    console.time("handleNext");
   
     const results = validators.map((validate) => validate());
     const allValid = results.every((isValid) => isValid); 
   
     setError(!allValid); 
   
-    console.timeEnd("handleNext"); 
-  
     return allValid;
   };
   
 
   const updateAnsweredStatus = (questionId: number, isAnswered: boolean) => {
-    const questionElement = document.getElementById(`question-${questionId}`);
-    if (questionElement) {
-      questionElement.setAttribute("data-question-answered", isAnswered ? "true" : "false");
-    }
+    
   };
   
 

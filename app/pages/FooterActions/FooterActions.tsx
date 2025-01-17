@@ -7,39 +7,83 @@ import { useLanguage } from "@/lib/utils/LanguageContext";
 
 const FooterActions = () => {
   const { handleNext } = useValidate();
-  const {
-    handleSubmit,
-    loading,
-    scrollToFirstUnansweredQuestion,
-  } = useSubmitSurvey();
+  const { handleSubmit, loading, scrollToFirstUnansweredQuestion } =
+    useSubmitSurvey();
   const { setValidError, questions } = useAnswerContext();
   const { language } = useLanguage();
 
   const onSubmit = async () => {
     const unansweredQuestions = questions.filter((question) => {
-      const questionElement = document.getElementById(`question-${question.id}`);
-      const isAnswered = questionElement?.getAttribute("data-question-answered") === "true";
-      if (!isAnswered) {
-        console.warn(`Неотвеченный вопрос: ${question.id}, текст: ${question.text_ru || question.text_kg}`);
+      const questionElement = document.getElementById(
+        `question-${question.id}`
+      );
+  
+      const isAnswered =
+        questionElement?.getAttribute("data-question-answered") === "true";
+  
+      // Проверка варианта "Другое:" с пустым полем, исключая 23-й вопрос
+      const selectedOption = localStorage.getItem(question.id.toString());
+      if (selectedOption === "custom" && question.id !== 23) {
+        const customAnswer = localStorage.getItem(
+          `${question.id}_custom`
+        )?.trim();
+  
+        // Если текст пустой, возвращаем true, чтобы этот вопрос был неотвеченным
+        if (!customAnswer) {
+          console.warn(
+            `Неотвеченный кастомный вопрос: ${question.id}, текст: ${
+              question.text_ru || question.text_kg
+            }`
+          );
+          return true; // Отмечаем как неотвеченный
+        }
       }
-      window.location.reload();
-      return !isAnswered;
+  
+      // Если ответ не выбран, возвращаем true
+      if (!isAnswered) {
+        console.warn(
+          `Неотвеченный вопрос: ${question.id}, текст: ${
+            question.text_ru || question.text_kg
+          }`
+        );
+        return true; // Отмечаем как неотвеченный
+      }
+  
+      return false; // Ответ есть
     });
-    
   
+    // Если есть неотвеченные вопросы
     if (unansweredQuestions.length > 0) {
-      scrollToFirstUnansweredQuestion();
+      // Скроллим к первому неотвеченному вопросу
+      const firstUnanswered = unansweredQuestions[0];
+      const firstUnansweredElement = document.getElementById(
+        `question-${firstUnanswered.id}`
+      );
   
+      if (firstUnansweredElement) {
+        firstUnansweredElement.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+  
+      // Устанавливаем ошибку для всех неотвеченных вопросов
       unansweredQuestions.forEach((unansweredQuestion) => {
         setValidError(unansweredQuestion.id, true);
       });
-    } else {
-      const isValid = await handleNext();
-      if (isValid) {
-        handleSubmit();
-      }
+  
+      return;
+    }
+  
+    // Если все вопросы отвечены
+    const isValid = await handleNext();
+  
+    if (isValid) {
+      handleSubmit();
+      // window.location.reload();
     }
   };
+  
   
 
   const fingerprint = getOrCreateFingerprint();
@@ -60,28 +104,34 @@ const FooterActions = () => {
   const clearText = language === "ru" ? "Очистить ответы" : "Жоопторду тазалоо";
 
   return (
-    <>
-      
-        <div className="flex justify-between items-center containerButtonFooter my-6 gap-6">
+   
+   <>
+   {/* {hasCompletedSurvey ? (
+        ""
+      ) :  */}
+      <div className="flex justify-between items-center containerButtonFooter my-6 gap-6">
         <button
           onClick={handleClearAnswers}
           className="text-red-600 font-inter text-md p-4 rounded-lg bg-white shadow-lg touch-manipulation hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-300 transform w-full max-w-[12rem] ContainerButtonClear"
         >
           {clearText}
         </button>
-      
+
         <button
           onClick={onSubmit}
           className={`text-green-800 p-4 font-sans text-md rounded-lg bg-white shadow-lg  touch-manipulation focus:outline-none focus:ring-2  transition-all duration-300 transform w-full max-w-[9rem] ContainerButtonSend`}
-          disabled={loading} 
+          disabled={loading}
         >
-          {loading ? (language === "ru" ? "Отправка..." : "Жөнөтүлүүдө") : submitText}
+          {loading
+            ? language === "ru"
+              ? "Отправка..."
+              : "Жөнөтүлүүдө"
+            : submitText}
         </button>
       </div>
+      
     </>
   );
 };
 
 export default FooterActions;
-
-

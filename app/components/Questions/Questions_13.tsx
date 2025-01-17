@@ -4,6 +4,8 @@ import OtherOption from "@/lib/utils/OtherOption";
 import { useLanguage } from "@/lib/utils/LanguageContext";
 import { IoIosCheckmark } from "react-icons/io";
 import { useValidate } from "../Hooks/useValidate";
+import { CgDanger } from "react-icons/cg";
+import { useAnswerContext } from "@/lib/utils/AnswerContext";
 
 interface Option {
   id: number;
@@ -26,6 +28,7 @@ interface Question_Thirteen_Props {
 export default function Question_Thirteen({ questions }: Question_Thirteen_Props) {
   const { language } = useLanguage();
   const question = questions.find((q) => q.id === 13);
+  const { setValidError, getValidError } = useAnswerContext();
 
   if (!question) {
     return <div>Loading...</div>;
@@ -53,17 +56,30 @@ export default function Question_Thirteen({ questions }: Question_Thirteen_Props
 
   const handleChange = (questionId: number, optionId: string) => {
     if (optionId === "custom") {
+      if (customAnswer.trim() === "") {
+        updateAnsweredStatus(questionId, false);
+      } else {
+        updateAnsweredStatus(questionId, true);
+      }
       handleOptionChange(optionId);
-      updateAnsweredStatus(questionId, true);
     } else {
       handleOptionChange(optionId);
-      updateAnsweredStatus(questionId, true);
+      updateAnsweredStatus(questionId, true); // Любой другой ответ отмечается как отвеченный
+    }
+
+    if (selectedOption && getValidError(questionId)) {
+      setValidError(questionId, false);
     }
   };
 
   const questionText = language === "ru" ? question.text_ru : question.text_kg;
   const optionText = (option: Option) =>
     language === "ru" ? option.text_ru : option.text_kg;
+
+  const isError =
+    (!selectedOption ||
+      (selectedOption === "custom" && !customAnswer.trim())) &&
+    getValidError(question.id);
 
   return (
     <section  id={`question-${question.id}`} className="p-10 Padding" data-question-answered="true">
@@ -110,6 +126,20 @@ export default function Question_Thirteen({ questions }: Question_Thirteen_Props
           />
         )}
       </div>
+      {isError && (
+          <div className="text-red-600 flex items-center">
+            <CgDanger className="w-7 h-7 NecessarilySvg" />
+            <h2 className="ml-3 NecessarilyText">
+              {language === "ru"
+                ? selectedOption === "custom" && !customAnswer.trim()
+                  ? "Пожалуйста, заполните поле для текста."
+                  : "Это обязательный вопрос."
+                : selectedOption === "custom" && !customAnswer.trim()
+                  ? "Сураныч, текст талаасын толтуруңуз."
+                  : "Бул милдеттүү суроо."}
+            </h2>
+          </div>
+        )}
     </section>
   );
 }

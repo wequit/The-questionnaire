@@ -1,5 +1,5 @@
 import { IoIosCheckmark } from "react-icons/io";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAnswerContext } from "./AnswerContext";
 
 interface OtherOptionProps {
@@ -23,27 +23,17 @@ export default function OtherOption({
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [localAnswer, setLocalAnswer] = useState(customAnswer);
 
-  const question = questions.find((q) => q.id === questionId);
-
-  const getLocalizedText = (option: { text_ru: string; text_kg: string }) =>
-    language === "ru" ? option.text_ru : option.text_kg;
-
-  const otherOption =
-    question?.options.find(
-      (opt) => getLocalizedText(opt) === (language === "ru" ? "Другое:" : "Башка:")
-    ) || null;
-
-  const lastAnswer = question?.options
-    ? question.options[question.options.length - 1]?.text_ru
-    : null;
+  useEffect(() => {
+    // Восстановление значения из localStorage при монтировании
+    const storedAnswer = localStorage.getItem(`${questionId}_custom`) || "";
+    setLocalAnswer(storedAnswer);
+    setCustomAnswer(storedAnswer);
+  }, [questionId, setCustomAnswer]);
 
   const handleCustomAnswerChange = (value: string) => {
     setLocalAnswer(value);
-    setTimeout(() => {
-      setCustomAnswer(value);
-      localStorage.setItem(`${questionId}_custom`, value);
-    }, 0);
-
+    setCustomAnswer(value);
+    localStorage.setItem(`${questionId}_custom`, value); // Сохраняем в localStorage
     if (!isSelected) {
       onOptionChange(questionId, "custom");
     }
@@ -74,7 +64,6 @@ export default function OtherOption({
           onChange={handleOptionChangeWithFocus}
           checked={isSelected}
         />
-        {/* Кастомная радиокнопка */}
         <div
           className="w-9 h-9 ContainerRadio border-2 border-gray-300 rounded-full flex items-center justify-center relative 
           peer-checked:border-emerald-500   peer-checked:bg-emerald-500 transition-all duration-300 ease-in-out"
@@ -93,11 +82,11 @@ export default function OtherOption({
           type="text"
           value={localAnswer}
           onChange={(e) => handleCustomAnswerChange(e.target.value)}
-         className="w-full custom-input Placeholder border-0 border-b-2 border-gray-300 px-3 py-1 shadow-none outline-none focus:ring-0 focus:border-blue-500 transition duration-300 ease-in-out pr-8"
+          className="w-full custom-input Placeholder border-0 border-b-2 border-gray-300 px-3 py-1 shadow-none outline-none focus:ring-0 focus:border-blue-500 transition duration-300 ease-in-out pr-8"
           placeholder={
             language === "ru" ? "Введите ваш ответ" : "Жообуңузду киргизиңиз"
           }
-          onClick={handleOptionChangeWithFocus} 
+          onClick={handleOptionChangeWithFocus}
         />
         {localAnswer && (
           <button
@@ -113,4 +102,3 @@ export default function OtherOption({
     </div>
   );
 }
-

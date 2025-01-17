@@ -56,17 +56,19 @@ export default function Question_Fourr({ questions }: Question_Four_Props) {
 
   const handleChange = (questionId: number, optionId: string) => {
     if (optionId === "custom") {
-      handleOptionChange(optionId);
-      updateAnsweredStatus(questionId, true);
-      if (!selectedOption && getValidError(questionId)) {
-        setValidError(questionId, false);
+      if (customAnswer.trim() === "") {
+        updateAnsweredStatus(questionId, false);
+      } else {
+        updateAnsweredStatus(questionId, true);
       }
+      handleOptionChange(optionId);
     } else {
       handleOptionChange(optionId);
-      updateAnsweredStatus(questionId, true);
-      if (!selectedOption && getValidError(questionId)) {
-        setValidError(questionId, false);
-      }
+      updateAnsweredStatus(questionId, true); // Любой другой ответ отмечается как отвеченный
+    }
+
+    if (selectedOption && getValidError(questionId)) {
+      setValidError(questionId, false);
     }
   };
 
@@ -74,7 +76,10 @@ export default function Question_Fourr({ questions }: Question_Four_Props) {
   const optionText = (option: Option) =>
     language === "ru" ? option.text_ru : option.text_kg;
 
-  const isError = !selectedOption && getValidError(question.id);
+  const isError =
+    (!selectedOption ||
+      (selectedOption === "custom" && !customAnswer.trim())) &&
+    getValidError(question.id);
 
   return (
     <article className="container responsive min-h-[300px]!important">
@@ -89,7 +94,7 @@ export default function Question_Fourr({ questions }: Question_Four_Props) {
           </h2>
           <span
             className={`text-red-500 text-2xl font-bold ${
-              selectedOption ? "true": "false" ? "visible" : "invisible"
+              selectedOption ? "true" : "false" ? "visible" : "invisible"
             }`}
           >
             *
@@ -97,7 +102,6 @@ export default function Question_Fourr({ questions }: Question_Four_Props) {
         </div>
 
         <div className="text-gray-700 font-inter">
-          {/* Отображаем только фильтрованные опции */}
           {filteredOptions.map((option: Option) => (
             <div key={option.id} className="flex items-center mb-4">
               <label
@@ -115,8 +119,8 @@ export default function Question_Fourr({ questions }: Question_Four_Props) {
                   checked={selectedOption === option.id.toString()}
                 />
                 <div
-                  className="w-9 h-9  ContainerRadio border-2 border-gray-300 rounded-full flex items-center justify-center relative 
-              peer-checked:border-emerald-500   peer-checked:bg-emerald-500 transition-all duration-300 ease-in-out"
+                  className="w-9 h-9  flex-shrink-0 ContainerRadio border-2 border-gray-300 rounded-full flex items-center justify-center relative 
+                peer-checked:border-emerald-500   peer-checked:bg-emerald-500 transition-all duration-300 ease-in-out"
                 >
                   {selectedOption === option.id.toString() && (
                     <IoIosCheckmark className="text-white w-6 h-6" />
@@ -129,7 +133,6 @@ export default function Question_Fourr({ questions }: Question_Four_Props) {
             </div>
           ))}
 
-          {/* Добавляем компонент для "Другое:" */}
           {otherOption && (
             <OtherOption
               questionId={question.id}
@@ -146,8 +149,12 @@ export default function Question_Fourr({ questions }: Question_Four_Props) {
             <CgDanger className="w-7 h-7 NecessarilySvg" />
             <h2 className="ml-3 NecessarilyText">
               {language === "ru"
-                ? "Это обязательный вопрос."
-                : "Бул милдеттүү суроо."}
+                ? selectedOption === "custom" && !customAnswer.trim()
+                  ? "Пожалуйста, заполните поле для текста."
+                  : "Это обязательный вопрос."
+                : selectedOption === "custom" && !customAnswer.trim()
+                  ? "Сураныч, текст талаасын толтуруңуз."
+                  : "Бул милдеттүү суроо."}
             </h2>
           </div>
         )}

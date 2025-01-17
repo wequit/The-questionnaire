@@ -1,5 +1,5 @@
 import { IoIosCheckmark } from "react-icons/io";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface OtherOptionCheckBoxProps {
   questionId: number;
@@ -21,6 +21,13 @@ export default function OtherOptionCheckBox({
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [localAnswer, setLocalAnswer] = useState(customAnswer);
 
+  useEffect(() => {
+    // Восстановление текста из localStorage при монтировании компонента
+    const storedAnswer = localStorage.getItem(`${questionId}_custom`) || "";
+    setLocalAnswer(storedAnswer);
+    setCustomAnswer(storedAnswer);
+  }, [questionId, setCustomAnswer]);
+
   const handleCustomAnswerChange = (value: string) => {
     setLocalAnswer(value);
 
@@ -30,7 +37,7 @@ export default function OtherOptionCheckBox({
     }, 0);
 
     if (!isSelected) {
-      onOptionChange("custom", true); 
+      onOptionChange("custom", true);
     }
   };
 
@@ -38,7 +45,7 @@ export default function OtherOptionCheckBox({
     setLocalAnswer("");
     setCustomAnswer("");
     localStorage.removeItem(`${questionId}_custom`);
-    onOptionChange("custom", false); 
+    onOptionChange("custom", false);
   };
 
   const handleCheckboxChange = (isChecked: boolean) => {
@@ -91,7 +98,7 @@ export default function OtherOptionCheckBox({
           />
         )}
         {/* Кнопка для очистки поля */}
-        {localAnswer && (
+        {localAnswer && isSelected && (
           <button
             type="button"
             onClick={handleClearInput}
