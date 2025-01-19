@@ -22,7 +22,6 @@ export default function OtherOptionCheckBox({
   const [localAnswer, setLocalAnswer] = useState(customAnswer);
 
   useEffect(() => {
-    // Восстановление текста из localStorage при монтировании компонента
     const storedAnswer = localStorage.getItem(`${questionId}_custom`) || "";
     setLocalAnswer(storedAnswer);
     setCustomAnswer(storedAnswer);

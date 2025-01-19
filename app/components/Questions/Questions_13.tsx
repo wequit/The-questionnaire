@@ -64,7 +64,7 @@ export default function Question_Thirteen({ questions }: Question_Thirteen_Props
       handleOptionChange(optionId);
     } else {
       handleOptionChange(optionId);
-      updateAnsweredStatus(questionId, true); // Любой другой ответ отмечается как отвеченный
+      updateAnsweredStatus(questionId, true);
     }
 
     if (selectedOption && getValidError(questionId)) {

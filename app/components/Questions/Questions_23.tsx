@@ -32,7 +32,6 @@ export default function Question_TwentyThree({ questions }: Question_TwentyThree
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
-    // Восстановление ответа из localStorage
     const savedAnswer = localStorage.getItem(`${question.id}_custom`) || "";
     setCustomAnswer(savedAnswer);
   }, [question.id]);
@@ -43,7 +42,6 @@ export default function Question_TwentyThree({ questions }: Question_TwentyThree
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
 
-    // Обновление статуса вопроса при изменении ответа
     updateAnsweredStatus(question.id, customAnswer.trim() !== "");
   }, [customAnswer, selectedOption]);
 
@@ -51,15 +49,15 @@ export default function Question_TwentyThree({ questions }: Question_TwentyThree
 
   const handleInputChange = (value: string) => {
     setCustomAnswer(value);
-    localStorage.setItem(`${question.id}_custom`, value); // Сохранение ответа в localStorage
-    handleOptionChange("custom"); // Установка текущего выбора как "custom"
+    localStorage.setItem(`${question.id}_custom`, value);
+    handleOptionChange("custom"); 
   };
 
   return (
     <section
       id={`question-${question.id}`}
       className="p-10 Padding"
-      data-question-answered={customAnswer.trim() !== ""}
+      data-question-answered="true"
     >
       <h2 className="text-lg font-bold font-inter text-gray-900 mb-6 ContainerQuestion">
         {questionText}

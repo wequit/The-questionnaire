@@ -7,8 +7,8 @@ interface CourtName {
 }
 
 interface CourtDataFetcherProps {
-  courtId: string; // courtId приходит как пропс
-  children: (courtName: CourtName | null) => React.ReactNode; // Дочерние компоненты, которые принимают courtName
+  courtId: string; 
+  children: (courtName: CourtName | null) => React.ReactNode; 
 }
 
 export const CourtDataFetcher: React.FC<CourtDataFetcherProps> = ({ children }) => {
@@ -29,7 +29,7 @@ export const CourtDataFetcher: React.FC<CourtDataFetcherProps> = ({ children }) 
     if (courtId) {
       fetchCourtData();
     }
-  }, [courtId]); // Обновляем запрос, когда courtId изменяется
+  }, [courtId]);
 
-  return <>{children(courtName)}</>; // Передаем данные в children
+  return <>{children(courtName)}</>; 
 };

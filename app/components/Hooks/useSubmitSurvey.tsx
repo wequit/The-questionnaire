@@ -44,7 +44,6 @@ export const useSubmitSurvey = () => {
               : {}), 
           });
         } else {
-          // Если ответ не выбран
           responses.push({
             question: questionId,
             multiple_selected_options: null,
@@ -59,23 +58,20 @@ export const useSubmitSurvey = () => {
       } else if (questionId === 13) {
         if (storedOption) {
           if (storedOption === "custom") {
-            // Пользователь выбрал "Другое:" и ввел текст
             responses.push({
               question: questionId,
-              selected_option: null, // Для "Другое:" опция null
-              custom_answer: customAnswer || "Необязательный вопрос", // Если ничего не ввел, ставим значение по умолчанию
+              selected_option: null,
+              custom_answer: customAnswer || "Необязательный вопрос",
             });
           } else {
-            // Пользователь выбрал один из вариантов
             const selectedOption = parseInt(storedOption, 10);
             responses.push({
               question: questionId,
               selected_option: selectedOption,
-              custom_answer: undefined, // Нет текста для "Другое:"
+              custom_answer: undefined, 
             });
           }
         } else {
-          // Пользователь ничего не выбрал
           responses.push({
             question: questionId,
             selected_option: undefined,

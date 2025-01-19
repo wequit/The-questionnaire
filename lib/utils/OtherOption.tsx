@@ -24,7 +24,6 @@ export default function OtherOption({
   const [localAnswer, setLocalAnswer] = useState(customAnswer);
 
   useEffect(() => {
-    // Восстановление значения из localStorage при монтировании
     const storedAnswer = localStorage.getItem(`${questionId}_custom`) || "";
     setLocalAnswer(storedAnswer);
     setCustomAnswer(storedAnswer);
@@ -33,7 +32,7 @@ export default function OtherOption({
   const handleCustomAnswerChange = (value: string) => {
     setLocalAnswer(value);
     setCustomAnswer(value);
-    localStorage.setItem(`${questionId}_custom`, value); // Сохраняем в localStorage
+    localStorage.setItem(`${questionId}_custom`, value); 
     if (!isSelected) {
       onOptionChange(questionId, "custom");
     }

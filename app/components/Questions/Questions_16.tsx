@@ -53,7 +53,6 @@ export default function Question_Sixteen({
     (_, index) => index !== otherOptionIndex
   );
 
-  // Инициализация состояния из localStorage
   useEffect(() => {
     const storedOption = localStorage.getItem(question.id.toString());
     const customStoredAnswer = localStorage.getItem(`${question.id}_custom`);
@@ -75,7 +74,6 @@ export default function Question_Sixteen({
     handleOptionChange(updatedOptions.join(","));
     updateAnsweredStatus(questionId, true);
 
-    // Сохраняем в localStorage
     localStorage.setItem(questionId.toString(), updatedOptions.join(","));
     if (optionId === "custom") {
       localStorage.setItem(`${questionId}_custom`, customAnswer);

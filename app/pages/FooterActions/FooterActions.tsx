@@ -17,74 +17,66 @@ const FooterActions = () => {
       const questionElement = document.getElementById(
         `question-${question.id}`
       );
-  
+
       const isAnswered =
+        question.id === 23 ||
         questionElement?.getAttribute("data-question-answered") === "true";
-  
-      // Проверка варианта "Другое:" с пустым полем, исключая 23-й вопрос
+
       const selectedOption = localStorage.getItem(question.id.toString());
       if (selectedOption === "custom" && question.id !== 23) {
-        const customAnswer = localStorage.getItem(
-          `${question.id}_custom`
-        )?.trim();
-  
-        // Если текст пустой, возвращаем true, чтобы этот вопрос был неотвеченным
+        const customAnswer = localStorage
+          .getItem(`${question.id}_custom`)
+          ?.trim();
+
         if (!customAnswer) {
           console.warn(
             `Неотвеченный кастомный вопрос: ${question.id}, текст: ${
               question.text_ru || question.text_kg
             }`
           );
-          return true; // Отмечаем как неотвеченный
+          return true;
         }
       }
-  
-      // Если ответ не выбран, возвращаем true
+
       if (!isAnswered) {
         console.warn(
           `Неотвеченный вопрос: ${question.id}, текст: ${
             question.text_ru || question.text_kg
           }`
         );
-        return true; // Отмечаем как неотвеченный
+        return true;
       }
-  
-      return false; // Ответ есть
+
+      return false;
     });
-  
-    // Если есть неотвеченные вопросы
+
     if (unansweredQuestions.length > 0) {
-      // Скроллим к первому неотвеченному вопросу
       const firstUnanswered = unansweredQuestions[0];
       const firstUnansweredElement = document.getElementById(
         `question-${firstUnanswered.id}`
       );
-  
+
       if (firstUnansweredElement) {
         firstUnansweredElement.scrollIntoView({
           behavior: "smooth",
           block: "center",
         });
       }
-  
-      // Устанавливаем ошибку для всех неотвеченных вопросов
+
       unansweredQuestions.forEach((unansweredQuestion) => {
         setValidError(unansweredQuestion.id, true);
       });
-  
+
       return;
     }
-  
-    // Если все вопросы отвечены
+
     const isValid = await handleNext();
-  
+
     if (isValid) {
       handleSubmit();
       // window.location.reload();
     }
   };
-  
-  
 
   const fingerprint = getOrCreateFingerprint();
   const hasCompletedSurvey = fingerprint.status === "completed";
@@ -104,32 +96,31 @@ const FooterActions = () => {
   const clearText = language === "ru" ? "Очистить ответы" : "Жоопторду тазалоо";
 
   return (
-   
-   <>
-   {/* {hasCompletedSurvey ? (
+    <>
+      {hasCompletedSurvey ? (
         ""
-      ) :  */}
-      <div className="flex justify-between items-center containerButtonFooter my-6 gap-6">
-        <button
-          onClick={handleClearAnswers}
-          className="text-red-600 font-inter text-md p-4 rounded-lg bg-white shadow-lg touch-manipulation hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-300 transform w-full max-w-[12rem] ContainerButtonClear"
-        >
-          {clearText}
-        </button>
+      ) : (
+        <div className="flex justify-between items-center containerButtonFooter my-6 gap-6">
+          <button
+            onClick={handleClearAnswers}
+            className="text-red-600 font-inter text-md p-4 rounded-lg bg-white shadow-lg touch-manipulation hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-300 transform w-full max-w-[12rem] ContainerButtonClear"
+          >
+            {clearText}
+          </button>
 
-        <button
-          onClick={onSubmit}
-          className={`text-green-800 p-4 font-sans text-md rounded-lg bg-white shadow-lg  touch-manipulation focus:outline-none focus:ring-2  transition-all duration-300 transform w-full max-w-[9rem] ContainerButtonSend`}
-          disabled={loading}
-        >
-          {loading
-            ? language === "ru"
-              ? "Отправка..."
-              : "Жөнөтүлүүдө"
-            : submitText}
-        </button>
-      </div>
-      
+          <button
+            onClick={onSubmit}
+            className={`text-green-800 p-4 font-sans text-md rounded-lg bg-white shadow-lg  touch-manipulation focus:outline-none focus:ring-2  transition-all duration-300 transform w-full max-w-[9rem] ContainerButtonSend`}
+            disabled={loading}
+          >
+            {loading
+              ? language === "ru"
+                ? "Отправка..."
+                : "Жөнөтүлүүдө"
+              : submitText}
+          </button>
+        </div>
+      )}
     </>
   );
 };

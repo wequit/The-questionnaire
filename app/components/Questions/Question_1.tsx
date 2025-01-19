@@ -52,7 +52,6 @@ export default function Question_One({}: Question_One_Props) {
 
   const [customAnswer, setCustomAnswer] = useState<string>("");
 
-  // Используем useEffect для восстановления состояния из localStorage
   useEffect(() => {
     if (selectedOption === "custom") {
       const storedCustomAnswer =
@@ -72,7 +71,7 @@ export default function Question_One({}: Question_One_Props) {
       handleOptionChange(optionId);
     } else {
       handleOptionChange(optionId);
-      updateAnsweredStatus(questionId, true); // Любой другой ответ отмечается как отвеченный
+      updateAnsweredStatus(questionId, true);
     }
 
     if (selectedOption && getValidError(questionId)) {
