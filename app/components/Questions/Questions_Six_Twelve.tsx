@@ -135,21 +135,23 @@ export default function Questions_Six_Twelve({
                   <span
                     className={`text-xs text-start font-bold text-red-600 font-inter uppercase TextRed`}
                   >
-                    {question.id !== 6 &&
-                      question.options.length >= 2 &&
-                      optionText(question.options[question.options.length - 2])}
+                    {question.options.length >= 2 && 
+                      (question.id === 6 
+                        ? optionText(question.options[0])
+                        : optionText(question.options[question.options.length - 2]))
+                  }
                   </span>
                   <span
                     className={`text-xs text-end font-bold text-green-600 font-inter uppercase TextGreen`}
                   >
-                    {question.id !== 6 &&
-                      question.options.length >= 1 &&
-                      optionText(question.options[question.options.length - 1])}
+                    {question.options.length >= 1 &&
+                      optionText(question.options[question.options.length - 1])
+                    }
                   </span>
                 </div>
                 <div className="flex items-center justify-center Gap px-16 mt-4">
                   {(question.id === 6 
-                    ? question.options 
+                    ? question.options.slice(0, 5)
                     : question.options.slice(1, question.options.length - 1)
                   ).map((option, index, filteredOptions) => {
                     const isSelected = selectedOption === option.id.toString();

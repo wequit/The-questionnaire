@@ -16,6 +16,7 @@ import Questions_Six_Twelve from "@/app/components/Questions/Questions_Six_Twelv
 import Question_Eighteen from "@/app/components/Questions/Questions_18";
 import Question_Fourteen from "@/app/components/Questions/Questions_14";
 import Questions_Seventeen from "@/app/components/Questions/Questions_17";
+import React from "react";
 
 interface Question {
   id: number;
@@ -35,30 +36,33 @@ interface Survey {
 
 export default function BlankOne() {
   const { questions, setQuestions } = useAnswerContext();
-  const [showQuestion13, setShowQuestion13] = useState<boolean>(() => {
-    // Инициализируем начальное состояние на основе значения в localStorage
-    return localStorage.getItem("5") === "20";
-  });
+  const [showQuestion13, setShowQuestion13] = useState<boolean>(() => 
+    localStorage.getItem("5") === "20"
+  );
 
-  // Отслеживаем изменения в localStorage
+  // Оптимизируем отслеживание изменений
   useEffect(() => {
     const handleStorageChange = () => {
       const answer = localStorage.getItem("5");
       setShowQuestion13(answer === "20");
     };
 
-    // Добавляем слушатель события
     window.addEventListener('storage', handleStorageChange);
     
-    // Добавляем обработчик для локальных изменений
-    const interval = setInterval(() => {
+    // Используем MutationObserver вместо setInterval для лучшей производительности
+    const observer = new MutationObserver(() => {
       const answer = localStorage.getItem("5");
       setShowQuestion13(answer === "20");
-    }, 100);
+    });
+
+    observer.observe(document.body, { 
+      subtree: true, 
+      childList: true 
+    });
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
-      clearInterval(interval);
+      observer.disconnect();
     };
   }, []);
 
@@ -122,28 +126,30 @@ export default function BlankOne() {
             <>
               {/* Вопросы 1-5 */}
               {questions_1_5.map((question) => {
+                const key = `question_${question.id}`;
+                
                 switch(question.id) {
                   case 1:
-                    return <Question_One questions={[question]} key={question.id} />;
+                    return <Question_One questions={[question]} key={key} />;
                   case 2:
-                    return <Question_Two questions={[question]} key={question.id} />;
-                  case 3: 
-                    return <Question_Three questions={[question]} key={question.id} />; 
+                    return <Question_Two questions={[question]} key={key} />;
+                  case 3:
+                    return <Question_Three questions={[question]} key={key} />;
                   case 4:
-                    return <Question_Four questions={[question]} key={question.id} />;
+                    return <Question_Four questions={[question]} key={key} />;
                   case 5:
                     return (
-                      <>
-                        <Question_Five questions={[question]} key={question.id} />
+                      <React.Fragment key={key}>
+                        <Question_Five questions={[question]} />
                         {showQuestion13 && question_13 && (
                           <article 
-                            className="container responsive min-h-[300px]!important transition-all duration-500 ease-in-out transform-gpu animate-fadeIn" 
-                            key="question_13"
+                            className="container responsive min-h-[300px]!important transition-all duration-300 ease-in-out transform-gpu animate-fadeIn"
+                            key="question_13_container"
                           >
                             <Question_Thirteen questions={[question_13]} />
                           </article>
                         )}
-                      </>
+                      </React.Fragment>
                     );
                   case 6:
                     {localStorage.getItem("5") === "20" && question_13 && (
