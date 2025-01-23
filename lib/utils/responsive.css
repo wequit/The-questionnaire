@@ -25,12 +25,11 @@
 }
 
 .custom-input {
-  border-bottom: 2px solid #d1d5db; /* Эквивалент border-gray-300 */
+  border-bottom: 2px solid #d1d5db; 
 }
 
-/* Стили для ползунка */
 textarea::-webkit-scrollbar {
-  display: none; /* Устанавливаем ширину ползунка */
+  display: none; 
 }
 
 @media (max-width: 768px) {
@@ -160,7 +159,7 @@ textarea::-webkit-scrollbar {
     @apply text-base;
   }
   .ContainerOptionText {
-    @apply text-base;
+    @apply text-sm;
   }
   .ContainerRadio {
     @apply flex-shrink-0 w-8 h-8;
@@ -213,6 +212,14 @@ textarea::-webkit-scrollbar {
   .ContainerCourt_SkeletonDescription {
     @apply w-[330px] !important;
   }
+
+  .ContainerButtonClear {
+    @apply text-xs  max-w-[9rem];
+  }
+
+  .ContainerButtonSend {
+    @apply text-xs font-extrabold max-w-[7rem] ;
+  }
 }
 
 @media (max-width: 405px) {
@@ -232,7 +239,7 @@ textarea::-webkit-scrollbar {
   }
 
   .ContainerOptionText {
-    @apply text-[0.912rem];
+    @apply text-[0.830rem];
   }
 
   .TextRed {
@@ -281,6 +288,10 @@ textarea::-webkit-scrollbar {
     @apply text-[0.59rem];
   }
 
+  .ContainerOptionText {
+    @apply text-[0.760rem];
+  }
+
   .containerButtonFooter {
     @apply max-w-[21rem];
   }
@@ -288,6 +299,7 @@ textarea::-webkit-scrollbar {
   .ContainerHeaderButton {
     @apply text-[0.70rem] px-3 py-2;
   }
+  
 }
 
 @media (max-width: 352px) {

@@ -3,7 +3,7 @@ import { IoIosCheckmark } from "react-icons/io";
 import { useValidate } from "@/app/components/Hooks/useValidate";
 import { useAnswerContext } from "@/lib/utils/AnswerContext";
 import { CgDanger } from "react-icons/cg";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback  } from "react";
 import { useQuestionStorage } from "@/app/components/Hooks/useQuestionStorage";
 
 interface Option {
@@ -20,13 +20,13 @@ interface Question {
   options: Option[];
 }
 
-interface Questions_Five_Twelve_Props {
+interface Question_Fourteen_Props {
   questions: Question[];
 }
 
-export default function Questions_Five_Twelve({
+export default function Question_Fourteen({
   questions,
-}: Questions_Five_Twelve_Props) {
+}: Question_Fourteen_Props) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const { language } = useLanguage();
   const { setValidError, getValidError } = useAnswerContext();
@@ -39,44 +39,39 @@ export default function Questions_Five_Twelve({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const getSizeStyle = useCallback(
-    (index: number, total: number) => {
-      const middle = Math.floor(total / 2);
-      const distanceFromMiddle = Math.abs(index - middle);
+  const getSizeStyle = useCallback((index: number, total: number) => {
+    const middle = Math.floor(total / 2);
+    const distanceFromMiddle = Math.abs(index - middle);
 
-      let size = 52 + distanceFromMiddle * 13;
+    let size = 52 + distanceFromMiddle * 13;
 
-      if (windowWidth <= 768) size = 44 + distanceFromMiddle * 10;
-      if (windowWidth <= 600) size = 30 + distanceFromMiddle * 10;
-      if (windowWidth <= 455) size = 37 + distanceFromMiddle * 8;
-      if (windowWidth <= 405) size = 32 + distanceFromMiddle * 8;
-      if (windowWidth <= 374) size = 29 + distanceFromMiddle * 8;
+    if (windowWidth <= 768) size = 44 + distanceFromMiddle * 10;
+    if (windowWidth <= 600) size = 30 + distanceFromMiddle * 10;
+    if (windowWidth <= 455) size = 37 + distanceFromMiddle * 8;
+    if (windowWidth <= 405) size = 32 + distanceFromMiddle * 8;
+    if (windowWidth <= 374) size = 29 + distanceFromMiddle * 8;
 
-      return {
-        height: `${size}px`,
-        width: `${size}px`,
-      };
-    },
-    [windowWidth]
-  );
-
-  const getBackgroundColor = useCallback(
-    (index: number, total: number, isSelected: boolean) => {
-      const middle = Math.floor(total / 2);
-      if (index < middle)
-        return isSelected
-          ? "bg-red-500 border-red-500"
-          : "border-2 border-red-300 hover:bg-red-500 hover:border-red-500";
-      if (index === middle)
-        return isSelected
-          ? "bg-gray-500 border-gray-500"
-          : "border-2 border-gray-300 hover:bg-gray-500 hover:border-gray-500";
+    return {
+      height: `${size}px`,
+      width: `${size}px`,
+    };
+  }, [windowWidth]);
+  
+  const getBackgroundColor = useCallback((index: number, total: number, isSelected: boolean) => {
+    const middle = Math.floor(total / 2);
+    if (index < middle)
       return isSelected
-        ? "bg-green-500 border-green-500"
-        : "border-2 border-green-500 hover:bg-green-500 hover:border-green-500";
-    },
-    []
-  );
+        ? "bg-red-500 border-red-500"
+        : "border-2 border-red-300 hover:bg-red-500 hover:border-red-500";
+    if (index === middle)
+      return isSelected
+        ? "bg-gray-500 border-gray-500"
+        : "border-2 border-gray-300 hover:bg-gray-500 hover:border-gray-500";
+    return isSelected
+      ? "bg-green-500 border-green-500"
+      : "border-2 border-green-500 hover:bg-green-500 hover:border-green-500";
+  }, []);
+
 
   return (
     <>
@@ -90,43 +85,26 @@ export default function Questions_Five_Twelve({
         const optionText = (option: Option) =>
           language === "ru" ? option.text_ru : option.text_kg;
 
-        const handleChange = useCallback(
-          (questionId: number, optionId: string) => {
-            handleOptionChange(optionId);
-            updateAnsweredStatus(questionId, true);
-            if (!selectedOption) {
-              setValidError(questionId, false);
-            }
-          },
-          [
-            handleOptionChange,
-            updateAnsweredStatus,
-            setValidError,
-            selectedOption,
-          ]
-        );
+        const handleChange = useCallback((questionId: number, optionId: string) => {
+          handleOptionChange(optionId);
+          updateAnsweredStatus(questionId, true);
+          if (!selectedOption) {
+            setValidError(questionId, false);
+          }
+        }, [handleOptionChange, updateAnsweredStatus, setValidError, selectedOption]);
 
         const isError = !selectedOption && getValidError(question.id);
-        const isAnswered = question.id === 8 || question.id === 10 || selectedOption === "true";
+        const isAnswered = selectedOption === "true";
 
         return (
-          <article
-            className="container responsive min-h-[300px]!important"
-            key={question.id}
-          >
             <section
+              key={question.id}
               id={`question-${question.id}`}
               className=" p-10 Padding"
-              data-question-answered={
-                question.id === 8 || question.id === 10
-                  ? "true"
-                  : selectedOption
-                    ? "true"
-                    : "false"
-              }
+              data-question-answered={selectedOption ? "true" : "false"}
             >
               <div className="mb-6">
-                <div className="flex justify-between items-start">
+              <div className="flex justify-between items-start">
                   <h2 className="text-lg font-bold font-inter text-gray-900 mb-4 ContainerQuestionEX">
                     {questionText}
                   </h2>
@@ -134,18 +112,11 @@ export default function Questions_Five_Twelve({
                     <span className="text-red-500 text-2xl font-bold">*</span>
                   )}
                 </div>
-
-                <div
-                  className={`flex items-start justify-between text-gray-700 mt-8 text-center`}
-                >
-                  <span
-                    className={`text-xs  text-start font-bold text-red-600 font-inter uppercase TextRed `}
-                  >
-                    {optionText(question.options[0])}
+                <div className="flex items-start justify-between text-gray-700 mt-8 text-center">
+                  <span className="text-xs text-start font-bold text-red-600 font-inter uppercase TextRed TextRedWidth">
+                    {optionText(question.options[question.options.length - 2])}
                   </span>
-                  <span
-                    className={`text-xs text-end font-bold text-green-600 font-inter uppercase TextGreen`}
-                  >
+                  <span className="text-xs text-end font-bold text-green-600 font-inter uppercase TextGreen TextGreenWidth">
                     {optionText(question.options[question.options.length - 1])}
                   </span>
                 </div>
@@ -194,15 +165,10 @@ export default function Questions_Five_Twelve({
               {isError && (
                 <div className="text-red-600 flex items-center">
                   <CgDanger className="w-7 h-7 NecessarilySvg" />
-                  <h2 className="ml-3 NecessarilyText">
-                    {language === "ru"
-                      ? "Это обязательный вопрос."
-                      : "Бул милдеттүү суроо."}
-                  </h2>
+                  <h2 className="ml-3 NecessarilyText">{language === "ru" ? "Это обязательный вопрос." : "Бул милдеттүү суроо."}</h2>
                 </div>
               )}
             </section>
-          </article>
         );
       })}
     </>

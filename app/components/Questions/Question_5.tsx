@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState, useMemo } from "react";
 import { useQuestionStorage } from "@/app/components/Hooks/useQuestionStorage";
 import OtherOption from "@/lib/utils/OtherOption";
 import { useLanguage } from "@/lib/utils/LanguageContext";
@@ -21,57 +21,33 @@ interface Question {
   options: Option[];
 }
 
-interface Question_One_Props {
+interface Question_Five_Props {
   questions: Question[];
 }
 
-
-export default function Question_One({}: Question_One_Props) {
+export default function Question_Five({ questions }: Question_Five_Props) {
   const { language } = useLanguage();
-  const { questions } = useAnswerContext();
   const { setValidError, getValidError } = useAnswerContext();
-  const question = questions.find((q) => q.id === 1);
+  const question = questions.find((q) => q.id === 5);
 
   if (!question) {
     return <div>Loading...</div>;
   }
-
-  const otherOptionIndex = question.options.findIndex(
-    (option) => option.text_ru === "Другое:"
-  );
-  const otherOption =
-    otherOptionIndex !== -1 ? question.options[otherOptionIndex] : null;
-
-  const filteredOptions = question.options
-    .filter((_, index) => index !== otherOptionIndex)
-    .sort((a, b) => {
-      if (a.id <= 6 && b.id <= 6) {
-        return a.id - b.id;
-      }
-      if (a.id <= 6) {
-        return -1;
-      }
-      if (b.id <= 6) {
-        return 1;
-      }
-      return a.id - b.id;
-    });
 
   const { updateAnsweredStatus } = useValidate();
   const { handleOptionChange, selectedOption } = useQuestionStorage({
     localStorageKey: question.id.toString(),
   });
 
-  const [customAnswer, setCustomAnswer] = useState<string>("");
+  const [customAnswer, setCustomAnswer] = useState<string>(
+    selectedOption === "custom"
+      ? localStorage.getItem(`${question?.id}_custom`) || ""
+      : ""
+  );
 
-  useEffect(() => {
-    if (selectedOption === "custom") {
-      const storedCustomAnswer =
-        localStorage.getItem(`${question.id}_custom`) || "";
-      setCustomAnswer(storedCustomAnswer);
-    }
-  }, [selectedOption, question.id]);
-
+  const [first, ...rest] = question.options;
+  const otherOption = first;
+  const filteredOptions = rest;
 
   const handleChange = (questionId: number, optionId: string) => {
     if (optionId === "custom") {
@@ -103,15 +79,24 @@ export default function Question_One({}: Question_One_Props) {
   return (
     <article className="container responsive min-h-[300px]!important">
       <section
-        className="p-10 Padding"
         id={`question-${question.id}`}
-        data-question-answered="true"
+        className="p-10 Padding"
+        data-question-answered={selectedOption ? "true" : "false"}
       >
-        <h2 className="text-lg font-semibold font-inter text-gray-900 mb-2 ContainerQuestion">
-          {questionText}
-        </h2>
-       
-        <div className="text-gray-700 mt-4 font-inter">
+        <div className="flex justify-between items-start">
+          <h2 className="text-lg font-bold font-inter text-gray-900 mb-4 ContainerQuestionEX">
+            {questionText}
+          </h2>
+          <span
+            className={`text-red-500 text-2xl font-bold ${
+              selectedOption ? "true" : "false" ? "visible" : "invisible"
+            }`}
+          >
+            *
+          </span>
+        </div>
+
+        <div className="text-gray-700 font-inter">
           {filteredOptions.map((option: Option) => (
             <div key={option.id} className="flex items-center mb-4">
               <label
@@ -128,8 +113,10 @@ export default function Question_One({}: Question_One_Props) {
                   }
                   checked={selectedOption === option.id.toString()}
                 />
-                <div className="w-9 h-9  flex-shrink-0 ContainerRadio border-2 border-gray-300 rounded-full flex items-center justify-center relative
-                 peer-checked:border-emerald-500   peer-checked:bg-emerald-500 transition-all duration-300 ease-in-out">
+                <div
+                  className="w-9 h-9  flex-shrink-0 ContainerRadio border-2 border-gray-300 rounded-full flex items-center justify-center relative 
+                peer-checked:border-emerald-500   peer-checked:bg-emerald-500 transition-all duration-300 ease-in-out"
+                >
                   {selectedOption === option.id.toString() && (
                     <IoIosCheckmark className="text-white w-6 h-6" />
                   )}
@@ -170,4 +157,3 @@ export default function Question_One({}: Question_One_Props) {
     </article>
   );
 }
-

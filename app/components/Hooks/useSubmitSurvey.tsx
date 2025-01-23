@@ -23,15 +23,16 @@ export const useSubmitSurvey = () => {
   const getAnswersFromLocalStorage = (): QuestionResponse[] => {
     const responses: QuestionResponse[] = [];
   
-    questions.forEach((question) => {
+    const filteredQuestions = questions.filter(q => q.id <= 18);
+  
+    filteredQuestions.forEach((question) => {
       const questionId = question.id;
       const storedOption = localStorage.getItem(questionId.toString());
       const customAnswer = localStorage.getItem(`${questionId}_custom`);
   
-      if (questionId === 16) {
+      if (questionId === 15) {
         if (storedOption) {
           const options = storedOption.split(",").map((item) => item.trim());
-  
           const filteredOptions = options.filter((opt) => opt !== "custom");
   
           responses.push({
@@ -49,7 +50,7 @@ export const useSubmitSurvey = () => {
             multiple_selected_options: null,
           });
         }
-      } else if (questionId === 23) {
+      } else if (questionId === 18) {
         responses.push({
           question: questionId,
           custom_answer:
@@ -158,6 +159,8 @@ export const useSubmitSurvey = () => {
 
     try {
       const responses = getAnswersFromLocalStorage();
+      
+      console.log("Отправляемые ответы:", responses);
 
       updateFingerprintStatus("completed");
 

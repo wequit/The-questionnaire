@@ -13,20 +13,31 @@ const FooterActions = () => {
   const { language } = useLanguage();
 
   const onSubmit = async () => {
+    console.log("Начало проверки ответов...");
+    
     const unansweredQuestions = questions.filter((question) => {
+      if (question.id > 18) return false;
+
+      console.log(`Проверка вопроса ${question.id}:`);
+      
       const questionElement = document.getElementById(
         `question-${question.id}`
       );
-
+      
       const isAnswered =
-        question.id === 23 ||
         questionElement?.getAttribute("data-question-answered") === "true";
-
+        
+      console.log(`- Элемент:`, questionElement);
+      console.log(`- data-question-answered:`, questionElement?.getAttribute("data-question-answered"));
+      
       const selectedOption = localStorage.getItem(question.id.toString());
-      if (selectedOption === "custom" && question.id !== 23) {
+      console.log(`- Выбранный ответ в localStorage:`, selectedOption);
+      
+      if (selectedOption === "custom" && question.id !== 18) {
         const customAnswer = localStorage
           .getItem(`${question.id}_custom`)
           ?.trim();
+        console.log(`- Кастомный ответ:`, customAnswer);
 
         if (!customAnswer) {
           console.warn(
@@ -49,6 +60,8 @@ const FooterActions = () => {
 
       return false;
     });
+
+    console.log("Неотвеченные вопросы:", unansweredQuestions);
 
     if (unansweredQuestions.length > 0) {
       const firstUnanswered = unansweredQuestions[0];
@@ -74,7 +87,7 @@ const FooterActions = () => {
 
     if (isValid) {
       handleSubmit();
-      // window.location.reload();
+      window.location.reload();
     }
   };
 
@@ -120,7 +133,7 @@ const FooterActions = () => {
               : submitText}
           </button>
         </div>
-      )}
+      )} 
     </>
   );
 };

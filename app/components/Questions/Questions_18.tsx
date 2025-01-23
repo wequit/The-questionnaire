@@ -10,13 +10,13 @@ interface Question {
   text_kg: string;
 }
 
-interface Question_TwentyThree_Props {
+interface Question_Eighteen_Props {
   questions: Question[];
 }
 
-export default function Question_TwentyThree({ questions }: Question_TwentyThree_Props) {
+export default function Question_Eighteen({ questions }: Question_Eighteen_Props) {
   const { language } = useLanguage();
-  const question = questions.find((q) => q.id === 23);
+  const question = questions.find((q) => q.id === 18);
 
   if (!question) {
     return <div>Loading...</div>;

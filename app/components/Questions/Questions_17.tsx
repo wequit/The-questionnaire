@@ -20,13 +20,13 @@ interface Question {
   options: Option[];
 }
 
-interface Questions_Fourteen_TwentyTwo {
+interface Questions_Seventeen {
   questions: Question[];
 }
 
-export default function Questions_Fourteen_TwentyTwo({
+export default function Questions_Seventeen({
   questions,
-}: Questions_Fourteen_TwentyTwo) {
+}: Questions_Seventeen) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const { language } = useLanguage();
   const { setValidError, getValidError } = useAnswerContext();
@@ -97,9 +97,8 @@ export default function Questions_Fourteen_TwentyTwo({
         const isAnswered = question.id === 8 || question.id === 10 || selectedOption === "true";
 
         return (
-          <article className="container responsive min-h-[300px]!important"  key={question.id}>
             <section
-             
+              key={question.id}
               id={`question-${question.id}`}
               className=" p-10 Padding"
               data-question-answered={selectedOption ? "true" : "false"}
@@ -115,7 +114,7 @@ export default function Questions_Fourteen_TwentyTwo({
                 </div>
                 <div className="flex items-start justify-between text-gray-700 mt-8 text-center">
                   <span className="text-xs text-start font-bold text-red-600 font-inter uppercase TextRed TextRedWidth">
-                    {optionText(question.options[0])}
+                    {optionText(question.options[question.options.length - 2])}
                   </span>
                   <span className="text-xs text-end font-bold text-green-600 font-inter uppercase TextGreen TextGreenWidth">
                     {optionText(question.options[question.options.length - 1])}
@@ -170,7 +169,6 @@ export default function Questions_Fourteen_TwentyTwo({
                 </div>
               )}
             </section>
-          </article>
         );
       })}
     </>
