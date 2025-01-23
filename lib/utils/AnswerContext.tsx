@@ -120,7 +120,6 @@ export const AnswerProvider = ({ children }: { children: ReactNode }) => {
       opt => opt.id.toString() === answer
     );
     
-    // Показываем 13-й вопрос только если выбран "Угол." или "Кылмыш"
     return selectedOption?.text_ru === "Угол." || selectedOption?.text_kg === "Кылмыш";
   }, [questions]);
 

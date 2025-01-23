@@ -40,7 +40,6 @@ export default function BlankOne() {
     localStorage.getItem("5") === "20"
   );
 
-  // Оптимизируем отслеживание изменений
   useEffect(() => {
     const handleStorageChange = () => {
       const answer = localStorage.getItem("5");
@@ -49,7 +48,6 @@ export default function BlankOne() {
 
     window.addEventListener('storage', handleStorageChange);
     
-    // Используем MutationObserver вместо setInterval для лучшей производительности
     const observer = new MutationObserver(() => {
       const answer = localStorage.getItem("5");
       setShowQuestion13(answer === "20");

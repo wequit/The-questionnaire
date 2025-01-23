@@ -72,7 +72,6 @@ export default function Question_Five({ questions }: Question_Five_Props) {
       localStorage.setItem(questionId.toString(), optionId);
     }
 
-    // Вызываем кастомное событие при изменении
     window.dispatchEvent(new Event('localStorageChange'));
   };
 

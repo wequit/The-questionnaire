@@ -14,7 +14,7 @@ interface Question_Eighteen_Props {
   questions: Question[];
 }
 
-export default function Question_Eighteen({ questions }: Question_Eighteen_Props) {
+export default function  Question_Eighteen({ questions }: Question_Eighteen_Props) {
   const { language } = useLanguage();
   const question = questions.find((q) => q.id === 18);
 

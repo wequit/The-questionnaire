@@ -4,38 +4,34 @@ import { useState } from "react";
 export const useValidate = () => {
   const [error, setError] = useState<boolean>(false);
 
-  // Массив номеров существующих вопросов (исключаем 3-й вопрос)
   const questionNumbers = [1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 
-  const validators = questionNumbers.map((questionId) => {
-    return () => {
-      const questionElement = document.getElementById(`question-${questionId}`);
-      const isAnswered = questionElement?.getAttribute("data-question-answered") === "true";
-      
-      console.log(`Вопрос ${questionId}:`, {
-        element: questionElement,
-        'data-question-answered': questionElement?.getAttribute("data-question-answered"),
-        isAnswered: isAnswered
-      });
-      
-      return isAnswered;
-    };
-  });
-
-  const handleNext = () => {
+  const handleNext = async () => {
     console.log("Начало валидации...");
-    
-    const results = validators.map((validate, index) => {
-      const isValid = validate();
-      console.log(`Результат валидации вопроса ${questionNumbers[index]}:`, isValid);
-      return isValid;
-    });
-    
-    const allValid = results.every((isValid) => isValid);
-    console.log("Все вопросы валидны:", allValid);
-    
-    setError(!allValid);
-    return allValid;
+    let isValid = true;
+
+    for (const questionId of questionNumbers) {
+      if (questionId === 13) continue;
+
+      const element = document.getElementById(`question-${questionId}`);
+      const isAnswered = element?.getAttribute("data-question-answered") === "true";
+
+      console.log(`Вопрос ${questionId}:`, {
+        element,
+        "data-question-answered": element?.getAttribute("data-question-answered"),
+        isAnswered,
+      });
+
+      if (!isAnswered) {
+        isValid = false;
+      }
+
+      console.log(`Результат валидации вопроса ${questionId}:`, isAnswered);
+    }
+
+    console.log("Все вопросы валидны:", isValid);
+    setError(!isValid);
+    return isValid;
   };
 
   const updateAnsweredStatus = (questionId: number, isAnswered: boolean) => {

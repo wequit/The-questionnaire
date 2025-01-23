@@ -16,7 +16,7 @@ const FooterActions = () => {
     console.log("Начало проверки ответов...");
     
     const unansweredQuestions = questions.filter((question) => {
-      if (question.id > 18) return false;
+      if (question.id === 13 || question.id > 18) return false;
 
       console.log(`Проверка вопроса ${question.id}:`);
       
