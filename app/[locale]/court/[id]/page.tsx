@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState, useEffect } from "react";
 import { getOrCreateFingerprint } from "@/lib/utils/fingerprint";
 import QuestionsFetcher from "@/lib/api/QuestionsFetcher";
 import Question_One from "@/app/components/Questions/Question_1";
@@ -35,11 +35,32 @@ interface Survey {
 
 export default function BlankOne() {
   const { questions, setQuestions } = useAnswerContext();
+  const [showQuestion13, setShowQuestion13] = useState<boolean>(() => {
+    // Инициализируем начальное состояние на основе значения в localStorage
+    return localStorage.getItem("5") === "20";
+  });
 
-  const handleFetchSurvey = useCallback(
-    (survey: Survey) => setQuestions(survey.questions),
-    [setQuestions]
-  );
+  // Отслеживаем изменения в localStorage
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const answer = localStorage.getItem("5");
+      setShowQuestion13(answer === "20");
+    };
+
+    // Добавляем слушатель события
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Добавляем обработчик для локальных изменений
+    const interval = setInterval(() => {
+      const answer = localStorage.getItem("5");
+      setShowQuestion13(answer === "20");
+    }, 100);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(interval);
+    };
+  }, []);
 
   const fingerprint = useMemo(() => getOrCreateFingerprint(), []);
   const hasCompletedSurvey = fingerprint.status === "completed";
@@ -82,8 +103,11 @@ export default function BlankOne() {
     questions.find((question) => question.id === 18)
   , [questions]);
 
+  const handleFetchSurvey = useCallback(
+    (survey: Survey) => setQuestions(survey.questions),
+    [setQuestions]
+  );
 
-  
   return (
     <div>
       <QuestionsFetcher onFetch={handleFetchSurvey} /> {/* Загрузка вопросов */}
@@ -108,8 +132,26 @@ export default function BlankOne() {
                   case 4:
                     return <Question_Four questions={[question]} key={question.id} />;
                   case 5:
-                    return <Question_Five questions={[question]} key={question.id} />;
-                  default:
+                    return (
+                      <>
+                        <Question_Five questions={[question]} key={question.id} />
+                        {showQuestion13 && question_13 && (
+                          <article 
+                            className="container responsive min-h-[300px]!important transition-all duration-500 ease-in-out transform-gpu animate-fadeIn" 
+                            key="question_13"
+                          >
+                            <Question_Thirteen questions={[question_13]} />
+                          </article>
+                        )}
+                      </>
+                    );
+                  case 6:
+                    {localStorage.getItem("5") === "20" && question_13 && (
+                      <article className="container responsive min-h-[300px]!important" key="question_13">
+                        <Question_Thirteen questions={[question_13]} />
+                      </article>
+                    )}
+                    default:
                     return null;
                 }
               })}
@@ -117,13 +159,6 @@ export default function BlankOne() {
               {/* Вопросы 6-12 */}
               {questions_6_12.length > 0 && (
                 <Questions_Six_Twelve questions={questions_6_12} />
-              )}
-
-              {/* Вопрос 13 */}
-              {question_13 && (
-                <article className="container responsive min-h-[300px]!important" key="question_13">
-                  <Question_Thirteen questions={[question_13]} />
-                </article>
               )}
 
               {/* Вопрос 14 */}

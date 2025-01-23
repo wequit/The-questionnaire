@@ -65,6 +65,15 @@ export default function Question_Five({ questions }: Question_Five_Props) {
     if (selectedOption && getValidError(questionId)) {
       setValidError(questionId, false);
     }
+
+    if (optionId === "custom") {
+      localStorage.setItem(questionId.toString(), "custom");
+    } else {
+      localStorage.setItem(questionId.toString(), optionId);
+    }
+
+    // Вызываем кастомное событие при изменении
+    window.dispatchEvent(new Event('localStorageChange'));
   };
 
   const questionText = language === "ru" ? question.text_ru : question.text_kg;

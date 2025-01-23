@@ -39,6 +39,7 @@ interface AnswerContextProps {
   setQuestions: (questions: Question[]) => void;
   setValidError: (questionId: number, value: boolean) => void;
   getValidError: (questionId: number) => boolean;
+  shouldShowQuestion13: () => boolean;
 }
 
 interface ValidErrors {
@@ -108,6 +109,21 @@ export const AnswerProvider = ({ children }: { children: ReactNode }) => {
     return validErrors[questionId] || false;
   };
 
+  const shouldShowQuestion13 = useCallback(() => {
+    const answer = localStorage.getItem("5");
+    if (!answer) return false;
+    
+    const question5 = questions.find(q => q.id === 5);
+    if (!question5) return false;
+
+    const selectedOption = question5.options.find(
+      opt => opt.id.toString() === answer
+    );
+    
+    // Показываем 13-й вопрос только если выбран "Угол." или "Кылмыш"
+    return selectedOption?.text_ru === "Угол." || selectedOption?.text_kg === "Кылмыш";
+  }, [questions]);
+
   if (loading) {
     return (
       <div className="loading-container">
@@ -130,6 +146,7 @@ export const AnswerProvider = ({ children }: { children: ReactNode }) => {
         setQuestions,
         setValidError,
         getValidError,
+        shouldShowQuestion13,
       }}
     >
       {children}
