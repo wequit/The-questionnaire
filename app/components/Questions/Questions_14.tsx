@@ -114,7 +114,7 @@ export default function Question_Fourteen({
                 </div>
                 <div className="flex items-start justify-between text-gray-700 mt-8 text-center">
                   <span className="text-xs text-start font-bold text-red-600 font-inter uppercase TextRed TextRedWidth">
-                    {optionText(question.options[question.options.length - 2])}
+                    {optionText(question.options[0])}
                   </span>
                   <span className="text-xs text-end font-bold text-green-600 font-inter uppercase TextGreen TextGreenWidth">
                     {optionText(question.options[question.options.length - 1])}

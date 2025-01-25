@@ -45,9 +45,14 @@ export default function Question_Five({ questions }: Question_Five_Props) {
       : ""
   );
 
-  const [first, ...rest] = question.options;
-  const otherOption = first;
-  const filteredOptions = rest;
+  const otherOptionIndex = question.options.findIndex(
+    (option) => option.text_ru === "Другое:" || option.text_kg === "Башка:"
+  );
+  const otherOption =
+    otherOptionIndex !== -1 ? question.options[otherOptionIndex] : null;
+  const filteredOptions = question.options.filter(
+    (_, index) => index !== otherOptionIndex
+  );
 
   const handleChange = (questionId: number, optionId: string) => {
     if (optionId === "custom") {
@@ -79,6 +84,7 @@ export default function Question_Five({ questions }: Question_Five_Props) {
   const optionText = (option: Option) =>
     language === "ru" ? option.text_ru : option.text_kg;
 
+ 
   const isError =
     (!selectedOption ||
       (selectedOption === "custom" && !customAnswer.trim())) &&
