@@ -135,12 +135,12 @@ export default function Questions_Six_Twelve({
                   <span
                     className={`text-xs text-start font-bold text-red-600 font-inter uppercase TextRed`}
                   >
-                      {optionText(question.options[0])}
+                    {optionText(question.options[0])}
                   </span>
                   <span
                     className={`text-xs text-end font-bold text-green-600 font-inter uppercase TextGreen`}
                   >
-                     {optionText(question.options[-1])}
+                    {optionText(question.options[question.options.length - 1])}
                   </span>
                 </div>
                 <div className="flex items-center justify-center Gap px-16 mt-4">

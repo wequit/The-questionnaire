@@ -65,7 +65,7 @@ export default function Question_One({}: Question_One_Props) {
   const [customAnswer, setCustomAnswer] = useState<string>("");
 
   useEffect(() => {
-    if (selectedOption === "custom") {
+    if (selectedOption === otherOption?.id.toString()) {
       const storedCustomAnswer =
         localStorage.getItem(`${question.id}_custom`) || "";
       setCustomAnswer(storedCustomAnswer);
@@ -74,21 +74,24 @@ export default function Question_One({}: Question_One_Props) {
 
 
   const handleChange = (questionId: number, optionId: string) => {
-    if (optionId === "custom") {
+    if (optionId === otherOption?.id.toString()) { 
       if (customAnswer.trim() === "") {
         updateAnsweredStatus(questionId, false);
       } else {
         updateAnsweredStatus(questionId, true);
       }
-      handleOptionChange(optionId);
+      handleOptionChange(optionId); 
     } else {
       handleOptionChange(optionId);
       updateAnsweredStatus(questionId, true);
     }
-
+  
     if (selectedOption && getValidError(questionId)) {
       setValidError(questionId, false);
     }
+  
+    localStorage.setItem(questionId.toString(), optionId);
+    window.dispatchEvent(new Event('localStorageChange'));
   };
 
   const questionText = language === "ru" ? question.text_ru : question.text_kg;
@@ -97,7 +100,7 @@ export default function Question_One({}: Question_One_Props) {
 
   const isError =
     (!selectedOption ||
-      (selectedOption === "custom" && !customAnswer.trim())) &&
+      (selectedOption === otherOption?.id.toString() && !customAnswer.trim())) &&
     getValidError(question.id);
 
   return (
@@ -144,11 +147,12 @@ export default function Question_One({}: Question_One_Props) {
           {otherOption && (
             <OtherOption
               questionId={question.id}
-              isSelected={selectedOption === "custom"}
+              isSelected={selectedOption === otherOption?.id.toString()}
               onOptionChange={handleChange}
               customAnswer={customAnswer}
               setCustomAnswer={setCustomAnswer}
               language={language}
+              otherOptionId={otherOption?.id.toString()}
             />
           )}
         </div>
@@ -157,10 +161,10 @@ export default function Question_One({}: Question_One_Props) {
             <CgDanger className="w-7 h-7 NecessarilySvg" />
             <h2 className="ml-3 NecessarilyText">
               {language === "ru"
-                ? selectedOption === "custom" && !customAnswer.trim()
+                ? selectedOption === otherOption?.id.toString() && !customAnswer.trim()
                   ? "Пожалуйста, заполните поле для текста."
                   : "Это обязательный вопрос."
-                : selectedOption === "custom" && !customAnswer.trim()
+                : selectedOption === otherOption?.id.toString() && !customAnswer.trim()
                   ? "Сураныч, текст талаасын толтуруңуз."
                   : "Бул милдеттүү суроо."}
             </h2>

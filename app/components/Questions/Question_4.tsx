@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { useQuestionStorage } from "@/app/components/Hooks/useQuestionStorage";
-import OtherOption from "@/lib/utils/OtherOption";
 import { useLanguage } from "@/lib/utils/LanguageContext";
 import { IoIosCheckmark } from "react-icons/io";
 import { useValidate } from "../Hooks/useValidate";
@@ -39,35 +37,11 @@ export default function Question_Fourr({ questions }: Question_Four_Props) {
     localStorageKey: question.id.toString(),
   });
 
-  const [customAnswer, setCustomAnswer] = useState<string>(
-    selectedOption === "custom"
-      ? localStorage.getItem(`${question?.id}_custom`) || ""
-      : ""
-  );
-
-  const otherOptionIndex = question.options.findIndex(
-    (option) => option.text_ru === "Другое:"
-  );
-  const otherOption =
-    otherOptionIndex !== -1 ? question.options[otherOptionIndex] : null;
-  const filteredOptions = question.options.filter(
-    (_, index) => index !== otherOptionIndex
-  );
-
   const handleChange = (questionId: number, optionId: string) => {
-    if (optionId === "custom") {
-      if (customAnswer.trim() === "") {
-        updateAnsweredStatus(questionId, false);
-      } else {
-        updateAnsweredStatus(questionId, true);
-      }
-      handleOptionChange(optionId);
-    } else {
-      handleOptionChange(optionId);
-      updateAnsweredStatus(questionId, true);
-    }
+    handleOptionChange(optionId);
+    updateAnsweredStatus(questionId, true);
 
-    if (selectedOption && getValidError(questionId)) {
+    if (!selectedOption && getValidError(questionId)) {
       setValidError(questionId, false);
     }
   };
@@ -76,10 +50,7 @@ export default function Question_Fourr({ questions }: Question_Four_Props) {
   const optionText = (option: Option) =>
     language === "ru" ? option.text_ru : option.text_kg;
 
-  const isError =
-    (!selectedOption ||
-      (selectedOption === "custom" && !customAnswer.trim())) &&
-    getValidError(question.id);
+  const isError = !selectedOption && getValidError(question.id);
 
   return (
     <article className="container responsive min-h-[300px]!important">
@@ -102,7 +73,7 @@ export default function Question_Fourr({ questions }: Question_Four_Props) {
         </div>
 
         <div className="text-gray-700 font-inter">
-          {filteredOptions.map((option: Option) => (
+          {question.options.map((option: Option) => (
             <div key={option.id} className="flex items-center mb-4">
               <label
                 htmlFor={`option-${option.id}`}
@@ -133,28 +104,15 @@ export default function Question_Fourr({ questions }: Question_Four_Props) {
             </div>
           ))}
 
-          {otherOption && (
-            <OtherOption
-              questionId={question.id}
-              isSelected={selectedOption === "custom"}
-              onOptionChange={handleChange}
-              customAnswer={customAnswer}
-              setCustomAnswer={setCustomAnswer}
-              language={language}
-            />
-          )}
+         
         </div>
         {isError && (
           <div className="text-red-600 flex items-center">
             <CgDanger className="w-7 h-7 NecessarilySvg" />
             <h2 className="ml-3 NecessarilyText">
               {language === "ru"
-                ? selectedOption === "custom" && !customAnswer.trim()
-                  ? "Пожалуйста, заполните поле для текста."
-                  : "Это обязательный вопрос."
-                : selectedOption === "custom" && !customAnswer.trim()
-                  ? "Сураныч, текст талаасын толтуруңуз."
-                  : "Бул милдеттүү суроо."}
+                ? "Это обязательный вопрос."
+                : "Бул милдеттүү суроо."}
             </h2>
           </div>
         )}

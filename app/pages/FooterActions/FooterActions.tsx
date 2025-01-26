@@ -13,37 +13,25 @@ const FooterActions = () => {
   const { language } = useLanguage();
 
   const onSubmit = async () => {
-    console.log("Начало проверки ответов...");
     
     const unansweredQuestions = questions.filter((question) => {
       if (question.id === 13 || question.id > 18) return false;
+     
 
-      console.log(`Проверка вопроса ${question.id}:`);
-      
-      const questionElement = document.getElementById(
-        `question-${question.id}`
-      );
-      
-      const isAnswered =
-        questionElement?.getAttribute("data-question-answered") === "true";
-        
-      console.log(`- Элемент:`, questionElement);
-      console.log(`- data-question-answered:`, questionElement?.getAttribute("data-question-answered"));
-      
+      const questionElement = document.getElementById(`question-${question.id}`);
+      const isAnswered = questionElement?.getAttribute("data-question-answered") === "true";
       const selectedOption = localStorage.getItem(question.id.toString());
-      console.log(`- Выбранный ответ в localStorage:`, selectedOption);
       
-      if (selectedOption === "custom" && question.id !== 18) {
-        const customAnswer = localStorage
-          .getItem(`${question.id}_custom`)
-          ?.trim();
-        console.log(`- Кастомный ответ:`, customAnswer);
+      const otherOption = question.options.find(
+        (option) => option.text_ru === "Другое:" || option.text_kg === "Башка:"
+      );
 
-        if (!customAnswer) {
+      if (selectedOption === otherOption?.id.toString() && question.id !== 18) {
+        const customAnswer = localStorage.getItem(`${question.id}_custom`);
+        
+        if (!customAnswer || customAnswer.trim() === "") {
           console.warn(
-            `Неотвеченный кастомный вопрос: ${question.id}, текст: ${
-              question.text_ru || question.text_kg
-            }`
+            `Неотвеченный вопрос (пустое поле "Другое:"): ${question.id}`
           );
           return true;
         }
@@ -60,8 +48,6 @@ const FooterActions = () => {
 
       return false;
     });
-
-    console.log("Неотвеченные вопросы:", unansweredQuestions);
 
     if (unansweredQuestions.length > 0) {
       const firstUnanswered = unansweredQuestions[0];

@@ -30,10 +30,14 @@ export const useSubmitSurvey = () => {
       const storedOption = localStorage.getItem(questionId.toString());
       const customAnswer = localStorage.getItem(`${questionId}_custom`);
   
+      const otherOption = question.options.find(opt => 
+        opt.text_ru === "Другое:" || opt.text_kg === "Башка:"
+      );
+  
       if (questionId === 15) {
         if (storedOption) {
           const options = storedOption.split(",").map((item) => item.trim());
-          const filteredOptions = options.filter((opt) => opt !== "custom");
+          const filteredOptions = options.filter((opt) => opt !== otherOption?.id.toString());
   
           responses.push({
             question: questionId,
@@ -58,7 +62,7 @@ export const useSubmitSurvey = () => {
         });
       } else if (questionId === 13) {
         if (storedOption) {
-          if (storedOption === "custom") {
+          if (storedOption === otherOption?.id.toString()) {
             responses.push({
               question: questionId,
               selected_option: null,
@@ -81,7 +85,7 @@ export const useSubmitSurvey = () => {
         }
       } else if (storedOption || customAnswer) {
         const selectedOption =
-          storedOption === "custom"
+          storedOption === otherOption?.id.toString()
             ? null
             : storedOption
             ? parseInt(storedOption, 10)
@@ -159,8 +163,6 @@ export const useSubmitSurvey = () => {
 
     try {
       const responses = getAnswersFromLocalStorage();
-      
-      console.log("Отправляемые ответы:", responses);
 
       updateFingerprintStatus("completed");
 
@@ -203,7 +205,6 @@ export const useSubmitSurvey = () => {
 
       setSubmitSuccess("Опрос успешно отправлен!");
     } catch (err) {
-      console.error("Ошибка:", err);
       setError(err instanceof Error ? err.message : "Неизвестная ошибка.");
     } finally {
       setLoading(false);

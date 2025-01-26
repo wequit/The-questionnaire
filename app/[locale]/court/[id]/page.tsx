@@ -6,17 +6,18 @@ import Question_One from "@/app/components/Questions/Question_1";
 import Question_Two from "@/app/components/Questions/Question_2";
 import Question_Three from "@/app/components/Questions/Question_3";
 import Question_Four from "@/app/components/Questions/Question_4";
-import Question_Thirteen from "@/app/components/Questions/Questions_13"; 
-import Question_Sixteen from "@/app/components/Questions/Questions_16"; 
-import Question_Fiveteen from "@/app/components/Questions/Questions_15"; 
+import Question_Thirteen from "@/app/components/Questions/Questions_5.1"; 
+import Question_Sixteen from "@/app/components/Questions/Questions_15"; 
+import Question_Fiveteen from "@/app/components/Questions/Questions_14"; 
 import { useAnswerContext } from "@/lib/utils/AnswerContext";
 import "@/lib/utils/responsive.css";
 import Question_Five from "@/app/components/Questions/Question_5";
 import Questions_Six_Twelve from "@/app/components/Questions/Questions_Six_Twelve";
-import Question_Eighteen from "@/app/components/Questions/Questions_18";
-import Question_Fourteen from "@/app/components/Questions/Questions_14";
-import Questions_Seventeen from "@/app/components/Questions/Questions_17";
+import Question_Eighteen from "@/app/components/Questions/Questions_17";
+import Question_Fourteen from "@/app/components/Questions/Questions_13";
+import Questions_Seventeen from "@/app/components/Questions/Questions_16";
 import React from "react";
+import Question_Five_One from "@/app/components/Questions/Questions_5.1";
 
 interface Question {
   id: number;
@@ -144,7 +145,7 @@ export default function BlankOne() {
                             className="container responsive min-h-[300px]!important transition-all duration-300 ease-in-out transform-gpu animate-fadeIn"
                             key="question_13_container"
                           >
-                            <Question_Thirteen questions={[question_13]} />
+                            <Question_Five_One questions={[question_13]} />
                           </article>
                         )}
                       </React.Fragment>
@@ -152,7 +153,7 @@ export default function BlankOne() {
                   case 6:
                     {localStorage.getItem("5") === "20" && question_13 && (
                       <article className="container responsive min-h-[300px]!important" key="question_13">
-                        <Question_Thirteen questions={[question_13]} />
+                        <Question_Five_One questions={[question_13]} />
                       </article>
                     )}
                     default:

@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQuestionStorage } from "@/app/components/Hooks/useQuestionStorage";
-import OtherOptionCheckBox from "@/lib/utils/OtherOption_CheckBox";
+import OtherOption from "@/lib/utils/OtherOption";
 import { useLanguage } from "@/lib/utils/LanguageContext";
 import { IoIosCheckmark } from "react-icons/io";
 import { useValidate } from "../Hooks/useValidate";
@@ -29,7 +29,7 @@ export default function Question_Fiveteen({
   questions,
 }: Question_Fiveteen_Props) {
   const { language } = useLanguage();
-  const question = questions.find((q) => q.id === 15);
+  const question = questions.find((q) => q.id === 16);
   const { setValidError, getValidError } = useAnswerContext();
 
   if (!question) {
@@ -37,15 +37,22 @@ export default function Question_Fiveteen({
   }
 
   const { updateAnsweredStatus } = useValidate();
-  const { handleOptionChange } = useQuestionStorage({
+  const { handleOptionChange, selectedOption } = useQuestionStorage({
     localStorageKey: question.id.toString(),
   });
 
   const [customAnswer, setCustomAnswer] = useState<string>("");
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (selectedOption === otherOption?.id.toString()) {
+      const storedCustomAnswer =
+        localStorage.getItem(`${question.id}_custom`) || "";
+      setCustomAnswer(storedCustomAnswer);
+    }
+  }, [selectedOption, question.id]);
 
   const otherOptionIndex = question.options.findIndex(
-    (option) => option.text_ru === "Другое:" || option.text_kg === "Башка:"
+    (option) => option.text_ru === "Другое:"
   );
   const otherOption =
     otherOptionIndex !== -1 ? question.options[otherOptionIndex] : null;
@@ -53,46 +60,25 @@ export default function Question_Fiveteen({
     (_, index) => index !== otherOptionIndex
   );
 
-  useEffect(() => {
-    const storedOption = localStorage.getItem(question.id.toString());
-    const customStoredAnswer = localStorage.getItem(`${question.id}_custom`);
-
-    if (storedOption) {
-      setSelectedOptions(storedOption.split(","));
-    }
-    if (customStoredAnswer) {
-      setCustomAnswer(customStoredAnswer);
-    }
-  }, [question.id]);
-
-  const handleCheckboxChange = (optionId: string, questionId: number) => {
-    const updatedOptions = selectedOptions.includes(optionId)
-      ? selectedOptions.filter((id) => id !== optionId)
-      : [...selectedOptions, optionId];
-
-    setSelectedOptions(updatedOptions);
-    
-    const optionToStore = optionId === otherOption?.id.toString() ? "custom" : optionId;
-    handleOptionChange(updatedOptions.map(id => 
-      id === otherOption?.id.toString() ? "custom" : id
-    ).join(","));
-    
-    updateAnsweredStatus(questionId, true);
-
-    localStorage.setItem(questionId.toString(), updatedOptions.join(","));
-    if (optionId === otherOption?.id.toString()) {
-      localStorage.setItem(`${questionId}_custom`, customAnswer);
+  const handleChange = (questionId: number, optionId: string) => {
+    if (optionId === otherOption?.id.toString()) { 
       if (customAnswer.trim() === "") {
         updateAnsweredStatus(questionId, false);
       } else {
         updateAnsweredStatus(questionId, true);
       }
+      handleOptionChange(optionId); 
+    } else {
+      handleOptionChange(optionId);
+      updateAnsweredStatus(questionId, true);
     }
-  };
-
-  const handleCustomAnswerChange = (newAnswer: string) => {
-    setCustomAnswer(newAnswer);
-    localStorage.setItem(`${question.id}_custom`, newAnswer);
+  
+    if (selectedOption && getValidError(questionId)) {
+      setValidError(questionId, false);
+    }
+  
+    localStorage.setItem(questionId.toString(), optionId);
+    window.dispatchEvent(new Event('localStorageChange'));
   };
 
   const questionText = language === "ru" ? question.text_ru : question.text_kg;
@@ -100,20 +86,30 @@ export default function Question_Fiveteen({
     language === "ru" ? option.text_ru : option.text_kg;
 
   const isError =
-    (!selectedOptions.length ||
-      (selectedOptions.includes("custom") && !customAnswer.trim())) &&
+    (!selectedOption ||
+      (selectedOption === otherOption?.id.toString() && !customAnswer.trim())) &&
     getValidError(question.id);
 
   return (
     <section
       id={`question-${question.id}`}
       className="p-10 Padding"
-      data-question-answered={selectedOptions ? "true" : "false"}
+      data-question-answered={selectedOption ? "true" : "false"}
     >
-      <h2 className="text-lg font-semibold font-inter text-gray-900 mb-6 ContainerQuestion">
-        {questionText}
-      </h2>
+      <div className="flex justify-between items-start">
+        <h2 className="text-lg font-bold font-inter text-gray-900 mb-4 ContainerQuestionEX">
+          {questionText}
+        </h2>
+        <span
+          className={`text-red-500 text-2xl font-bold ${
+            selectedOption ? "true" : "false" ? "visible" : "invisible"
+          }`}
+        >
+          *
+        </span>
+      </div>
       <div className="text-gray-700 font-inter">
+        {/* Отображаем только фильтрованные опции */}
         {filteredOptions.map((option: Option) => (
           <div key={option.id} className="flex items-center mb-4">
             <label
@@ -123,16 +119,15 @@ export default function Question_Fiveteen({
               <input
                 id={`option-${option.id}`}
                 name={`question-${question.id}`}
-                type="checkbox"
+                type="radio"
                 className="hidden peer"
-                onChange={() =>
-                  handleCheckboxChange(option.id.toString(), question.id)
-                }
-                checked={selectedOptions.includes(option.id.toString())}
+                onChange={() => handleChange(question.id, option.id.toString())}
+                checked={selectedOption === option.id.toString()}
               />
-              <div className="w-9 h-9 ContainerRadio border-2 border-gray-300 rounded flex items-center justify-center relative 
-              peer-checked:border-emerald-500 peer-checked:bg-emerald-500 transition-all duration-300 ease-in-out">
-                {selectedOptions.includes(option.id.toString()) && (
+              {/* Кастомная радиокнопка */}
+              <div className="w-9 h-9 ContainerRadio border-2 border-gray-300 rounded-full flex items-center justify-center relative peer-checked:border-emerald-500   peer-checked:bg-emerald-500 transition-all duration-300 ease-in-out">
+                {/* Галочка появляется, если радиокнопка активна */}
+                {selectedOption === option.id.toString() && (
                   <IoIosCheckmark className="text-white w-6 h-6" />
                 )}
               </div>
@@ -143,29 +138,30 @@ export default function Question_Fiveteen({
           </div>
         ))}
 
+        {/* Добавляем компонент для "Другое:" */}
         {otherOption && (
-          <OtherOptionCheckBox
+          <OtherOption
             questionId={question.id}
-            isSelected={selectedOptions.includes(otherOption.id.toString())}
-            onOptionChange={() => handleCheckboxChange(otherOption.id.toString(), question.id)}
+            isSelected={selectedOption === otherOption?.id.toString()}
+            onOptionChange={handleChange}
             customAnswer={customAnswer}
-            setCustomAnswer={handleCustomAnswerChange}
+            setCustomAnswer={setCustomAnswer}
             language={language}
+            otherOptionId={otherOption?.id.toString()}
           />
         )}
       </div>
-
       {isError && (
         <div className="text-red-600 flex items-center">
           <CgDanger className="w-7 h-7 NecessarilySvg" />
           <h2 className="ml-3 NecessarilyText">
             {language === "ru"
-              ? selectedOptions.includes("custom") && !customAnswer.trim()
+              ? selectedOption === otherOption?.id.toString() && !customAnswer.trim()
                 ? "Пожалуйста, заполните поле для текста."
                 : "Это обязательный вопрос."
-              : selectedOptions.includes("custom") && !customAnswer.trim()
-              ? "Сураныч, текст талаасын толтуруңуз."
-              : "Бул милдеттүү суроо."}
+              : selectedOption === otherOption?.id.toString() && !customAnswer.trim()
+                ? "Сураныч, текст талаасын толтуруңуз."
+                : "Бул милдеттүү суроо."}
           </h2>
         </div>
       )}

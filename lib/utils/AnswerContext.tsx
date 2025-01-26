@@ -120,7 +120,7 @@ export const AnswerProvider = ({ children }: { children: ReactNode }) => {
       opt => opt.id.toString() === answer
     );
     
-    return selectedOption?.text_ru === "Угол." || selectedOption?.text_kg === "Кылмыш";
+    return selectedOption?.text_ru === "Уголовному" || selectedOption?.text_kg === "Кылмыш";
   }, [questions]);
 
   if (loading) {

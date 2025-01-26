@@ -9,6 +9,7 @@ interface OtherOptionProps {
   customAnswer: string;
   setCustomAnswer: (value: string) => void;
   language: "ru" | "kg";
+  otherOptionId?: string;
 }
 
 export default function OtherOption({
@@ -18,8 +19,8 @@ export default function OtherOption({
   customAnswer,
   setCustomAnswer,
   language,
+  otherOptionId
 }: OtherOptionProps) {
-  const { questions } = useAnswerContext();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [localAnswer, setLocalAnswer] = useState(customAnswer);
 
@@ -32,14 +33,14 @@ export default function OtherOption({
   const handleCustomAnswerChange = (value: string) => {
     setLocalAnswer(value);
     setCustomAnswer(value);
-    localStorage.setItem(`${questionId}_custom`, value); 
+    localStorage.setItem(`${questionId}_custom`, value);
     if (!isSelected) {
-      onOptionChange(questionId, "custom");
+      onOptionChange(questionId, otherOptionId || "custom");
     }
   };
 
   const handleOptionChangeWithFocus = () => {
-    onOptionChange(questionId, "custom");
+    onOptionChange(questionId, otherOptionId || "custom");
     inputRef.current?.focus();
   };
 

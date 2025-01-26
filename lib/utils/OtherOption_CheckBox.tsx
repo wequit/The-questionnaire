@@ -29,12 +29,10 @@ export default function OtherOptionCheckBox({
 
   const handleCustomAnswerChange = (value: string) => {
     setLocalAnswer(value);
-
     setTimeout(() => {
       setCustomAnswer(value);
       localStorage.setItem(`${questionId}_custom`, value);
     }, 0);
-
     if (!isSelected) {
       onOptionChange("custom", true);
     }
