@@ -37,13 +37,10 @@ export const useSubmitSurvey = () => {
       if (questionId === 15) {
         if (storedOption) {
           const options = storedOption.split(",").map((item) => item.trim());
-          const filteredOptions = options.filter((opt) => opt !== otherOption?.id.toString());
-  
+          
           responses.push({
             question: questionId,
-            multiple_selected_options: filteredOptions.length
-              ? filteredOptions
-              : null,
+            multiple_selected_options: options,
             ...(customAnswer && customAnswer.trim()
               ? { custom_answer: customAnswer.trim() }
               : {}), 
