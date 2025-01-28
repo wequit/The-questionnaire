@@ -73,7 +73,7 @@ const FooterActions = () => {
 
     if (isValid) {
       handleSubmit();
-      // window.location.reload();
+      window.location.reload();
     }
   };
 
