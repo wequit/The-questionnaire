@@ -59,38 +59,25 @@ export const useSubmitSurvey = () => {
         });
       } else if (questionId === 13) {
         if (storedOption) {
-          if (storedOption === otherOption?.id.toString()) {
-            responses.push({
-              question: questionId,
-              selected_option: null,
-              custom_answer: customAnswer || "Необязательный вопрос",
-            });
-          } else {
-            const selectedOption = parseInt(storedOption, 10);
-            responses.push({
-              question: questionId,
-              selected_option: selectedOption,
-              custom_answer: undefined, 
-            });
-          }
+          const selectedOption = parseInt(storedOption, 10);
+          responses.push({
+            question: questionId,
+            selected_option: selectedOption,
+            custom_answer: customAnswer || "Необязательный вопрос",
+          });
         } else {
           responses.push({
             question: questionId,
-            selected_option: undefined,
-            custom_answer: "Необязательный вопрос",
+            selected_option: otherOption ? otherOption.id : null,
+            custom_answer: customAnswer || "Необязательный вопрос",
           });
         }
       } else if (storedOption || customAnswer) {
-        const selectedOption =
-          storedOption === otherOption?.id.toString()
-            ? null
-            : storedOption
-            ? parseInt(storedOption, 10)
-            : null;
+        const selectedOptionId = (storedOption ?? "").toString() === otherOption?.id.toString() ? otherOption.id : parseInt(storedOption ?? "0", 10);
   
         responses.push({
           question: questionId,
-          selected_option: selectedOption,
+          selected_option: selectedOptionId,
           custom_answer: customAnswer || undefined,
         });
       } else {
