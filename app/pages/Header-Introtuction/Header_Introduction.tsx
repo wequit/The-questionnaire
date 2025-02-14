@@ -67,7 +67,7 @@ export default function Introduction({
         <Completed />
       ) : (
         <div>
-          <p className="text-gray-800 mt-[3rem] font-inter leading-8 tracking-wide whitespace-pre-line break-words ContainerDescription">
+          <p className="text-gray-800 mt-[3rem] font-inter leading-8 tracking-wide whitespace-pre-line break-words ContainerDescription ">
             <span className="font-bold">{description.split("\r\n")[0]}</span>
             <br />
             {description
