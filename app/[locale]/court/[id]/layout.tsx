@@ -40,7 +40,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="bg-gray-100 bg-gradient-to-b from-slate-900 to-slate-500 min-h-screen ">
               <header className="flex justify-center items-center text-black ">
                 <div className="bg-white p-6 rounded-lg shadow-md w-full container my-4 responsive">
-                  {/* Если данные не загружены, показываем скелетон */}
                   {!survey ? (
                     <SkeletonIntroduction />
                   ) : (

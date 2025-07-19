@@ -49,6 +49,7 @@ export default function QuestionsFetcher({ onFetch }: QuestionsFetcherProps) {
 
         const data = await response.json();
 
+
         const survey: Survey = {
           title_ru: data.title_ru,
           title_kg: data.title_kg,
@@ -58,7 +59,7 @@ export default function QuestionsFetcher({ onFetch }: QuestionsFetcherProps) {
             id: q.id,
             text_ru: q.text_ru,
             text_kg: q.text_kg,
-            is_required: q.has_other_option || false,
+            is_required: q.is_required || q.required || q.isMandatory || false,
             options: q.answer_options.map((option: any) => ({
               id: option.id,
               text_ru: option.text_ru,

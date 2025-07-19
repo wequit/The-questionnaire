@@ -17,104 +17,63 @@ export const useSubmitSurvey = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMessage, setError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
-  const { courtId, questions } = useAnswerContext();
+  const { courtId, questions, ...ctx } = useAnswerContext();
+  const answers = (ctx as any).answers as { [key: string]: string };
   const { handleNext, error } = useValidate();
 
-  const getAnswersFromLocalStorage = (): QuestionResponse[] => {
-    const responses: QuestionResponse[] = [];
-  
-    const filteredQuestions = questions.filter(q => q.id <= 18);
-  
-    filteredQuestions.forEach((question) => {
-      const questionId = question.id;
-      const storedOption = localStorage.getItem(questionId.toString());
-      const customAnswer = localStorage.getItem(`${questionId}_custom`);
-  
-      const otherOption = question.options.find(opt => 
-        opt.text_ru === "Другое:" || opt.text_kg === "Башка:"
-      );
-  
-      if (questionId === 15) {
-        if (storedOption) {
-          const options = storedOption.split(",").map((item) => item.trim());
-          
-          responses.push({
-            question: questionId,
-            multiple_selected_options: options,
-            ...(customAnswer && customAnswer.trim()
-              ? { custom_answer: customAnswer.trim() }
-              : {}), 
-          });
-        } else {
-          responses.push({
-            question: questionId,
-            multiple_selected_options: null,
-          });
-        }
-      } else if (questionId === 18) {
-        responses.push({
-          question: questionId,
-          custom_answer:
-            customAnswer && customAnswer.trim() ? customAnswer : "Необязательный вопрос",
-        });
-      } else if (questionId === 13) {
-        if (storedOption) {
-          const selectedOption = parseInt(storedOption, 10);
-          responses.push({
-            question: questionId,
-            selected_option: selectedOption,
-            custom_answer: customAnswer || "Необязательный вопрос",
-          });
-        } else {
-          responses.push({
-            question: questionId,
-            selected_option: otherOption ? otherOption.id : null,
-            custom_answer: customAnswer || "Необязательный вопрос",
-          });
-        }
-      } else if (storedOption || customAnswer) {
-        const selectedOptionId = (storedOption ?? "").toString() === otherOption?.id.toString() ? otherOption.id : parseInt(storedOption ?? "0", 10);
-  
-        responses.push({
-          question: questionId,
-          selected_option: selectedOptionId,
-          custom_answer: customAnswer || undefined,
-        });
-      } else {
-        if (questionId === 1) {
-          const selectedOption = storedOption
-            ? parseInt(storedOption, 10)
-            : undefined;
-  
-          responses.push({
-            question: questionId,
-            ...(selectedOption !== undefined
-              ? { selected_option: selectedOption }
-              : { custom_answer: "Необязательный вопрос" }),
-          });
-        }
-  
-        if (!question.is_required && questionId !== 1) {
-          const selectedOption = storedOption
-            ? parseInt(storedOption, 10)
-            : undefined;
-  
-          responses.push({
-            question: questionId,
-            ...(selectedOption !== undefined && {
-              selected_option: selectedOption,
-            }),
-            custom_answer: customAnswer || "Необязательный вопрос",
-          });
-        }
-      }
-    });
-  
-    responses.sort((a, b) => a.question - b.question);
-  
-    return responses;
+  const idMap: Record<number, number> = {
+    16: 17,
+    17: 18,
+    18: 19,
+    19: 20,
+    20: 21,
+    21: 22, 
   };
-  
+
+  const getResponses = (): QuestionResponse[] => {
+    return questions.map((question) => {
+      const selected = answers[question.id.toString()];
+      const custom = answers[`${question.id}_custom`];
+      const text = answers[`${question.id}_text`];
+
+      let qid = question.id;
+      if (idMap[question.id]) {
+        qid = idMap[question.id];
+      }
+
+      if ([6, 13, 20].includes(question.id)) {
+        return {
+          question: qid,
+          custom_answer: text || "",
+        };
+      }
+
+      if (selected) {
+        return {
+          question: qid,
+          selected_option: Number(selected),
+          ...(custom && { custom_answer: custom }),
+        };
+      }
+
+      if ([9, 10, 11, 12, 13].includes(question.id)) {
+        return {
+          question: qid,
+          custom_answer: "Нет ответа",
+        };
+      }
+
+      if (question.is_required) {
+        return {
+          question: qid,
+          custom_answer: "",
+        };
+      }
+
+      return null;
+    }).filter(Boolean) as QuestionResponse[];
+  };
+
   const scrollToFirstUnansweredQuestion = () => {
     const unansweredElements = document.querySelectorAll(
       '[data-question-answered="false"]'
@@ -126,8 +85,8 @@ export const useSubmitSurvey = () => {
         firstUnansweredElement.getBoundingClientRect().top + window.scrollY;
 
       window.scrollTo({
-        top: elementTop - 200, 
-        behavior: "smooth", 
+        top: elementTop - 200,
+        behavior: "smooth",
       });
     }
   };
@@ -135,23 +94,19 @@ export const useSubmitSurvey = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    handleNext();
-    if (error) {
-      setError("Пожалуйста, ответьте на все обязательные вопросы.");
-      return;
-    }
 
     setLoading(true);
     setError(null);
     setSubmitSuccess(null);
 
     try {
-      const responses = getAnswersFromLocalStorage();
+      const responses = getResponses();
 
       updateFingerprintStatus("completed");
 
       if (!courtId) {
         setError("Не указан ID суда.");
+        console.error("courtId is missing");
         return;
       }
 
@@ -167,6 +122,7 @@ export const useSubmitSurvey = () => {
         question_responses: responses,
       };
 
+
       const response = await fetch(
         "https://opros.sot.kg/api/v1/surveys/1/responses/",
         {
@@ -180,22 +136,25 @@ export const useSubmitSurvey = () => {
 
       if (response.status === 403) {
         setError("Вы уже прошли этот опрос. Спасибо за ваше участие!");
+        console.error("403 error", await response.text());
         return;
       }
 
       if (!response.ok) {
+        const errText = await response.text();
+        console.error("Ошибка отправки данных:", errText);
         throw new Error("Ошибка отправки данных.");
       }
 
       setSubmitSuccess("Опрос успешно отправлен!");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Неизвестная ошибка.");
+      console.error("handleSubmit error", err);
     } finally {
       setLoading(false);
     }
   };
 
-  
   return {
     handleSubmit,
     loading,

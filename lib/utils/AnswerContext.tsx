@@ -40,6 +40,9 @@ interface AnswerContextProps {
   setValidError: (questionId: number, value: boolean) => void;
   getValidError: (questionId: number) => boolean;
   shouldShowQuestion13: () => boolean;
+  answers: { [key: string]: string }; // добавлено для реактивности
+  error: number[];
+  setError: (err: number[]) => void;
 }
 
 interface ValidErrors {
@@ -54,13 +57,26 @@ export const AnswerProvider = ({ children }: { children: ReactNode }) => {
   const [courtName, setCourtName] = useState<CourtName | null>(null);
   const [courtId, setCourtId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [answers, setAnswers] = useState<{ [key: string]: string }>(() => {
+    if (typeof window !== "undefined") {
+      const entries = Object.entries(localStorage)
+        .filter(([k]) => !isNaN(Number(k)))
+        .map(([k, v]) => [k, v as string]);
+      return Object.fromEntries(entries);
+    }
+    return {};
+  });
+  const [error, setError] = useState<number[]>([]);
 
   const getAnswer = (key: string): string | null => {
-    return localStorage.getItem(key);
+    return answers[key] ?? null;
   };
 
   const setAnswer = (key: string, value: string): void => {
-    localStorage.setItem(key, value);
+    setAnswers((prev) => ({ ...prev, [key]: value }));
+    if (typeof window !== "undefined") {
+      localStorage.setItem(key, value);
+    }
   };
 
   const getAllAnswers = (): Record<string, string | null> => {
@@ -146,6 +162,9 @@ export const AnswerProvider = ({ children }: { children: ReactNode }) => {
         setValidError,
         getValidError,
         shouldShowQuestion13,
+        answers, // обязательно передаём answers!
+        error,
+        setError,
       }}
     >
       {children}

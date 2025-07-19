@@ -13,67 +13,11 @@ const FooterActions = () => {
   const { language } = useLanguage();
 
   const onSubmit = async () => {
-    
-    const unansweredQuestions = questions.filter((question) => {
-      if (question.id === 13 || question.id > 18) return false;
-     
-
-      const questionElement = document.getElementById(`question-${question.id}`);
-      const isAnswered = questionElement?.getAttribute("data-question-answered") === "true";
-      const selectedOption = localStorage.getItem(question.id.toString());
-      
-      const otherOption = question.options.find(
-        (option) => option.text_ru === "Другое:" || option.text_kg === "Башка:"
-      );
-
-      if (selectedOption === otherOption?.id.toString() && question.id !== 18) {
-        const customAnswer = localStorage.getItem(`${question.id}_custom`);
-        
-        if (!customAnswer || customAnswer.trim() === "") {
-          console.warn(
-            `Неотвеченный вопрос (пустое поле "Другое:"): ${question.id}`
-          );
-          return true;
-        }
-      }
-
-      if (!isAnswered) {
-        console.warn(
-          `Неотвеченный вопрос: ${question.id}, текст: ${
-            question.text_ru || question.text_kg
-          }`
-        );
-        return true;
-      }
-
-      return false;
-    });
-
-    if (unansweredQuestions.length > 0) {
-      const firstUnanswered = unansweredQuestions[0];
-      const firstUnansweredElement = document.getElementById(
-        `question-${firstUnanswered.id}`
-      );
-
-      if (firstUnansweredElement) {
-        firstUnansweredElement.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
-      }
-
-      unansweredQuestions.forEach((unansweredQuestion) => {
-        setValidError(unansweredQuestion.id, true);
-      });
-
-      return;
-    }
-
-    const isValid = await handleNext();
-
-    if (isValid) {
-      handleSubmit();
-      window.location.reload();
+    const result = await handleNext();
+    if (result === true) {
+      // handleSubmit();
+    } else {
+      scrollToFirstUnansweredQuestion();
     }
   };
 
@@ -96,9 +40,9 @@ const FooterActions = () => {
 
   return (
     <>
-      {hasCompletedSurvey ? (
+      {/* {hasCompletedSurvey ? (
         ""
-      ) : (
+      ) : ( */}
         <div className="flex justify-between items-center containerButtonFooter my-6 gap-6">
           <button
             onClick={handleClearAnswers}
@@ -119,7 +63,7 @@ const FooterActions = () => {
               : submitText}
           </button>
         </div>
-      )}  
+      {/* )}   */}
     </>
   );
 };

@@ -1,32 +1,43 @@
 'use client'
-import { useState } from "react";
+import { useAnswerContext } from "@/lib/utils/AnswerContext";
 
 export const useValidate = () => {
-  const [error, setError] = useState<boolean>(false);
-
-  const questionNumbers = [1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+  const { questions, error, setError, ...ctx } = useAnswerContext();
+  const answers = (ctx as any).answers as { [key: string]: string };
 
   const handleNext = async () => {
-    let isValid = true;
+    const missed: number[] = [];
+    const selectedQ1 = answers["1"];
+    for (const question of questions) {
+      if ([9, 10, 11, 12, 13].includes(question.id) && selectedQ1 !== "1") continue;
 
-    for (const questionId of questionNumbers) {
-      if (questionId === 13) continue;
+      if ([13, 20].includes(question.id)) continue;
 
-      const element = document.getElementById(`question-${questionId}`);
-      const isAnswered = element?.getAttribute("data-question-answered") === "true";
-
-
-      if (!isAnswered) {
-        isValid = false;
+      if ([6].includes(question.id)) {
+        const text = answers[`${question.id}_text`];
+        if (!text || text.trim() === "") {
+          missed.push(question.id);
+          continue;
+        }
+        continue;
       }
 
+      const answer =
+        answers[question.id.toString()] ||
+        answers[`${question.id}_custom`];
+
+      if (!answer || answer.trim() === "") {
+        missed.push(question.id);
+        continue;
+      }
     }
 
-    setError(!isValid);
-    return isValid;
+    setError(missed);
+    return missed.length === 0 ? true : missed;
   };
 
   const updateAnsweredStatus = (questionId: number, isAnswered: boolean) => {
+    // 
   };
 
   return {
