@@ -37,7 +37,12 @@ export default function BlankOne() {
     return () => window.removeEventListener("storage", checkShow);
   }, []);
 
-  const fingerprint = useMemo(() => getOrCreateFingerprint(), []);
+  const [fingerprint, setFingerprint] = useState(getOrCreateFingerprint());
+  useEffect(() => {
+    const onUpdate = () => setFingerprint(getOrCreateFingerprint());
+    window.addEventListener("fingerprint-updated", onUpdate);
+    return () => window.removeEventListener("fingerprint-updated", onUpdate);
+  }, []);
   const hasCompletedSurvey = fingerprint.status === "completed";
 
   const handleFetchSurvey = useCallback(

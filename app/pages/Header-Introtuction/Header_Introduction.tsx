@@ -26,7 +26,12 @@ export default function Introduction({
   const router = useRouter(); 
   const pathname = usePathname(); 
 
-  const fingerprint = getOrCreateFingerprint();
+  const [fingerprint, setFingerprint] = React.useState(getOrCreateFingerprint());
+  React.useEffect(() => {
+    const onUpdate = () => setFingerprint(getOrCreateFingerprint());
+    window.addEventListener("fingerprint-updated", onUpdate);
+    return () => window.removeEventListener("fingerprint-updated", onUpdate);
+  }, []);
   const hasCompletedSurvey = fingerprint.status === "completed";
 
   const title = language === "ru" ? title_ru : title_kg;

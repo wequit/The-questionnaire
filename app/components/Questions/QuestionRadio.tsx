@@ -55,10 +55,10 @@ const QuestionRadio: React.FC<Props> = ({ question, displayNumber, error, requir
     setAnswer(`${question.id}_custom`, e.target.value);
   };
 
-  const questionTextRaw = language === "ru" ? question.text_ru : question.text_kg;
+  const questionTextRaw = language === "ru" ? question?.text_ru || "" : question?.text_kg || "";
   const questionText = getQuestionTextWithoutNumber(questionTextRaw);
   const optionText = (option: Option) =>
-    language === "ru" ? option.text_ru : option.text_kg;
+    language === "ru" ? option?.text_ru || "" : option?.text_kg || "";
 
   const isError = Array.isArray(error) && error.includes(question.id);
 

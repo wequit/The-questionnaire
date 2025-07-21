@@ -40,7 +40,7 @@ interface AnswerContextProps {
   setValidError: (questionId: number, value: boolean) => void;
   getValidError: (questionId: number) => boolean;
   shouldShowQuestion13: () => boolean;
-  answers: { [key: string]: string }; // добавлено для реактивности
+  answers: { [key: string]: string }; 
   error: number[];
   setError: (err: number[]) => void;
 }

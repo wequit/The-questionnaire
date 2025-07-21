@@ -146,6 +146,8 @@ export const useSubmitSurvey = () => {
         throw new Error("Ошибка отправки данных.");
       }
 
+      // Только после успешного ответа:
+      updateFingerprintStatus("completed");
       setSubmitSuccess("Опрос успешно отправлен!");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Неизвестная ошибка.");

@@ -51,19 +51,19 @@ export default function QuestionsFetcher({ onFetch }: QuestionsFetcherProps) {
 
 
         const survey: Survey = {
-          title_ru: data.title_ru,
-          title_kg: data.title_kg,
-          description_ru: data.description_ru,
-          description_kg: data.description_kg,
+          title_ru: data.title_ru || "",
+          title_kg: data.title_kg || "",
+          description_ru: data.description_ru || "",
+          description_kg: data.description_kg || "",
           questions: data.questions.map((q: any) => ({
             id: q.id,
-            text_ru: q.text_ru,
-            text_kg: q.text_kg,
+            text_ru: q.text_ru || "",
+            text_kg: q.text_kg || "",
             is_required: q.is_required || q.required || q.isMandatory || false,
-            options: q.answer_options.map((option: any) => ({
+            options: (q.answer_options || []).map((option: any) => ({
               id: option.id,
-              text_ru: option.text_ru,
-              text_kg: option.text_kg,
+              text_ru: option.text_ru || "",
+              text_kg: option.text_kg || "",
             })),
             selected_option: null,
             custom_answer: null,

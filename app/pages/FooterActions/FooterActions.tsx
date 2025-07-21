@@ -15,7 +15,7 @@ const FooterActions = () => {
   const onSubmit = async () => {
     const result = await handleNext();
     if (result === true) {
-      // handleSubmit();
+      handleSubmit();
     } else {
       scrollToFirstUnansweredQuestion();
     }
@@ -40,9 +40,9 @@ const FooterActions = () => {
 
   return (
     <>
-      {/* {hasCompletedSurvey ? (
+     {hasCompletedSurvey ? (
         ""
-      ) : ( */}
+      ) : ( 
         <div className="flex justify-between items-center containerButtonFooter my-6 gap-6">
           <button
             onClick={handleClearAnswers}
@@ -63,7 +63,7 @@ const FooterActions = () => {
               : submitText}
           </button>
         </div>
-      {/* )}   */}
+      )}   
     </>
   );
 };
