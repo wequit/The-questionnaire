@@ -55,12 +55,16 @@ export default function QuestionsFetcher({ onFetch }: QuestionsFetcherProps) {
           title_kg: data.title_kg || "",
           description_ru: data.description_ru || "",
           description_kg: data.description_kg || "",
-          questions: data.questions.map((q: any) => ({
+          questions: data.questions
+          .filter((q: any) => q)
+          .map((q: any) => ({
             id: q.id,
             text_ru: q.text_ru || "",
             text_kg: q.text_kg || "",
             is_required: q.is_required || q.required || q.isMandatory || false,
-            options: (q.answer_options || []).map((option: any) => ({
+            options: (q.answer_options || [])
+              .filter((option: any) => option)
+              .map((option: any) => ({
               id: option.id,
               text_ru: option.text_ru || "",
               text_kg: option.text_kg || "",
